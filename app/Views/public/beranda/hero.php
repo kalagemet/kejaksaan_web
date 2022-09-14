@@ -17,7 +17,8 @@
                           <i class="bx bxs-quote-alt-right quote-icon-right"></i>
                           <!-- <br /><br />Kepala Kejaksaan Negeri Boalemo -->
                       </h2>
-                      <a href="#" class="download-btn"><i class="bx bx-news"></i>Lihat Berita</a>
+                      <a href="<?php echo base_url('berita');?>" class="download-btn"><i class="bx bx-news"></i>Lihat
+                          Berita</a>
                   </div>
               </div>
               <div class="col-lg-6 d-lg-flex flex-lg-column align-items-stretch order-1 order-lg-2 hero-img"
