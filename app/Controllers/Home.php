@@ -15,10 +15,11 @@ class Home extends BaseController{
     }
 
     public function index(){
-        $data['page_title'] = "Selamat Datang di Kejaksaan Negeri Boalemo";
+        $data['page_title'] = "Kejaksaan Negeri Boalemo";
         $data['pejabat'] = $this->pegawai->getPejabat();
         $data['header'] = $this->main_model->getHeaderImage();
         $data['galeri'] = $this->galeri_model->getTerbaru();
+        $data['hero'] = 'hero-img.png';
         $data['berita_terbaru'] = $this->page_model->getListBerita()->limit(4)->get()->getResult();
         return view('public/index', $data);
     }
