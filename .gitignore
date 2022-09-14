@@ -103,13 +103,13 @@ _modules/*
 nbproject/
 build/
 nbbuild/
-public/
+/public/
 dist/
 nbdist/
 nbactions.xml
 nb-configuration.xml
 .nb-gradle/
-
+shania.json
 # Sublime Text
 *.tmlanguage.cache
 *.tmPreferences.cache
