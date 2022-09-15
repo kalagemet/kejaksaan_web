@@ -32,15 +32,25 @@ class Home extends BaseController{
     }
 
     public function display(){
-        // if ($_POST['pass']!=='KejariBoalemo123'){
-        //     return redirect()->back();
-        // }
+        //whether ip is from the share internet  
+        if(!empty($_SERVER['HTTP_CLIENT_IP'])) {  
+            $ip = $_SERVER['HTTP_CLIENT_IP'];  
+        }  
+        //whether ip is from the proxy  
+        elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {  
+                $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];  
+        }  
+        //whether ip is from the remote address  
+        else{  
+            $ip = $_SERVER['REMOTE_ADDR'];  
+        } 
         $data['data'] = $this->pegawai->getListPegawai();
         $data['running_text'] = $this->main_model->getRunningText();
         $data['timeout'] = $this->main_model->getDisplayTimeout();
         $data['slider_display'] = $this->main_model->getDisplayGallery();
         $data['slider_display'] = explode(';',$data['slider_display'][0]->slider_display);
-        return view('public/display', $data);
+        echo $ip;
+        // return view('public/display', $data);
     }
 
     public function galeri(){

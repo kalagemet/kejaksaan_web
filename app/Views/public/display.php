@@ -206,7 +206,7 @@
 
     <script>
     $(document).ready(function() {
-        activeTab(0, true);
+        activeTab(2, true);
         // activeTab(1, false);
     });
 
@@ -248,7 +248,7 @@
         var sb = $el.prop("scrollHeight") - $el.innerHeight();
         $el.animate({
             scrollTop: st < sb / 2 ? sb : 0
-        }, 100000, anim);
+        }, 5000, anim);
     }
 
     function anim_stop() {
