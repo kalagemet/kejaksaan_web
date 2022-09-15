@@ -31,7 +31,7 @@ class Admin extends BaseController{
     }
 
     public function login_action(){
-        echo password_hash('62299991', PASSWORD_DEFAULT, ['cost' => 10]);
+        // echo password_hash('62299991', PASSWORD_DEFAULT, ['cost' => 10]);
         $users = new UsersModel();
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
@@ -54,8 +54,8 @@ class Admin extends BaseController{
                 return redirect()->back();
             }
         }
-        // session()->setFlashdata('error', 'Username tidak ditemukan');
-        // return redirect()->back();
+        session()->setFlashdata('error', 'Username tidak ditemukan');
+        return redirect()->back();
     }
 
     public function daftar_pegawai(){
