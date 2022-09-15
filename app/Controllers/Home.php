@@ -44,13 +44,16 @@ class Home extends BaseController{
         else{  
             $ip = $_SERVER['REMOTE_ADDR'];  
         } 
-        $data['data'] = $this->pegawai->getListPegawai();
-        $data['running_text'] = $this->main_model->getRunningText();
-        $data['timeout'] = $this->main_model->getDisplayTimeout();
-        $data['slider_display'] = $this->main_model->getDisplayGallery();
-        $data['slider_display'] = explode(';',$data['slider_display'][0]->slider_display);
-        echo $ip;
-        // return view('public/display', $data);
+        if($ip=== '36.85.221.6'){
+            $data['data'] = $this->pegawai->getListPegawai();
+            $data['running_text'] = $this->main_model->getRunningText();
+            $data['timeout'] = $this->main_model->getDisplayTimeout();
+            $data['slider_display'] = $this->main_model->getDisplayGallery();
+            $data['slider_display'] = explode(';',$data['slider_display'][0]->slider_display);
+            return view('public/display', $data);
+        }else{
+            echo "Hanya untuk Kantor";
+        }
     }
 
     public function galeri(){
