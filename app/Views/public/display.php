@@ -206,7 +206,7 @@
 
     <script>
     $(document).ready(function() {
-        activeTab(2, true);
+        activeTab(0, true);
         // activeTab(1, false);
     });
 

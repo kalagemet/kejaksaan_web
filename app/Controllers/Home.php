@@ -44,7 +44,8 @@ class Home extends BaseController{
         else{  
             $ip = $_SERVER['REMOTE_ADDR'];  
         } 
-        if($ip=== '36.85.221.6'){
+        $ip = '36.85.221.6';
+        if($ip === getenv('IP_KANTOR')){
             $data['data'] = $this->pegawai->getListPegawai();
             $data['running_text'] = $this->main_model->getRunningText();
             $data['timeout'] = $this->main_model->getDisplayTimeout();

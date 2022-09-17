@@ -3,8 +3,12 @@
 
       <div class="container">
           <div class="row">
+              <div class="col-lg-6 d-lg-flex flex-lg-column align-items-stretch order-1 order-lg-1 hero-img"
+                  data-aos="fade-up">
+                  <img src="<?php echo base_url('assets/img/upload/'.$hero);?>" class="img-fluid" alt="">
+              </div>
               <div
-                  class="col-lg-6 d-lg-flex flex-lg-column justify-content-center align-items-stretch pt-5 pt-lg-0 order-2 order-lg-1">
+                  class="col-lg-6 d-lg-flex flex-lg-column justify-content-center align-items-stretch pt-5 pt-lg-0 order-2 order-lg-2">
                   <div>
                       <h1>SELAMAT DATANG</h1>
                       <h4>DI SITUS RESMI KEJAKSAAN NEGERI BOALEMO</h4><br />
@@ -20,10 +24,6 @@
                       <a href="<?php echo base_url('berita');?>" class="download-btn"><i class="bx bx-news"></i>Lihat
                           Berita</a>
                   </div>
-              </div>
-              <div class="col-lg-6 d-lg-flex flex-lg-column align-items-stretch order-1 order-lg-2 hero-img"
-                  data-aos="fade-up">
-                  <img src="<?php echo base_url('assets/img/upload/'.$hero);?>" class="img-fluid" alt="">
               </div>
           </div>
       </div>
