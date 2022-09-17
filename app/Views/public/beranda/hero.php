@@ -12,7 +12,7 @@
                   <div>
                       <h1>SELAMAT DATANG</h1>
                       <h4>DI SITUS RESMI KEJAKSAAN NEGERI BOALEMO</h4><br />
-                      <h2>
+                      <h2 data-aos="fade-up">
                           <i class="bx bxs-quote-alt-left quote-icon-left"></i><b><i>
                                   Dalam melaksanakan tugas dan fungsinya Kejaksaan selalu memakai
                                   semboyan yakni menyeimbangkan yang tersurat dan tersirat dengan
