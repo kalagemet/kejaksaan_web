@@ -2,7 +2,7 @@
 <!-- ======= App Features Section ======= -->
 <section id="features" class="features">
     <div class="container">
-        <div class="section-title">
+        <div data-aos="fade-up" class="section-title">
             <h2>Kejaksaan Negeri Boalemo</h2>
             <p>Pembaharuan Kejaksaan dalam aspek organisasi, tata kerja dan sumber daya manusia serta manajemen teknis
                 perkara dan pengawasan, merupakan program prioritas yang harus direspon atas Reformasi Birokrasi dalam
