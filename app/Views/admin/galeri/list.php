@@ -51,7 +51,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-xl-6 col-md-4 mb-1">
-                        <img src="'.base_url("assets/img/gallery/".$r['path']).'"
+                        <img src="'.base_url("assets/img/gallery/thumbnail/".$r['path']).'"
                                 style="max-height:200px;border-radius: 20px;margin: 20px;width: 80%;object-fit: cover;"
                                 onerror="this.src=`'.base_url("assets/img/no-image.svg").'`"
                                 class="img-fluid" alt="" />

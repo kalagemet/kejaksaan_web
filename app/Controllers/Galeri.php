@@ -120,6 +120,10 @@ class Galeri extends BaseController{
         $upload = $this->request->getFile('image');
 		$fileName = date("Y-m-d.h.i.s").'_galeri.'.$upload->getClientExtension();
 		$upload->move('assets/img/gallery/', $fileName);
+        $tmbl = \Config\Services::image()
+              ->withFile('assets/img/gallery/'.$fileName)
+              ->resize(150, 150, true, 'height')
+              ->save('assets/img/gallery/thumbnail/'. $fileName);
         $data = array(
             'id_author' => session()->id_user,
             'tanggal' =>  $this->request->getPost('tanggal'), 
@@ -176,8 +180,13 @@ class Galeri extends BaseController{
             $old = explode('/',$this->request->getPost('old_photo'));
             $old = $old[count($old)-1];
             if(is_file('assets/img/gallery/'.$old)) unlink('assets/img/upload/'.$old);
+            if(is_file('assets/img/gallery/thumbnail/'.$old)) unlink('assets/img/upload/thumbnail/'.$old);
             $fileName = date("Y-m-d.h.i.s").'_galeri.'.$upload->getClientExtension();
             $upload->move('assets/img/gallery/', $fileName);
+            $tmbl = \Config\Services::image()
+              ->withFile('assets/img/gallery/'.$fileName)
+              ->resize(150, 150, true, 'height')
+              ->save('assets/img/gallery/thumbnail/'. $fileName);
             $data['path'] =  base_url("assets/img/upload/$fileName"); 
         }
         $data = $this->galeri_model->updatefoto($data, $this->request->getPost('id_gambar'));

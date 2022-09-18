@@ -33,7 +33,7 @@
                         <div class="col-xl-6 col-md-6 mb-4">
                             <input require accept="image/*" id="header" name="header" type="file" placeholder="Header"
                                 class="form-control" />
-                            <img src="<?php echo $data[0]->post_header;?>"
+                            <img src="<?php echo $data[0]->thumbnail;?>"
                                 style="max-height:200px;border-radius: 20px;margin: 20px;width: 80%;object-fit: cover;"
                                 onerror="<?php echo 'this.src=`'.base_url("assets/img/no-image.svg");?>`"
                                 class="img-fluid" alt="" />

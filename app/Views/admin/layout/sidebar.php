@@ -115,7 +115,7 @@
     <!-- Nav Item - Charts -->
     <?php if(in_array('admin',session()->permission))
     echo '<li class="nav-item">
-        <a class="nav-link" href='.base_url("cms/setup").'>
+        <a class="nav-link" href='.base_url("cms/setting").'>
             <i class="fas fa-cog"></i>
             <span>Setting</span></a>
     </li>';?>

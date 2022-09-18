@@ -26,7 +26,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-xl-6 col-md-6 mb-4">
-                            <img src="<?php echo $data[0]->post_header;?>"
+                            <img src="<?php echo $data[0]->thumbnail;?>"
                                 style="max-height:200px;border-radius: 20px;margin: 20px;width: 80%;object-fit: cover;"
                                 onerror="<?php echo 'this.src=`'.base_url("assets/img/page.svg");?>`" class="img-fluid"
                                 alt="" />

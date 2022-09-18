@@ -67,7 +67,7 @@
                         echo '<div class="card-card">
                             <div class="card-head-card">
                                 <img onerror="this.src=`'.base_url("assets/img/no-image.svg").'`"
-                                    src="'.base_url("assets/img/gallery/".$row['path']).'" alt="">
+                                    src="'.base_url("assets/img/gallery/thumbnail/".$row['path']).'" alt="">
                             </div>
                             <div class="card-body-card">
                                 <h4>'.$row['judul'].'</h4>

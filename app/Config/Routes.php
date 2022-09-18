@@ -66,12 +66,17 @@ $routes->get('/page(:any)', 'Page::index$1');
     $routes->post('/cms/save-foto(:any)', 'Galeri::add_foto$1', ['filter' => 'authfilter']);
     $routes->get('/cms/edit_gambar', 'Galeri::editfoto', ['filter' => 'authfilter']);
     $routes->post('/cms/update-gambar(:any)', 'Galeri::updategambar$1', ['filter' => 'authfilter']);
-    // jadwalsidang
+    //jadwalsidang
     $routes->get('/cms/jadwal-sidang-pidum', 'Admin::sidangpidum', ['filter' => 'authfilter']);
     $routes->post('/cms/add-sidang-pidum', 'Admin::addsidangpidum', ['filter' => 'authfilter']);
     $routes->get('/cms/delete-sidang-pidum(:any)', 'Admin::deletesidangpidum$1', ['filter' => 'authfilter']);
+    //general
+    $routes->get('/cms/setting', 'Admin::setting', ['filter' => 'authfilter']);
+    $routes->get('/cms/set-carousel-show(:any)', 'Admin::setcarouselshow$1', ['filter' => 'authfilter']);
+    $routes->get('/cms/delete-carousel(:any)', 'Admin::deletecarousel$1', ['filter' => 'authfilter']);
+    $routes->post('/cms/save-carousel(:any)', 'Admin::addcarousel$1', ['filter' => 'authfilter']);
 
-
+    //pegawai
     $routes->get('/cms/list_pegawai', 'Admin::daftar_pegawai',['filter' => 'authfilter']);
     $routes->get('/api/get_list_pegawai','DataPegawai::getListPegawai',['filter' => 'authfilter']);
 // });

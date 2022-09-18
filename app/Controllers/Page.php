@@ -203,6 +203,10 @@ class Page extends BaseController{
         $upload = $this->request->getFile('header');
 		$fileName = date("Y-m-d.h.i.s").'_post.'.$upload->getClientExtension();
 		$upload->move('assets/img/upload/', $fileName);
+        $tmbl = \Config\Services::image()
+              ->withFile('assets/img/upload/'.$fileName)
+              ->resize(150, 150, true, 'height')
+              ->save('assets/img/upload/thumbnail/'. $fileName);
         $data = array(
             'post_author' => session()->id_user,
             'post_date' =>  $this->request->getPost('tanggal'), 
@@ -213,6 +217,8 @@ class Page extends BaseController{
             'post_status' =>  $status,
             'post_name' => str_replace(' ', '-', strtolower($this->request->getPost('judul'))),
             'post_type' => 'post', 
+            'thumbnail' =>  base_url("assets/img/upload/thumbnail/$fileName")
+
         );
         $data = $this->page_model->savepost($data);
         return redirect()->to(base_url('/cms/list_post'))->with('success', "Berhasil menambahkan post");
@@ -230,7 +236,7 @@ class Page extends BaseController{
 				]
 			],
 			'judul' => [
-				'rules' => 'required|max_length[100]',
+				'rules' => 'required|max_length[256]',
 				'errors' => [
 					'required' => '{field} Tidak boleh kosong',
                     'max_length' => '{field} Terlalu Panjang'
@@ -276,9 +282,15 @@ class Page extends BaseController{
             $old = explode('/',$this->request->getPost('old_photo'));
             $old = $old[count($old)-1];
             if(is_file('assets/img/upload/'.$old)) unlink('assets/img/upload/'.$old);
+            if(is_file('assets/img/upload/thumbnail/'.$old)) unlink('assets/img/upload/thumbnail/'.$old);
             $fileName = date("Y-m-d.h.i.s").'_post.'.$upload->getClientExtension();
             $upload->move('assets/img/upload/', $fileName);
+            $tmbl = \Config\Services::image()
+              ->withFile('assets/img/upload/'.$fileName)
+              ->resize(150, 150, true, 'height')
+              ->save('assets/img/upload/thumbnail/'. $fileName);
             $data['post_header'] =  base_url("assets/img/upload/$fileName"); 
+            $data['thumbnail'] =  base_url("assets/img/upload/thumbnail/$fileName"); 
         }
         $data = $this->page_model->updatepost($data, $this->request->getPost('id_post'));
         return redirect()->to(base_url('/cms/list_post?filter_string='.$this->request->getPost('judul')))->with('success', "Berhasil Memperbarui post");
@@ -373,9 +385,15 @@ class Page extends BaseController{
             $old = explode('/',$this->request->getPost('old_photo'));
             $old = $old[count($old)-1];
             if(is_file('assets/img/upload/'.$old)) unlink('assets/img/upload/'.$old);
+            if(is_file('assets/img/upload/thumbnail/'.$old)) unlink('assets/img/upload/thumbnail/'.$old);
             $fileName = date("Y-m-d.h.i.s").'_page.'.$upload->getClientExtension();
             $upload->move('assets/img/upload/', $fileName);
+            $tmbl = \Config\Services::image()
+              ->withFile('assets/img/upload/'.$fileName)
+              ->resize(150, 150, true, 'height')
+              ->save('assets/img/upload/thumbnail/'. $fileName);
             $data['post_header'] =  base_url("assets/img/upload/$fileName"); 
+            $data['thumbnail'] =  base_url("assets/img/upload/thumbnail/$fileName"); 
         }
         $data = $this->page_model->updatepost($data, $this->request->getPost('id_post'));
         return redirect()->to(base_url('/cms/list_page?filter_string='.$this->request->getPost('judul')))->with('success', "Berhasil Memperbarui halaman");

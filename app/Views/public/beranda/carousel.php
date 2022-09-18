@@ -2,7 +2,7 @@
     <!-- Indicators -->
     <ol class="carousel-indicators">
         <?php foreach($header as $i => $d){
-            echo '<li data-target="#myCarousel" data-slide-to="0" '.($i==0 ? 'class="active"' :'').'></li>';
+            echo '<li data-target="#myCarousel" data-slide-to="'.$i.'" '.($i==0 ? 'class="active"' :'').'></li>';
         }?>
     </ol>
 
@@ -10,7 +10,7 @@
     <div class="carousel-inner">
         <?php foreach($header as $i => $d){
             echo '<div class="item '.($i==0?'active':'').'">
-                <img src="'.base_url('assets/img/'.$d->path).'" alt="Los Angeles">
+                <img src="'.base_url('assets/img/header/'.$d->path).'" onerror="this.src=`'.base_url("assets/img/no-image.svg").'`">
             </div>';
         }?>
     </div>

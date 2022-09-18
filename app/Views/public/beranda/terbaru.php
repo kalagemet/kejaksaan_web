@@ -9,7 +9,7 @@
             <?php foreach($berita_terbaru as $row){
             echo '<div class="card-card">
                 <div class="card-head-card">
-                    <img src="'.$row->post_header.'" onerror="this.src=`'.base_url("assets/img/no-image.svg").'`" class="img-fluid" alt="" />
+                    <img src="'.$row->thumbnail.'" onerror="this.src=`'.base_url("assets/img/no-image.svg").'`" class="img-fluid" alt="" />
                 </div>
                 <div class="card-body-card">
                     <h4 style="

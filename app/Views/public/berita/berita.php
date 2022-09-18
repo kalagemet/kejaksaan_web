@@ -46,7 +46,7 @@
                         echo '<div class="row content">
                             <div class="col-md-4 img-wrap" data-aos="fade-right">
                                 <a href="'.base_url('/berita')."/".$row['post_name'].'" >
-                                    <img  style="height: 200px; width: 100%; object-fit: cover;" src="'.$row['post_header'].'" onerror="this.src=`'.base_url("assets/img/no-image.svg").'`" class="img-fluid" alt="" />
+                                    <img  style="height: 200px; width: 100%; object-fit: cover;" src="'.$row['thumbnail'].'" onerror="this.src=`'.base_url("assets/img/no-image.svg").'`" class="img-fluid" alt="" />
                                 </a>
                             </div>
                             <div class="col-md-8 pt-4" data-aos="fade-up">

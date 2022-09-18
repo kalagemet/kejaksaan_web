@@ -19,6 +19,7 @@ class PageModel extends Model
         'post_header', 
         'post_title', 
         'tags', 
+        'thumbnail', 
         'post_status',
         'ping_status',
         'post_name',
@@ -51,7 +52,7 @@ class PageModel extends Model
     public function getListBerita($date = null,$string = null,$tag = null){
         $data = new PageModel();
         $data = $data->select([
-            "id_post","post_author","DATE_FORMAT(post_date,'%d %M %Y') as tanggal","post_title","post_header","post_name"
+            "id_post","post_author","thumbnail","DATE_FORMAT(post_date,'%d %M %Y') as tanggal","post_title","post_header","post_name"
         ])->where('post_status',"publish")->where('post_type',"post")->where('deleted_at is null');
         if($date){
             $data = $data->where("MONTH(post_date)",date('m',$date))->where("YEAR(post_date)", date('Y',$date));
@@ -158,6 +159,7 @@ class PageModel extends Model
         $data = $data->select([
             'id_post',
             'post_header',
+            "thumbnail",
             'post_date', 
             'post_content', 
             'post_title', 
@@ -181,13 +183,13 @@ class PageModel extends Model
 
     public function geteditpage($param){
         $data = new PageModel();
-        // $data = $data->set($param);
         $data = $data->select([
             'id_post',
             'post_date', 
             'post_content', 
             'post_name', 
             'post_header', 
+            "thumbnail",
             'post_title', 
         ])->where('id_post',$param)->limit(1)->get();
         return $data->getResult();

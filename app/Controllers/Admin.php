@@ -148,4 +148,62 @@ class Admin extends BaseController{
         }
         return redirect()->to($_SERVER['HTTP_REFERER'])->with('success', $msg);
     }
+
+    public function setting(){
+        $data['page_title'] = "Administrator Kejaksaan Negeri Boalemo";
+        $data['header'] = $this->main_model->getHeaderImageAll();
+        return view('admin/setting', $data);
+    }
+
+    public function setcarouselshow($id){
+        $data = $this->main_model->setStatusCarousel($id);
+        if($data){
+            $msg = "Berhasil mengupdate data";
+        }else{
+            $msg = $data->getMessage();
+        }
+        return redirect()->to($_SERVER['HTTP_REFERER'])->with('success', $msg);
+    }
+
+    public function deletecarousel($id){
+        $data = $this->main_model->deleteCarousel($id);
+        if($data){
+            $msg = "Berhasil menghapus data";
+        }else{
+            $msg = $data->getMessage();
+        }
+        return redirect()->to($_SERVER['HTTP_REFERER'])->with('success', $msg);
+    }
+
+    public function addcarousel($param){
+        $status = '0';
+        if($param==="publish") $status = 1;
+        //save image
+        if (!$this->validate([
+			'image' => [
+				'rules' => 'uploaded[image]|mime_in[image,image/jpg,image/jpeg,image/gif,image/png]|max_size[image,2048]',
+				'errors' => [
+					'uploaded' => 'Harus Ada File yang diupload',
+					'mime_in' => 'File Extention Harus Berupa jpg,jpeg,gif,png',
+					'max_size' => 'Ukuran File Maksimal 2 MB'
+				]
+			]
+		])){
+			session()->setFlashdata('error', $this->validator->listErrors());
+			return redirect()->back()->withInput();
+		}
+        $upload = $this->request->getFile('image');
+		$fileName = date("Y-m-d.h.i.s").'_carousel.'.$upload->getClientExtension();
+		$upload->move('assets/img/header/', $fileName);
+        $tmbl = \Config\Services::image()
+              ->withFile('assets/img/header/'.$fileName)
+              ->resize(150, 150, true, 'height')
+              ->save('assets/img/header/thumbnail/'. $fileName);
+        $data = array(
+            'path' =>  $fileName,
+            'is_show' =>  $status,
+        );
+        $data = $this->main_model->saveCarousel($data);
+        return redirect()->to(base_url('/cms/setting'))->with('success', "Berhasil menambahkan post");
+    }
 }

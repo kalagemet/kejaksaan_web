@@ -12,7 +12,13 @@ class MainModel extends Model
 
     public function getHeaderImage(){
         $data = $this->db;
-        $data = $data->table('tbl_header')->select(['id_image','path'])->where('is_show','1')->get();
+        $data = $data->table('tbl_header')->select(['id_image','path'])->where('is_show','1')->where('deleted_at is null')->orderBy('created_at ASC')->get();
+        return $data->getResult();
+    }
+
+    public function getHeaderImageAll(){
+        $data = $this->db;
+        $data = $data->table('tbl_header')->select(['id_image','path','is_show','created_at'])->where('deleted_at is null')->orderBy('created_at ASC')->get();
         return $data->getResult();
     }
     
@@ -78,6 +84,42 @@ class MainModel extends Model
                 $data = $this->db->table('tbl_jpu');
                 $data = $data->set('deleted_at',date("Y-m-d h:i:s"))->where('id_sidang',$param)->update();
             }
+            return true;
+        } catch(Exception $e) {
+            return $e;
+        }
+    }
+
+    public function setStatusCarousel($id){
+        try {
+            $data = $this->db->table('tbl_header');
+            $status = $data->select('is_show')->where('id_image',$id)->limit(1)->get()->getResult();
+            if($status[0]->is_show==='1'){
+                $data = $data->set('is_show','0')->where('id_image',$id)->update();
+            }else{
+                $data = $data->set('is_show','1')->where('id_image',$id)->update();
+            }
+            return true;
+        } catch(Exception $e) {
+            return $e;
+        }
+    }
+
+    public function deleteCarousel($id){
+        try {
+            $data = $this->db->table('tbl_header');
+            $data = $data->set('deleted_at',date("Y-m-d h:i:s"))->where('id_image',$id)->update();
+            return true;
+        } catch(Exception $e) {
+            return $e;
+        }
+    }
+
+    public function saveCarousel($param){
+        try {
+            $data = $this->db->table('tbl_header');
+            $data->set('id_image','UUID()', FALSE);
+            $data->insert($param);
             return true;
         } catch(Exception $e) {
             return $e;
