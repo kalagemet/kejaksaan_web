@@ -43,6 +43,7 @@ class Galeri extends BaseController{
     }
 
     public function setstatus($id){
+        if(!in_array('galeri',session()->permission)) return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Akun anda tidak diizinkan");
         $data = $this->galeri_model->setStatus($id);
         if($data){
             $msg = "Berhasil mengupdate data";
@@ -53,6 +54,7 @@ class Galeri extends BaseController{
     }
 
     public function delete($id){
+        if(!in_array('galeri',session()->permission)) return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Akun anda tidak diizinkan");
         $data = $this->galeri_model->deleteFoto($id);
         if($data){
             $msg = "Berhasil menghapus data";
@@ -63,12 +65,14 @@ class Galeri extends BaseController{
     }
 
     public function addfoto(){
+        if(!in_array('galeri',session()->permission)) return redirect()->to(base_url('/cms'))->with('error', "Akun anda tidak diizinkan");
         $data['page_title'] = "Tambah Foto Galeri";
         // $data['page_header'] = "Tambah Postingan";
         return view('admin/galeri/add', $data);
     }
 
     public function editfoto(){
+        if(!in_array('galeri',session()->permission)) return redirect()->to(base_url('/cms'))->with('error', "Akun anda tidak diizinkan");
         $request = service('request');
         $data['data'] = $this->galeri_model->geteditfoto($request->getGet('id'));
         $data['page_title'] = "Edit Galeri - ".$request->getGet('string');
@@ -87,6 +91,7 @@ class Galeri extends BaseController{
     }
 
     public function add_foto($param){
+        if(!in_array('galeri',session()->permission)) return redirect()->to(base_url('/cms'))->with('error', "Akun anda tidak diizinkan");
         $status = 'draf';
         if($param==="publish") $status = $param;
         //save image
@@ -138,6 +143,7 @@ class Galeri extends BaseController{
     }
 
     public function updategambar($param){
+        if(!in_array('galeri',session()->permission)) return redirect()->to(base_url('/cms'))->with('error', "Akun anda tidak diizinkan");
         $status = 'draf';
         if($param==="publish") $status = $param;
         //save image

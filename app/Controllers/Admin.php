@@ -67,6 +67,7 @@ class Admin extends BaseController{
     }
 
     public function sidangpidum(){
+        if(!in_array('pidum',session()->permission)) return redirect()->to(base_url('/cms'))->with('error', "Akun anda tidak diizinkan");
         $data['datatables'] = true;
         $data['select_bootstrap'] = true;
         $data['data'] = $this->main_model->getJadwalSidang(date('m'));
@@ -77,6 +78,7 @@ class Admin extends BaseController{
     }
 
     public function addsidangpidum(){
+        if(!in_array('pidum',session()->permission)) return redirect()->to(base_url('/cms'))->with('error', "Akun anda tidak diizinkan");
         if (!$this->validate([
 			'terdakwa' => [
 				'rules' => 'required|max_length[100]|min_length[2]',
@@ -140,6 +142,7 @@ class Admin extends BaseController{
     }
 
     public function deletesidangpidum($param){
+        if(!in_array('pidum',session()->permission)) return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Akun anda tidak diizinkan");
         $data = $this->main_model->hapusJadwal($param);
         if($data){
             $msg = "Berhasil menghapus data";
@@ -150,12 +153,14 @@ class Admin extends BaseController{
     }
 
     public function setting(){
+        if(!in_array('admin',session()->permission)) return redirect()->to(base_url('/cms'))->with('error', "Akun anda tidak diizinkan");
         $data['page_title'] = "Administrator Kejaksaan Negeri Boalemo";
         $data['header'] = $this->main_model->getHeaderImageAll();
         return view('admin/setting', $data);
     }
 
     public function setcarouselshow($id){
+        if(!in_array('admin',session()->permission)) return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Akun anda tidak diizinkan");
         $data = $this->main_model->setStatusCarousel($id);
         if($data){
             $msg = "Berhasil mengupdate data";
@@ -166,6 +171,7 @@ class Admin extends BaseController{
     }
 
     public function deletecarousel($id){
+        if(!in_array('admin',session()->permission)) return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Akun anda tidak diizinkan");
         $data = $this->main_model->deleteCarousel($id);
         if($data){
             $msg = "Berhasil menghapus data";
@@ -176,6 +182,7 @@ class Admin extends BaseController{
     }
 
     public function addcarousel($param){
+        if(!in_array('admin',session()->permission)) return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Akun anda tidak diizinkan");
         $status = '0';
         if($param==="publish") $status = 1;
         //save image

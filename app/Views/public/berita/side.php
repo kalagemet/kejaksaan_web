@@ -3,6 +3,32 @@
     $random_key = array_rand($tag,3); ?>
     <div class="container-fluid">
         <div class="row no-gutters">
+            <div style="text-align:center" class="col-lg box" data-aos="fade-right">
+                <div id="myCarousel" style="height: 350px;border: 0;background-color: transparent; margin-bottom:40px"
+                    data-aos="fade-up" class="carousel slide" data-ride="carousel">
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators">
+                        <?php
+                        foreach($post_ig as $i => $d){
+                            echo '<li data-target="#myCarousel" data-slide-to="'.$i.'" '.($i==0 ? 'class="active"' :'').'></li>';
+                        }
+                        ?>
+                    </ol>
+
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner">
+                        <?php
+                        foreach($post_ig as $i => $d){
+                            echo '<div class="item '.($i==0?'active':'').'">
+                                <img style="border-radius: 19px;height:350px" src="'.$d->media_url.'" onerror="this.src=`'.base_url("assets/img/no-image.svg").'`">
+                            </div>';
+                        }?>
+                    </div>
+                    <div style="margin: 10px 0px"><a href="#">Kunjungi Instagram</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="row no-gutters">
             <div class="col-lg box" data-aos="fade-right">
                 <h4><span>Daftar Berita</span></h4>
                 <div class="accordion-list">

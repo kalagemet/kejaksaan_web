@@ -14,12 +14,26 @@ class Home extends BaseController{
         $this->galeri_model = new FotoModel();
     }
 
+    function getPostInstagram(){
+        $url = "https://graph.instagram.com/me/media?fields=media_url&access_token=";
+        $url .= getenv('ACCESS_TOKEN');
+        $url .= '&limit=5';
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+        $result = curl_exec($ch);
+        curl_close($ch); 
+        return json_decode($result);
+    }
+
     public function index(){
         $data['page_title'] = "Kejaksaan Negeri Boalemo";
         $data['pejabat'] = $this->pegawai->getPejabat();
         $data['header'] = $this->main_model->getHeaderImage();
         $data['galeri'] = $this->galeri_model->getTerbaru();
         $data['hero'] = 'hero-img.png';
+        $data['post_ig'] = $this->getPostInstagram()->data;
         $data['berita_terbaru'] = $this->page_model->getListBerita()->limit(4)->get()->getResult();
         return view('public/index', $data);
     }

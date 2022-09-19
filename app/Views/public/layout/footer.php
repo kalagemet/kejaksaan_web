@@ -42,6 +42,9 @@
                         <li><i class="bx bx-chevron-right"></i> <a target="_blank"
                                 href="https://portal.zonaintegritas.id/home/kn-boalemo">Portal Reformasi Birokrasi</a>
                         </li>
+                        <li><i class="bx bx-chevron-right"></i> <a target="_blank"
+                                href="https://tilang.kejaksaan.go.id">e-Tilang</a>
+                        </li>
                     </ul>
                 </div>
 

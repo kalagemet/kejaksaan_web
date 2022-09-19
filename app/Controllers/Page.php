@@ -14,10 +14,24 @@ class Page extends BaseController{
         else{
             $data['page_title'] = $data['data'][0]->post_title;
         }
+        $data['post_ig'] = $this->getPostInstagram()->data;
         $data['count_month'] = $this->page_model->getCountBerita();
         $data['count_year'] = $this->page_model->getYearCountBerita();
         $data['berita_terbaru'] = $this->page_model->getListBerita()->limit(5)->get()->getResult();
         return view('public/berita/page', $data);
+    }
+
+    function getPostInstagram(){
+        $url = "https://graph.instagram.com/me/media?fields=media_url&access_token=";
+        $url .= getenv('ACCESS_TOKEN');
+        $url .= '&limit=5';
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+        $result = curl_exec($ch);
+        curl_close($ch); 
+        return json_decode($result);
     }
 
     function pageNotFound($arr){
@@ -37,6 +51,7 @@ class Page extends BaseController{
             $data['tags'] = $this->page_model->getTagsBerita($post_name)[0]->tags;
         }
         $data['count_month'] = $this->page_model->getCountBerita();
+        $data['post_ig'] = $this->getPostInstagram()->data;
         $data['count_year'] = $this->page_model->getYearCountBerita();
         $data['berita_terbaru'] = $this->page_model->getListBerita()->limit(5)->get()->getResult();
         return view('public/berita/artikel', $data);
@@ -78,6 +93,7 @@ class Page extends BaseController{
     }
 
     public function create_post(){
+        if(!in_array('post',session()->permission)) return redirect()->to(base_url('/cms'))->with('error', "Akun anda tidak diizinkan");
         $data['page_title'] = "Tambah Postingan";
         // $data['page_header'] = "Tambah Postingan";
         $data['summernote'] = true;
@@ -85,6 +101,7 @@ class Page extends BaseController{
     }
 
     public function update_post(){
+        if(!in_array('post',session()->permission)) return redirect()->to(base_url('/cms'))->with('error', "Akun anda tidak diizinkan");
         $request = service('request');
         $data['data'] = $this->page_model->geteditpost($request->getGet('id'));
         $data['page_title'] = "Edit Postingan - ".$request->getGet('post');
@@ -132,6 +149,7 @@ class Page extends BaseController{
     }
 
     public function setstatuspost($id_post){
+        if(!in_array('post',session()->permission) or !in_array('page',session()->permission)) return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Akun tidak diizinkan");
         $data = $this->page_model->setStatusPage($id_post);
         if($data){
             $msg = "Berhasil mengupdate data";
@@ -142,6 +160,7 @@ class Page extends BaseController{
     }
 
     public function deletepost($id_post){
+        if(!in_array('post',session()->permission)) return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Akun tidak diizinkan");
         $data = $this->page_model->deletePage($id_post);
         if($data){
             $msg = "Berhasil menghapus data";
@@ -163,6 +182,7 @@ class Page extends BaseController{
     }
 
     public function createpost($param){
+        if(!in_array('post',session()->permission)) return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Akun tidak diizinkan");
         $status = 'draf';
         if($param==="publish") $status = $param;
         //save image
@@ -225,6 +245,7 @@ class Page extends BaseController{
     }
 
     public function updatepost($param){
+        if(!in_array('post',session()->permission)) return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Akun tidak diizinkan");
         $status = 'draf';
         if($param==="publish") $status = $param;
         //save image
@@ -331,6 +352,7 @@ class Page extends BaseController{
     }
 
     public function update_page(){
+        if(!in_array('page',session()->permission)) return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Akun tidak diizinkan");
         $request = service('request');
         $data['data'] = $this->page_model->geteditpage($request->getGet('id'));
         $data['page_title'] = "Edit Halaman - ".$request->getGet('page');
@@ -339,6 +361,7 @@ class Page extends BaseController{
     }
 
     public function updatepage(){
+        if(!in_array('page',session()->permission)) return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Akun tidak diizinkan");
         //save image
         if (!$this->validate([
             'id_post' => [
