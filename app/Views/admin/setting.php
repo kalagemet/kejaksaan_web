@@ -12,6 +12,42 @@
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">General Setting</h1>
         </div>
+
+        <div class="card shadow mb-4">
+            <div class="card-header">
+                Environment Variable
+            </div>
+            <div class="card-body">
+                <div class="card-body">
+                    <?php foreach($env as $i => $row){
+                        echo '<form id="env_form_post'.$i.'" action="save-env/'.$row->variable.'" method="POST" enctype="multipart/form-data">
+                            '.csrf_field().'
+                            <div class="row">
+                                <div class="col-xl-10 col-md-10 mb-4">
+                                <label for="'.$row->variable.'">'.strtoupper($row->variable).'</label>
+                                <input require type="'.$row->type.'"
+                                    value="'.(old($row->variable) ? old($row->variable) : $row->value).'" name="'.$row->variable.'"
+                                    '.($row->variable == 'slider' ? 'placeholder="Url (enter)" data-role="tagsinput"
+                                    class="form-control bootstrap-tagsinput" id="#inputTags"':
+                                    'class="form-control small" id="'.$row->variable.'" placeholder="Value" aria-label="Search"
+                                    aria-describedby="basic-addon2"').'>
+                                </div>
+                                <div class="col-xl-2 col-md-6 mb-4">
+                                    <a href="javascript:{}"
+                                        onclick="document.getElementById(`env_form_post'.$i.'`).submit();"
+                                        type="submit" class="btn btn-success btn-icon-split">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-save"></i>
+                                        </span>
+                                        <span class="text">Simpan</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </form>';
+                    }?>
+                </div>
+            </div>
+        </div>
         <div class="card shadow mb-4">
             <div class="card-header">
                 Home Carousel
@@ -50,6 +86,7 @@
                     </div>';
                 }?>
             </div>
+
             <div class="card-footer">
                 <form id="form_post" method="POST" enctype="multipart/form-data">
                     <?= csrf_field() ?>
@@ -84,6 +121,8 @@
 
     <?php echo view('admin/layout/footer');?>
     <!-- End of Content -->
+    <script src=<?php echo base_url("assets/js/bootstrap-tagsinput.js"); ?>></script>
+    <script src=<?php echo base_url("assets/js/bootstrap-tagsinput.min.js"); ?>></script>
 </body>
 
 </html>

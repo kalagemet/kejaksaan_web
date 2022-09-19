@@ -11,17 +11,12 @@
 
     <script src=<?php echo base_url("assets/js/jquery-3.1.0.min.js")?>></script>
     <link rel="stylesheet" href=<?php echo base_url("assets/css/bootstrap.min.css"); ?>>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" /> -->
     <script src=<?php echo base_url("assets/js/bootstrap-3.3.7.min.js");?>></script>
 
     <!-- Favicons -->
     <link href=<?php echo base_url("favicon.ico"); ?> rel="icon">
     <link href=<?php echo base_url("favicon.ico"); ?> rel="apple-touch-icon">
-
-    <!-- Google Fonts -->
-    <link
-        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-        rel="stylesheet">
 
     <link href=<?php echo base_url("assets/css/display.css"); ?> rel="stylesheet">
 </head>
@@ -33,38 +28,36 @@
         <div id="tab_1" class="body">
             <div id="dynamic_slide_show" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
-                    <!-- <?php 
-                foreach($slider_display as $i => $row){
-                    if($i == 0){
-                        echo '<li data-target="#dynamic_slide_show" data-slide-to="'.$i.'" class="active"></li>';
-                    }else{
-                        echo '<li data-target="#dynamic_slide_show" data-slide-to="'.$i.'"></li>';
+                    <!-- <?php $awal = count($slider_display);
+                    foreach($slider_display as $i => $row){
+                        echo '<li data-target="#dynamic_slide_show" data-slide-to="'.$i.'" '.($i == 0 ? 'class="active"':'').'></li>';
                     }
-                }
-                ?> -->
+                    foreach($slider_display as $i => $row){
+                        echo '<li data-target="#dynamic_slide_show" data-slide-to="'.($awal+$i-1).'" '.($awal==0 && $i == 0 ? 'class="active"':'').'></li>';
+                    }
+                    ?> -->
                 </ol>
                 <div class="carousel-inner">
-                    <?php 
-                foreach($slider_display as $i => $row){
-                    if($i == 0){
-                        echo '<div class="item active">';
-                    }else{
-                        echo '<div class="item">';
-                    }
-                    echo '<img src="'.$row.'" alt="'.$row.'" /></div>';
-                    // <div class="carousel-caption">
-                    //     <h3></h3>
-                    // </div></div>';
-                } ?>
+                    <?php $awal = count($slider_display);
+                    foreach($slider_display as $i => $row){
+                        echo '<div class="item'.($i == 0 ? ' active"':'"').'>';
+                        echo '<img src="'.$row.'" alt="'.$row.'"  onerror="this.src=`'.base_url("assets/img/no-image.svg").'`" /></div>';
+                    } foreach($post_ig as $i => $row){
+                        echo '<div class="item'.($awal==0 && $i == 0 ? ' active"':'"').'>';
+                        echo '<img src="'.$row->media_url.'" alt=""  onerror="this.src=`'.base_url("assets/img/no-image.svg").'`" /></div>';
+                        // <div class="carousel-caption">
+                        //     <h3></h3>
+                        // </div></div>';
+                    }?>
                 </div>
-                <a class="left carousel-control" href="#dynamic_slide_show" data-slide="prev">
+                <!-- <a class="left carousel-control" href="#dynamic_slide_show" data-slide="prev">
                     <span class="glyphicon glyphicon-chevron-left"></span>
                     <span class="sr-only">Previous</span>
                 </a>
                 <a class="right carousel-control" href="#dynamic_slide_show" data-slide="next">
                     <span class="glyphicon glyphicon-chevron-right"></span>
                     <span class="sr-only">Next</span>
-                </a>
+                </a> -->
             </div>
         </div>
         <!-- end of galleri slider -->
@@ -161,7 +154,7 @@
                     <div class="holder">
                         <div class="text-container">
                             <p>
-                                <?php if(isset($running_text)) echo $running_text[0]->running_text; ?>
+                                <?php if(isset($running_text)) echo $running_text[0]->value; ?>
                             </p>
                         </div>
                     </div>
@@ -211,11 +204,11 @@
     });
 
     function activeTab(index, loop) {
-        anim_stop();
+        // anim_stop();
         if (index == 1) anim_table();
-        else if (index == 2)() => anim();
+        else if (index == 2) anim();
         var tabs = ['tab_1', 'tab_2', 'tab_3'];
-        var timeout = <?php echo $timeout[0]->display_timeout; ?>;
+        var timeout = <?php echo $timeout[0]->value; ?>;
         var i, tabcontent, tablinks;
         tabcontent = document.getElementsByClassName("body");
         for (i = 0; i < tabcontent.length; i++) {
@@ -234,6 +227,7 @@
     var $e = $(".tableDuk");
 
     function anim_table() {
+        $el.stop();
         var st = $e.scrollTop();
         var sb = $e.prop("scrollHeight") - $e.innerHeight();
         $e.animate({
@@ -244,16 +238,16 @@
     var $el = $(".daftarPegawai");
 
     function anim() {
+        $e.stop();
         var st = $el.scrollTop();
         var sb = $el.prop("scrollHeight") - $el.innerHeight();
         $el.animate({
             scrollTop: st < sb / 2 ? sb : 0
-        }, 5000, anim);
+        }, 50000, anim);
     }
 
     function anim_stop() {
-        $e.stop();
-        $el.stop();
+
     }
     </script>
 </body>

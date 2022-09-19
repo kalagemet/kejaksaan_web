@@ -58,13 +58,16 @@ class Home extends BaseController{
         else{  
             $ip = $_SERVER['REMOTE_ADDR'];  
         } 
+        //for developmen delete if production
         $ip = '36.85.221.6';
+        //
         if($ip === getenv('IP_KANTOR')){
             $data['data'] = $this->pegawai->getListPegawai();
-            $data['running_text'] = $this->main_model->getRunningText();
-            $data['timeout'] = $this->main_model->getDisplayTimeout();
-            $data['slider_display'] = $this->main_model->getDisplayGallery();
-            $data['slider_display'] = explode(';',$data['slider_display'][0]->slider_display);
+            $data['running_text'] = $this->main_model->getVariable('running_text');
+            $data['timeout'] = $this->main_model->getVariable('display_timeout');
+            $data['post_ig'] = $this->getPostInstagram()->data;
+            $data['slider_display'] = $this->main_model->getVariable('slider');
+            $data['slider_display'] = explode(';',$data['slider_display'][0]->value);
             return view('public/display', $data);
         }else{
             echo "Hanya untuk Kantor";

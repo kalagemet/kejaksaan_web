@@ -156,6 +156,7 @@ class Admin extends BaseController{
         if(!in_array('admin',session()->permission)) return redirect()->to(base_url('/cms'))->with('error', "Akun anda tidak diizinkan");
         $data['page_title'] = "Administrator Kejaksaan Negeri Boalemo";
         $data['header'] = $this->main_model->getHeaderImageAll();
+        $data['env'] = $this->main_model->getEnvironment();
         return view('admin/setting', $data);
     }
 
@@ -212,5 +213,28 @@ class Admin extends BaseController{
         );
         $data = $this->main_model->saveCarousel($data);
         return redirect()->to(base_url('/cms/setting'))->with('success', "Berhasil menambahkan post");
+    }
+
+    public function saveenv($env){
+        if(!in_array('admin',session()->permission)) return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Akun anda tidak diizinkan");
+        if (!$this->validate([
+			$env => [
+				'rules' => 'required|min_length[1]',
+				'errors' => [
+					'required' => '{field} Tidak boleh kosong',
+                    'min_length' => '{field} Terlalu Pendek',
+				]
+			]
+        ])){
+            session()->setFlashdata('error', $this->validator->listErrors());
+            return redirect()->back()->withInput();
+        }
+        $data = $this->main_model->saveEnv($env, $this->request->getPost($env));
+        if($data){
+            $msg = "Berhasil mengupdate data";
+        }else{
+            $msg = $data->getMessage();
+        }
+        return redirect()->to($_SERVER['HTTP_REFERER'])->with('success', $msg);
     }
 }

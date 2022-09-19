@@ -75,6 +75,7 @@ $routes->get('/page(:any)', 'Page::index$1');
     $routes->get('/cms/set-carousel-show(:any)', 'Admin::setcarouselshow$1', ['filter' => 'authfilter']);
     $routes->get('/cms/delete-carousel(:any)', 'Admin::deletecarousel$1', ['filter' => 'authfilter']);
     $routes->post('/cms/save-carousel(:any)', 'Admin::addcarousel$1', ['filter' => 'authfilter']);
+    $routes->post('/cms/save-env(:any)', 'Admin::saveenv$1', ['filter' => 'authfilter']);
 
     //pegawai
     $routes->get('/cms/list_pegawai', 'Admin::daftar_pegawai',['filter' => 'authfilter']);

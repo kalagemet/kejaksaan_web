@@ -22,21 +22,9 @@ class MainModel extends Model
         return $data->getResult();
     }
     
-    public function getRunningText(){
+    public function getVariable($param){
         $data = $this->db;
-        $data = $data->table('tbl_env')->select('running_text')->limit(1)->get();
-        return $data->getResult();
-    }
-
-    public function getDisplayTimeout(){
-        $data = $this->db;
-        $data = $data->table('tbl_env')->select('display_timeout')->limit(1)->get();
-        return $data->getResult();
-    }
-
-    public function getDisplayGallery(){
-        $data = $this->db;
-        $data = $data->table('tbl_env')->select('slider_display')->limit(1)->get();
+        $data = $data->table('tbl_env')->select('value')->where('variable',$param)->limit(1)->get();
         return $data->getResult();
     }
 
@@ -123,6 +111,29 @@ class MainModel extends Model
             return true;
         } catch(Exception $e) {
             return $e;
+        }
+    }
+
+    public function getEnvironment(){
+        $data = $this->db;
+        $data = $data->table('tbl_env')->select([
+            'id',
+            'variable',
+            'value',
+            'type'
+        ])->get();
+        return $data->getResult();
+    }
+
+    public function saveEnv($var, $val){
+        try{
+            $data = $this->db->table('tbl_env');
+            $data->set('value',$val);
+            $data->where('variable',$var);
+            $data->update();
+            return true;
+        } catch(Exception $e) {
+            return false;
         }
     }
 }

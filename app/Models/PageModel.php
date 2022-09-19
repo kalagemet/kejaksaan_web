@@ -174,7 +174,7 @@ class PageModel extends Model
             $data->set($param);
             $data->set('post_modified','NOW()', FALSE);
             $data->where('id_post',$id);
-            return $data->update();
+            $data->update();
             return true;
         } catch(Exception $e) {
             return $e;
