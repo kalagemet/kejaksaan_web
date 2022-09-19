@@ -24,7 +24,8 @@
                             </div>';
                         }?>
                     </div>
-                    <div style="margin: 10px 0px"><a href="#">Kunjungi Instagram</a></div>
+                    <div style="margin: 10px 0px"><a href="https://www.instagram.com/kejari.boalemo" target="_blank"><i
+                                class="bx bxl-instagram"></i>lihat lainya di instagram</a></div>
                 </div>
             </div>
         </div>
