@@ -113,6 +113,14 @@
     </li>';?>
 
     <!-- Nav Item - Charts -->
+    <?php if(in_array('aduan',session()->permission))
+    echo '<li class="nav-item">
+        <a class="nav-link" href='.base_url("cms/aduan").'>
+            <i class="fas fa-list"></i>
+            <span>Laporan Pengaduan</span></a>
+    </li>';?>
+
+    <!-- Nav Item - Charts -->
     <?php if(in_array('admin',session()->permission))
     echo '<li class="nav-item">
         <a class="nav-link" href='.base_url("cms/setting").'>

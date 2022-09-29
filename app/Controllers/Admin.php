@@ -237,4 +237,9 @@ class Admin extends BaseController{
         }
         return redirect()->to($_SERVER['HTTP_REFERER'])->with('success', $msg);
     }
+
+    public function aduan(){
+        $data['page_title'] = "Daftar Laporan Pada Website KN Boalemo";
+        return view('admin/aduan', $data);
+    }
 }

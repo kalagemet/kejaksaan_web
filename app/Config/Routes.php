@@ -41,6 +41,9 @@ $routes->get('/jadwal-sidang-pidum', 'Home::jadwalsidang');
 $routes->get('/berita', 'Page::list_berita');
 $routes->get('/berita(:any)', 'Page::artikel$1');
 $routes->get('/page(:any)', 'Page::index$1');
+//laporan
+$routes->post('/lapor', 'Home::lapor');
+
 
 // Admin 
 // $routes->group('admin',  function($routes) {
@@ -76,6 +79,8 @@ $routes->get('/page(:any)', 'Page::index$1');
     $routes->get('/cms/delete-carousel(:any)', 'Admin::deletecarousel$1', ['filter' => 'authfilter']);
     $routes->post('/cms/save-carousel(:any)', 'Admin::addcarousel$1', ['filter' => 'authfilter']);
     $routes->post('/cms/save-env(:any)', 'Admin::saveenv$1', ['filter' => 'authfilter']);
+    //aduan
+    $routes->get('/cms/aduan', 'Admin::aduan', ['filter' => 'authfilter']);
 
     //pegawai
     $routes->get('/cms/list_pegawai', 'Admin::daftar_pegawai',['filter' => 'authfilter']);

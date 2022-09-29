@@ -1,5 +1,5 @@
 <!-- ======= Contact Section ======= -->
-<section id="contact" class="contact">
+<section id="aduan" class="contact">
     <div class="container" data-aos="fade-up">
 
         <div class="section-title">
@@ -24,7 +24,7 @@
                     <div class="col-lg-6 info">
                         <i class="bx bx-envelope"></i>
                         <h4>Email</h4>
-                        <p>kn_boalemo@kejaksaan.go.id</p>
+                        <p>kn.boalemo@kejaksaan.go.id</p>
                     </div>
                     <div class="col-lg-6 info">
                         <i class="bx bx-time-five"></i>
@@ -35,28 +35,44 @@
             </div>
 
             <div class="col-lg-6">
-                <form action="forms/contact.php" method="post" role="form" class="php-email-form" data-aos="fade-up">
+                <form action="lapor" method="post" role="form" id="form_lapor" class="php-email-form"
+                    data-aos="fade-up">
+                    <?= csrf_field() ?>
+                    <input value="" type="hidden" name="captca" id="captca" required>
                     <div class="form-group">
-                        <input placeholder="Nama Lengkap" type="text" name="name" class="form-control" id="name"
-                            required>
+                        <input placeholder="Nama Lengkap" value="<?php echo old('nama'); ?>" type="text" name="nama"
+                            class="form-control" id="name" required>
                     </div>
                     <div class="form-group mt-3">
-                        <input placeholder="Email yang bisa dihubungi" type="email" class="form-control" name="email"
-                            id="email" required>
+                        <input placeholder="Email yang bisa dihubungi" value="<?php echo old('email'); ?>" t
+                            type="email" class="form-control" name="email" id="email" required>
                     </div>
                     <div class="form-group mt-3">
-                        <input placeholder="Nomor Telepon" type="text" class="form-control" name="subject" id="subject"
-                            required>
+                        <input placeholder="Nomor Telepon" value="<?php echo old('telepon'); ?>" t type="text"
+                            class="form-control" name="telepon" id="subject" required>
                     </div>
                     <div class="form-group mt-3">
-                        <textarea placeholder="Pesan" class="form-control" name="message" rows="5" required></textarea>
+                        <textarea placeholder="Pesan" value="<?php echo old('isi'); ?>" t class="form-control"
+                            name="isi" rows="5" required></textarea>
                     </div>
                     <div class="my-3">
-                        <div class="loading">Loading</div>
-                        <div class="error-message"></div>
-                        <div class="sent-message">Your message has been sent. Thank you!</div>
+                        <?php if (!empty(session()->getFlashdata('error')))
+                        echo '<div style="
+                            font-weight: bolder;
+                            color: red;
+                        ">'.session()->getFlashdata('error').'</div>';
+                        if (!empty(session()->getFlashdata('success')))
+                        echo '<div style="
+                            font-weight: bolder;
+                            color: green;
+                        ">'.session()->getFlashdata('success').'</div>';?>
                     </div>
-                    <div class="text-center"><button type="submit">Send Message</button></div>
+                    <div class="g-recaptcha" data-callback="recaptchaCallback"
+                        data-sitekey="6LcIhhsiAAAAAH1nl41l5c3wNIDUlWUzhYXJaeRX"></div>
+                    <br />
+                    <div class="text-center"><button disabled onClick="document.getElementById('form_lapor').submit()"
+                            id="send_laporan_button" type="submit">Kirim</button>
+                    </div>
                 </form>
             </div>
 
@@ -65,3 +81,9 @@
     </div>
 </section>
 <!-- End Contact Section -->
+<script type="text/javascript">
+function recaptchaCallback(response) {
+    $('#captca').val(response);
+    $('#send_laporan_button').removeAttr('disabled');
+};
+</script>

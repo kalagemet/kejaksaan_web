@@ -32,4 +32,7 @@
     <?php if(isset($datatables) && $datatables)
         echo "<link href='".base_url("assets/vendor/datatables/dataTables.bootstrap4.min.css")."' rel='stylesheet'>";
     ?>
+    <?php if($_SERVER['REQUEST_URI']=='/'){
+        echo '<script src="https://www.google.com/recaptcha/api.js" async defer></script>';
+    }?>
 </head>

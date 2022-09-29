@@ -22,8 +22,8 @@
 </head>
 
 <body>
+    <button style="position: fixed; display: block" onClick="requestFullScreen()">fullscreen</button>
     <div class="app">
-
         <!-- Galeri slider -->
         <div id="tab_1" class="body">
             <div id="dynamic_slide_show" class="carousel slide" data-ride="carousel">
@@ -163,38 +163,21 @@
         </div>
     </div>
     <script type="text/javascript">
-    // function log_in() {
-    //     console.log("dd");
-    //     $.ajax({
-    //         url: "https://absensi.kejaksaan.go.id/absen/absensi",
-    //         method: "GET",
-    //         header: {
-    //             'Access-Control-Allow-Origin': '*',
-    //             'Access-Control-Allow-Headers': 'Content-Type',
-    //             'Access-Control-Max-Age': '3600',
-    //             'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0'
-    //         }
-    //     }, {
-    //         success: function(response) {
-    //             console.log(response);
-    //         }
-    //     });
-    // };
-    // log_in();
+    function requestFullScreen() {
+        var element = document.body; // Make the body go full screen.
+        // Supports most browsers and their versions.
+        var requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element
+            .mozRequestFullScreen || element.msRequestFullScreen;
 
-    // let data = {
-    //     _token: "barium"
-    // };
-
-    // fetch("/post/data/here", {
-    //     method: "POST",
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify(data)
-    // }).then(res => {
-    //     console.log("Request complete! response:", res);
-    // });
+        if (requestMethod) { // Native full screen.
+            requestMethod.call(element);
+        } else if (typeof window.ActiveXObject !== "undefined") { // Older IE.
+            var wscript = new ActiveXObject("WScript.Shell");
+            if (wscript !== null) {
+                wscript.SendKeys("{F11}");
+            }
+        }
+    }
     </script>
 
     <script>
@@ -204,7 +187,6 @@
     });
 
     function activeTab(index, loop) {
-        // anim_stop();
         if (index == 1) anim_table();
         else if (index == 2) anim();
         var tabs = ['tab_1', 'tab_2', 'tab_3'];
@@ -219,7 +201,8 @@
             if (index < 2) {
                 setTimeout(() => activeTab(index + 1), timeout);
             } else {
-                setTimeout(() => activeTab(0), timeout);
+                // setTimeout(() => activeTab(0), timeout);
+                setTimeout(() => location.reload(), timeout);
             }
         }
     }
@@ -244,10 +227,6 @@
         $el.animate({
             scrollTop: st < sb / 2 ? sb : 0
         }, 50000, anim);
-    }
-
-    function anim_stop() {
-
     }
     </script>
 </body>

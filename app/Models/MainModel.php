@@ -38,7 +38,7 @@ class MainModel extends Model
             'agenda',
             'pasal',
             'keterangan'
-        ])->where('deleted_at is null')->where("MONTH(tanggal) = '$param'")->orderBy('tanggal DESC')->get();
+        ])->where('deleted_at is null')->where("MONTH(tanggal) = '$param'")->orderBy('tanggal','DESC')->get();
         return $data->getResult();
     }
 
@@ -134,6 +134,17 @@ class MainModel extends Model
             return true;
         } catch(Exception $e) {
             return false;
+        }
+    }
+
+    public function saveLaporan($param){
+        try {
+            $data = $this->db->table('tbl_laporan');
+            $data->set('id_laporan','UUID()', FALSE);
+            $data->insert($param);
+            return true;
+        } catch(Exception $e) {
+            return $e;
         }
     }
 }

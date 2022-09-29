@@ -6,6 +6,8 @@ use App\Models\PegawaiModel;
 use App\Models\PageModel;
 use App\Models\FotoModel;
 
+// secret site key recaptha = 6LcIhhsiAAAAADc8LeRwMX7KQlT6r2lHv0eaB3_s
+
 class Home extends BaseController{
     public function __construct(){
         $this->main_model = new MainModel();
@@ -45,8 +47,8 @@ class Home extends BaseController{
         return view('public/daftar_pegawai', $data);
     }
 
-    public function display(){
-        //whether ip is from the share internet  
+    function getIpClient(){
+        $ip = '';
         if(!empty($_SERVER['HTTP_CLIENT_IP'])) {  
             $ip = $_SERVER['HTTP_CLIENT_IP'];  
         }  
@@ -57,7 +59,13 @@ class Home extends BaseController{
         //whether ip is from the remote address  
         else{  
             $ip = $_SERVER['REMOTE_ADDR'];  
-        } 
+        }
+        return $ip;
+    }
+
+    public function display(){
+        //whether ip is from the share internet  
+        $ip = $this->getIpClient();
         //for developmen delete if production
         $ip = '36.85.221.6';
         //
@@ -115,5 +123,73 @@ class Home extends BaseController{
         $data['nama_bulan'] = date('F');
         $data['page_title'] = "Jadwal Sidang Kejaksaan Negeri Boalemo";
         return view('public/jadwal_sidang', $data);
+    }
+
+    public function lapor(){
+        if (!$this->validate([
+			'nama' => [
+				'rules' => 'required|max_length[100]|min_length[2]',
+				'errors' => [
+					'required' => '{field} Tidak boleh kosong',
+                    'max_length' => '{field} Terlalu Panjang',
+                    'min_length' => '{field} Terlalu Pendek',
+				]
+			],
+            'email' => [
+				'rules' => 'required|max_length[100]|min_length[2]|valid_email',
+				'errors' => [
+					'required' => '{field} Tidak boleh kosong',
+                    'max_length' => '{field} Terlalu Panjang',
+                    'min_length' => '{field} Terlalu Pendek',
+                    'email' => '{field} Tidak Valid',
+				]
+			],
+            'telepon' => [
+				'rules' => 'required|max_length[50]|min_length[8]|numeric',
+				'errors' => [
+					'required' => '{field} Tidak boleh kosong',
+                    'max_length' => '{field} Terlalu Panjang',
+                    'min_length' => '{field} Terlalu Pendek',
+                    'number' => '{field} Tidak Valid',
+				]
+			],
+            'isi' => [
+				'rules' => 'required|max_length[256]|min_length[5]',
+				'errors' => [
+					'required' => '{field} Tidak boleh kosong',
+                    'max_length' => '{field} Terlalu Panjang',
+                    'min_length' => '{field} Terlalu Pendek',
+				]
+			],
+            'captca' => [
+				'rules' => 'required',
+				'errors' => [
+					'required' => '{field} Tidak Valid',
+				]
+			],
+        ])){
+            // return redirect()->to($_SERVER['HTTP_REFERER'].'#aduan')->with('error', $this->validator->listErrors());
+        }
+
+        $url = 'https://www.google.com/recaptcha/api/siteverify';
+        $myvars = 'secret=6LcIhhsiAAAAADc8LeRwMX7KQlT6r2lHv0eaB3_s&response='.$this->request->getPost('captca');
+        $ch = curl_init( $url );
+        curl_setopt( $ch, CURLOPT_POST, 1);
+        curl_setopt( $ch, CURLOPT_POSTFIELDS, $myvars);
+        curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt( $ch, CURLOPT_HEADER, 0);
+        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1);
+        $response = json_decode(curl_exec( $ch ));
+        if(!$response->success) return redirect()->to($_SERVER['HTTP_REFERER'].'#aduan')->with('error', "Captca tidak valid");
+        $data = array(
+            'nama_pelapor' => $this->request->getPost('nama'),
+            'tlp' => $this->request->getPost('telepon'),
+            'email' => $this->request->getPost('email'),
+            'isi' => $this->request->getPost('isi'),
+            'ipv4' =>  $this->getIpClient()
+        );
+        $data = $this->main_model->saveLaporan($data);
+        if($data) $data = 'Pesan Anda Telah Diterima, Terimakasih Atas Laporan Anda!';
+        return redirect()->to($_SERVER['HTTP_REFERER'].'#aduan')->with('success', $data);
     }
 }
