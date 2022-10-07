@@ -61,7 +61,7 @@ class PegawaiModel extends Model
         )->join("tbl_jabatan","tbl_jabatan.id_jabatan=tbl_pegawai.jabatan","left"
         )->where("tbl_pegawai.is_active",1
         )->where("tbl_pegawai.deleted_at is null"
-        )->orderBy("tbl_status.index ASC, tbl_pangkat.golongan DESC, tbl_pegawai.tmt_pangkat DESC, tbl_pegawai.tmt_pns DESC, tbl_pegawai.nama ASC"
+        )->orderBy("tbl_status.index ASC, tbl_pangkat.golongan DESC, tbl_pegawai.tmt_pangkat ASC, tbl_pegawai.tmt_pns ASC, tbl_pegawai.nip ASC, tbl_pegawai.nama ASC"
         )->get();
         return $data->getResult();
     }

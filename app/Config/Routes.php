@@ -37,6 +37,7 @@ $routes->get('/daftar-urut-kepangkatan', 'Home::duk');
 $routes->get('/galeri', 'Home::galeri');
 $routes->get('/tentang/struktur-organisasi', 'DataPegawai::struktur');
 $routes->get('/jadwal-sidang-pidum', 'Home::jadwalsidang');
+$routes->get('/barang-bukti', 'Home::barangbukti');
 // Artikel Routes
 $routes->get('/berita', 'Page::list_berita');
 $routes->get('/berita(:any)', 'Page::artikel$1');
@@ -61,6 +62,7 @@ $routes->post('/lapor', 'Home::lapor');
     $routes->get('/cms/list_page', 'Page::list_page', ['filter' => 'authfilter']);
     $routes->get('/cms/update_page', 'Page::update_page', ['filter' => 'authfilter']);
     $routes->post('/cms/update-page', 'Page::updatepage', ['filter' => 'authfilter']);
+    $routes->get('/cms/admin-page(:any)', 'Page::adminpage$1', ['filter' => 'authfilter']);
     //galeri route
     $routes->get('/cms/gallery', 'Galeri::list_galeri', ['filter' => 'authfilter']);
     $routes->get('/cms/set-galeri-show(:any)', 'Galeri::setstatus$1', ['filter' => 'authfilter']);
@@ -73,6 +75,8 @@ $routes->post('/lapor', 'Home::lapor');
     $routes->get('/cms/jadwal-sidang-pidum', 'Admin::sidangpidum', ['filter' => 'authfilter']);
     $routes->post('/cms/add-sidang-pidum', 'Admin::addsidangpidum', ['filter' => 'authfilter']);
     $routes->get('/cms/delete-sidang-pidum(:any)', 'Admin::deletesidangpidum$1', ['filter' => 'authfilter']);
+    //daftar barang bukti
+    $routes->get('/cms/daftar-barang-bukti', 'Page::barangbukti', ['filter' => 'authfilter']);
     //general
     $routes->get('/cms/setting', 'Admin::setting', ['filter' => 'authfilter']);
     $routes->get('/cms/set-carousel-show(:any)', 'Admin::setcarouselshow$1', ['filter' => 'authfilter']);

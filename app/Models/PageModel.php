@@ -194,4 +194,14 @@ class PageModel extends Model
         ])->where('id_post',$param)->limit(1)->get();
         return $data->getResult();
     }
+
+    public function getpostid($param){
+        $data = new PageModel();
+        $data = $data->select([
+            'id_post', 
+            'post_name',
+            'post_title',
+        ])->where('post_name',$param)->limit(1)->get();
+        return $data->getResult();
+    }
 }

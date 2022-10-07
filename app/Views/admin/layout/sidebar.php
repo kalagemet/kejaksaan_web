@@ -105,11 +105,34 @@
         </div>
     </li>';?>
 
-    <?php if(in_array('pidum',session()->permission))
+    <?php if(in_array('pidana-umum',session()->permission))
     echo '<li class="nav-item">
-        <a class="nav-link" href='.base_url("cms/jadwal-sidang-pidum").'>
-            <i class="fas fa-clipboard-list"></i>
-            <span>Jadwal Sidang</span></a>
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePidum" aria-expanded="true"
+        aria-controls="collapseGal">
+        <i class="fas fa-fw fa-circle"></i>
+        <span>Pidum</span>
+    </a>
+    <div id="collapsePidum" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href='.base_url("cms/admin-page/pidana-umum").'>Halaman Pidum</a>
+            <a class="collapse-item" href='.base_url("cms/jadwal-sidang-pidum").'>Jadwal Sidang</a>
+        </div>
+    </div>
+    </li>';?>
+
+    <?php if(in_array('pengelola-barang-bukti',session()->permission))
+    echo '<li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBB" aria-expanded="true"
+        aria-controls="collapseGal">
+        <i class="fas fa-fw fa-circle"></i>
+        <span>PB3R</span>
+    </a>
+    <div id="collapseBB" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href='.base_url("cms/admin-page/pengelola-barang-bukti").'>Halaman PB3R</a>
+            <a class="collapse-item" href='.base_url("cms/daftar-barang-bukti").'>Daftar Barang Bukti</a>
+        </div>
+    </div>
     </li>';?>
 
     <!-- Nav Item - Charts -->

@@ -30,8 +30,15 @@ class Page extends BaseController{
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_TIMEOUT, 20);
         $result = curl_exec($ch);
-        curl_close($ch); 
-        return json_decode($result);
+        if($result==null){ 
+            $result = (Object) array(
+                'data' => []
+            );
+        }else{
+            $result = json_decode($result);
+        }
+        curl_close($ch);
+        return $result;
     }
 
     function pageNotFound($arr){
@@ -352,73 +359,104 @@ class Page extends BaseController{
     }
 
     public function update_page(){
-        if(!in_array('page',session()->permission)) return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Akun tidak diizinkan");
         $request = service('request');
-        $data['data'] = $this->page_model->geteditpage($request->getGet('id'));
-        $data['page_title'] = "Edit Halaman - ".$request->getGet('page');
-        $data['summernote'] = true;
-        return view('admin/page/edit', $data);
+        if(in_array('page',session()->permission) or in_array($request->getGet('key'),session()->permission)){
+            $data['is_superadmin'] = ($request->getGet('key')==null);
+            $data['data'] = $this->page_model->geteditpage($request->getGet('id'));
+            $data['page_title'] = "Edit Halaman - ".$request->getGet('page');
+            $data['summernote'] = true;
+            return view('admin/page/edit', $data);
+        }else{
+            return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Akun tidak diizinkan");
+        }
     }
 
     public function updatepage(){
-        if(!in_array('page',session()->permission)) return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Akun tidak diizinkan");
-        //save image
-        if (!$this->validate([
-            'id_post' => [
-				'rules' => 'required|is_not_unique[tbl_page.id_post]',
-				'errors' => [
-					'required' => '{field} Eror silahkan reload halaman ini'
-				]
-			],
-			'judul' => [
-				'rules' => 'required|max_length[100]',
-				'errors' => [
-					'required' => '{field} Tidak boleh kosong',
-                    'max_length' => '{field} Terlalu Panjang'
-				]
-			],
-			'header' => [
-				'rules' => 'mime_in[header,image/jpg,image/jpeg,image/gif,image/png]|max_size[header,2048]',
-				'errors' => [
-					'mime_in' => 'File Extention Harus Berupa jpg,jpeg,gif,png',
-					'max_size' => 'Ukuran File Maksimal 2 MB'
-				]
-            ],
-            'content' => [
-				'rules' => 'required|min_length[10]',
-				'errors' => [
-					'required' => '{field} Tidak boleh kosong',
-					'min_length' => '{field} Terlalu pendek'
-				]
-			]
-		])){
-			session()->setFlashdata('error', $this->validator->listErrors());
-			return redirect()->back()->withInput();
-		}
-        $upload = $this->request->getFile('header');
-        $data = array(
-            'post_author' => session()->id_user,
-            'post_date' =>  $this->request->getPost('tanggal'), 
-            'post_content' => $this->request->getPost('content'), 
-            'post_title' => $this->request->getPost('judul'), 
-            'post_name' => str_replace(' ', '-', strtolower($this->request->getPost('url'))),
-            'post_type' => 'page', 
-        );
-        if($upload->isValid()){
-            $old = explode('/',$this->request->getPost('old_photo'));
-            $old = $old[count($old)-1];
-            if(is_file('assets/img/upload/'.$old)) unlink('assets/img/upload/'.$old);
-            if(is_file('assets/img/upload/thumbnail/'.$old)) unlink('assets/img/upload/thumbnail/'.$old);
-            $fileName = date("Y-m-d.h.i.s").'_page.'.$upload->getClientExtension();
-            $upload->move('assets/img/upload/', $fileName);
-            $tmbl = \Config\Services::image()
-              ->withFile('assets/img/upload/'.$fileName)
-              ->resize(150, 150, true, 'height')
-              ->save('assets/img/upload/thumbnail/'. $fileName);
-            $data['post_header'] =  base_url("assets/img/upload/$fileName"); 
-            $data['thumbnail'] =  base_url("assets/img/upload/thumbnail/$fileName"); 
+        if(in_array('page',session()->permission) or in_array($this->request->getPost('url'),session()->permission)){
+            //save image
+            if (!$this->validate([
+                'id_post' => [
+                    'rules' => 'required|is_not_unique[tbl_page.id_post]',
+                    'errors' => [
+                        'required' => '{field} Eror silahkan reload halaman ini'
+                    ]
+                ],
+                'judul' => [
+                    'rules' => 'required|max_length[100]',
+                    'errors' => [
+                        'required' => '{field} Tidak boleh kosong',
+                        'max_length' => '{field} Terlalu Panjang'
+                    ]
+                ],
+                'header' => [
+                    'rules' => 'mime_in[header,image/jpg,image/jpeg,image/gif,image/png]|max_size[header,2048]',
+                    'errors' => [
+                        'mime_in' => 'File Extention Harus Berupa jpg,jpeg,gif,png',
+                        'max_size' => 'Ukuran File Maksimal 2 MB'
+                    ]
+                ],
+                'content' => [
+                    'rules' => 'required|min_length[10]',
+                    'errors' => [
+                        'required' => '{field} Tidak boleh kosong',
+                        'min_length' => '{field} Terlalu pendek'
+                    ]
+                ]
+            ])){
+                session()->setFlashdata('error', $this->validator->listErrors());
+                return redirect()->back()->withInput();
+            }
+            $upload = $this->request->getFile('header');
+            $data = array(
+                'post_author' => session()->id_user,
+                'post_date' =>  $this->request->getPost('tanggal'), 
+                'post_content' => $this->request->getPost('content'), 
+                'post_title' => $this->request->getPost('judul'), 
+                'post_name' => str_replace(' ', '-', strtolower($this->request->getPost('url'))),
+                'post_type' => 'page', 
+            );
+            if($upload->isValid()){
+                $old = explode('/',$this->request->getPost('old_photo'));
+                $old = $old[count($old)-1];
+                if(is_file('assets/img/upload/'.$old)) unlink('assets/img/upload/'.$old);
+                if(is_file('assets/img/upload/thumbnail/'.$old)) unlink('assets/img/upload/thumbnail/'.$old);
+                $fileName = date("Y-m-d.h.i.s").'_page.'.$upload->getClientExtension();
+                $upload->move('assets/img/upload/', $fileName);
+                $tmbl = \Config\Services::image()
+                ->withFile('assets/img/upload/'.$fileName)
+                ->resize(150, 150, true, 'height')
+                ->save('assets/img/upload/thumbnail/'. $fileName);
+                $data['post_header'] =  base_url("assets/img/upload/$fileName"); 
+                $data['thumbnail'] =  base_url("assets/img/upload/thumbnail/$fileName"); 
+            }
+            $data = $this->page_model->updatepost($data, $this->request->getPost('id_post'));
+            return redirect()->to($_SERVER['HTTP_REFERER'])->with('success', "Berhasil Memperbarui halaman");
+        }else{
+            return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Akun tidak diizinkan");
         }
-        $data = $this->page_model->updatepost($data, $this->request->getPost('id_post'));
-        return redirect()->to(base_url('/cms/list_page?filter_string='.$this->request->getPost('judul')))->with('success', "Berhasil Memperbarui halaman");
+    }
+
+    public function adminpage($param){
+        if(!in_array($param,session()->permission)) return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Akun tidak diizinkan");
+        $data = $this->page_model->getpostid($param);
+        return redirect()->to(base_url('cms/update_page?key='.$data[0]->post_name.'&id='.$data[0]->id_post.'&page='.$data[0]->post_title));
+    }
+
+    public function barangbukti(){
+        // $data['datatables'] = true;
+        // $data['select_bootstrap'] = true;
+        // $data['data'] = $this->main_model->getJadwalSidang(date('m'));
+        // $data['jaksa'] = $this->pegawai->getJaksa();
+        // $data['nama_bulan'] = date('F');
+        $data['page_title'] = "Daftar Barang Bukti Kejaksaan Negeri Boalemo";
+        $request = service('request');
+        if(in_array('pengelola-barang-bukti',session()->permission) or in_array($request->getGet('key'),session()->permission)){
+            $data['is_superadmin'] = ($request->getGet('key')==null);
+            $data['data'] = $this->page_model->geteditpage($this->page_model->getpostid('daftar-barang-bukti')[0]->id_post);
+            $data['summernote'] = true;
+            return view('admin/barang-bukti', $data);
+        }else{
+            return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Akun tidak diizinkan");
+        }
     }
 }

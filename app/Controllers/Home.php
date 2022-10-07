@@ -25,8 +25,15 @@ class Home extends BaseController{
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_TIMEOUT, 20);
         $result = curl_exec($ch);
-        curl_close($ch); 
-        return json_decode($result);
+        if($result==null){ 
+            $result = (Object) array(
+                'data' => []
+            );
+        }else{
+            $result = json_decode($result);
+        }
+        curl_close($ch);
+        return $result;
     }
 
     public function index(){
@@ -191,5 +198,14 @@ class Home extends BaseController{
         $data = $this->main_model->saveLaporan($data);
         if($data) $data = 'Pesan Anda Telah Diterima, Terimakasih Atas Laporan Anda!';
         return redirect()->to($_SERVER['HTTP_REFERER'].'#aduan')->with('success', $data);
+    }
+
+    public function barangbukti(){
+        $data['datatables'] = true;
+        $data['page'] = $this->page_model->getPage('daftar-barang-bukti');
+        $data['data'] = $this->main_model->getJadwalSidang(date('m'));
+        $data['nama_bulan'] = date('F');
+        $data['page_title'] = "Daftar Barang Bukti Perkara - Kejaksaan Negeri Boalemo";
+        return view('public/daftar_barang_bukti', $data);
     }
 }
