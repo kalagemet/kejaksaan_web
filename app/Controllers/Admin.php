@@ -35,7 +35,7 @@ class Admin extends BaseController{
     }
 
     public function login_action(){
-        // echo password_hash('62299991', PASSWORD_DEFAULT, ['cost' => 10]);
+        // return password_hash('522971337', PASSWORD_DEFAULT, ['cost' => 10]);
         $users = new UsersModel();
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
