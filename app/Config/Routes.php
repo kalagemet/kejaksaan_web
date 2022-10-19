@@ -76,7 +76,10 @@ $routes->post('/lapor', 'Home::lapor');
     $routes->post('/cms/add-sidang-pidum', 'Admin::addsidangpidum', ['filter' => 'authfilter']);
     $routes->get('/cms/delete-sidang-pidum(:any)', 'Admin::deletesidangpidum$1', ['filter' => 'authfilter']);
     //daftar barang bukti
-    $routes->get('/cms/daftar-barang-bukti', 'Page::barangbukti', ['filter' => 'authfilter']);
+    $routes->get('/cms/daftar-barang-bukti', 'Admin::barangbukti', ['filter' => 'authfilter']);
+    $routes->post('/cms/add-barang-bukti', 'Admin::addbarangbukti', ['filter' => 'authfilter']);
+    $routes->get('/cms/set-barang-bukti(:any)', 'Admin::setbarangbukti$1', ['filter' => 'authfilter']);
+    $routes->get('/cms/delete-barang-bukti(:any)', 'Admin::deletebarangbukti$1', ['filter' => 'authfilter']);
     //general
     $routes->get('/cms/setting', 'Admin::setting', ['filter' => 'authfilter']);
     $routes->get('/cms/set-carousel-show(:any)', 'Admin::setcarouselshow$1', ['filter' => 'authfilter']);

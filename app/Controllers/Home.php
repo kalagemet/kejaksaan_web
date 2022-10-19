@@ -203,8 +203,7 @@ class Home extends BaseController{
     public function barangbukti(){
         $data['datatables'] = true;
         $data['page'] = $this->page_model->getPage('daftar-barang-bukti');
-        $data['data'] = $this->main_model->getJadwalSidang(date('m'));
-        $data['nama_bulan'] = date('F');
+        $data['data'] = $this->main_model->getDaftarBarangBukti(true);
         $data['page_title'] = "Daftar Barang Bukti Perkara - Kejaksaan Negeri Boalemo";
         return view('public/daftar_barang_bukti', $data);
     }

@@ -3,16 +3,20 @@
 namespace App\Controllers;
 use App\Models\MainModel;
 use App\Models\PegawaiModel;
+use App\Models\PageModel;
 use App\Models\UsersModel;
 use App\Models\JadwalSidangModel;
+use App\Models\DaftarBarangBukti;
 
 class Admin extends BaseController{
     
     public function __construct(){
         $this->main_model = new MainModel();
         $this->pegawai = new PegawaiModel();
+        $this->page_model = new PageModel();
         $this->user = new UsersModel();
         $this->jadwalsidangpidum = new JadwalSidangModel();
+        $this->daftarbb = new DaftarBarangBukti();
     }
 
     public function index(){
@@ -241,5 +245,121 @@ class Admin extends BaseController{
     public function aduan(){
         $data['page_title'] = "Daftar Laporan Pada Website KN Boalemo";
         return view('admin/aduan', $data);
+    }
+
+    public function barangbukti(){
+        $data['datatables'] = true;
+        $data['select_bootstrap'] = true;
+        $data['daftar'] = $this->main_model->getDaftarBarangBukti();
+        $data['page_title'] = "Daftar Barang Bukti Kejaksaan Negeri Boalemo";
+        $request = service('request');
+        if(in_array('pengelola-barang-bukti',session()->permission) or in_array($request->getGet('key'),session()->permission)){
+            $data['is_superadmin'] = ($request->getGet('key')==null);
+            $data['data'] = $this->page_model->geteditpage($this->page_model->getpostid('daftar-barang-bukti')[0]->id_post);
+            $data['summernote'] = true;
+            return view('admin/barang-bukti', $data);
+        }else{
+            return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Akun tidak diizinkan");
+        }
+    }
+
+    public function addbarangbukti(){
+        if(!in_array('pengelola-barang-bukti',session()->permission)) return redirect()->to(base_url('/cms'))->with('error', "Akun anda tidak diizinkan");
+        if (!$this->validate([
+			'terdakwa' => [
+				'rules' => 'required|max_length[100]|min_length[2]',
+				'errors' => [
+					'required' => '{field} Tidak boleh kosong',
+                    'max_length' => '{field} Terlalu Panjang',
+                    'min_length' => '{field} Terlalu Pendek',
+				]
+			],
+            'tgl_putusan' => [
+				'rules' => 'required|valid_date',
+				'errors' => [
+					'required' => '{field} Tidak boleh kosong',
+                    'valid_date' => '{field} tidak valid'
+				]
+			],
+            'register_barang' => [
+				'rules' => 'required|min_length[5]|max_length[200]',
+				'errors' => [
+					'required' => '{field} Tidak boleh kosong',
+                    'max_length' => '{field} Terlalu Panjang',
+					'min_length' => '{field} Terlalu pendek'
+				]
+			],
+            'register_perkara' => [
+				'rules' => 'required|min_length[3]|max_length[200]',
+				'errors' => [
+					'required' => '{field} Tidak boleh kosong',
+                    'max_length' => '{field} Terlalu Panjang',
+					'min_length' => '{field} Terlalu pendek'
+				]
+			],
+            'jenis' => [
+				'rules' => 'required|min_length[3]|max_length[200]',
+				'errors' => [
+					'required' => '{field} Tidak boleh kosong',
+                    'max_length' => '{field} Terlalu Panjang',
+					'min_length' => '{field} Terlalu pendek'
+				]
+			],
+            'no_putusan' => [
+				'rules' => 'required|min_length[3]|max_length[200]',
+				'errors' => [
+					'required' => '{field} Tidak boleh kosong',
+                    'max_length' => '{field} Terlalu Panjang',
+					'min_length' => '{field} Terlalu pendek'
+				]
+			],
+            'keterangan' => [
+				'rules' => 'required|max_length[200]',
+				'errors' => [
+					'required' => '{field} Tidak boleh kosong',
+                    'max_length' => '{field} Terlalu Panjang',
+				]
+			],
+		])){
+			session()->setFlashdata('error', $this->validator->listErrors());
+			return redirect()->back()->withInput();
+		}
+        $data = array(
+            'register_perkara' => $this->request->getPost('register_perkara'),
+            'register_barang' => $this->request->getPost('register_barang'),
+            'jenis' => $this->request->getPost('jenis'),
+            'no_putusan' => $this->request->getPost('no_putusan'),
+            'amar_putusan' => $this->request->getPost('amar_putusan'),
+            'tgl_putusan' => $this->request->getPost('tgl_putusan'),
+            'is_release' => 1,
+            'id_user' => session()->id_user,
+            'terdakwa' => ucfirst($this->request->getPost('terdakwa')),
+            'keterangan' => $this->request->getPost('keterangan')
+        );
+        $data = $this->daftarbb->addbarang($data);
+        if($data) return redirect()->to(base_url('/cms/daftar-barang-bukti'))->with('success', "Berhasil menambahkan post");
+        else return redirect()->to(base_url('/cms/daftar-barang-bukti'))->with('error', "Gagal menambahkan post");
+    }
+
+    public function setbarangbukti($id_post){
+        if(!in_array('pengelola-barang-bukti',session()->permission)) return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Akun tidak diizinkan");
+        $data = $this->daftarbb->setStatus($id_post);
+        if($data){
+            $msg = "Berhasil mengupdate data";
+        }else{
+            $msg = $data->getMessage();
+        }
+        return redirect()->to($_SERVER['HTTP_REFERER'])->with('success', $msg);
+    }
+
+    public function deletebarangbukti($id_post){
+        if(!in_array('pengelola-barang-bukti',session()->permission)) return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Akun tidak diizinkan");
+        $data = $this->daftarbb->hapus($id_post);
+        if($data){
+            $msg = "Berhasil menghapus data";
+        }else{
+            $msg = $data->getMessage();
+        }
+        return redirect()->to($_SERVER['HTTP_REFERER'])->with('success', $msg);
     }
 }

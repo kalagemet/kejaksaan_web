@@ -38,24 +38,28 @@
                                     <tr role="row">
                                         <th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable"
                                             rowspan="1" colspan="1" aria-sort="ascending"
-                                            aria-label="Tanggal Sidang: activate to sort column descending">Tanggal
-                                            Sidang</th>
+                                            aria-label="Register: activate to sort column descending">Register</th>
                                         <th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable"
                                             rowspan="1" colspan="1" aria-sort="ascending"
-                                            aria-label="Nama Terdakwa: activate to sort column descending">Nama Terdakwa
-                                        </th>
-                                        <th style='white-space: nowrap;' class="sorting sorting_asc" tabindex="0"
-                                            aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending"
-                                            aria-label="Agenda Sidang: activate to sort column descending">Agenda Sidang
+                                            aria-label="Jenis: activate to sort column descending">Jenis
                                         </th>
                                         <th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable"
                                             rowspan="1" colspan="1" aria-sort="ascending"
-                                            aria-label="Pasal: activate to sort column descending">Pasal
+                                            aria-label="No Perkara: activate to sort column descending">No Perkara
                                         </th>
                                         <th style='white-space: nowrap;' class="sorting sorting_asc" tabindex="0"
                                             aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending"
-                                            aria-label="Jaksa Penuntut Umum: activate to sort column descending">
-                                            Jaksa Penuntut Umum
+                                            aria-label="Tgl / No Putusan: activate to sort column descending">Tgl / No
+                                            Putusan
+                                        </th>
+                                        <th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable"
+                                            rowspan="1" colspan="1" aria-sort="ascending"
+                                            aria-label="Terdakwa: activate to sort column descending">Terdakwa
+                                        </th>
+                                        <th style='white-space: nowrap;' class="sorting sorting_asc" tabindex="0"
+                                            aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending"
+                                            aria-label="Amar Putusan: activate to sort column descending">
+                                            Amar Putusan
                                         </th>
                                         <th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable"
                                             rowspan="1" colspan="1" aria-sort="ascending"
@@ -66,11 +70,12 @@
                                 <tbody>
                                     <?php foreach($data as $i => $d){
                                         echo "<tr class='".(($i%2==1)?'odd':'even')."'>
-                                            <td class='sorting_1'>$d->tanggal</td>
+                                            <td class='sorting_1'>$d->register_barang</td>
+                                            <td class='sorting_1'>$d->jenis</td>
+                                            <td class='sorting_1'>$d->register_perkara</td>
+                                            <td class='sorting_1'>$d->tgl_putusan - $d->no_putusan</td>
                                             <td class='sorting_1'>$d->terdakwa</td>
-                                            <td class='sorting_1'>$d->agenda</td>
-                                            <td class='sorting_1'>$d->pasal</td>
-                                            <td class='sorting_1'>$d->jaksa</td>
+                                            <td class='sorting_1'>$d->amar_putusan</td>
                                             <td class='sorting_1'>$d->keterangan</td>
                                         </tr>";
                                     } ?>

@@ -88,8 +88,8 @@
                     <div class="row">
                         <div class="col-xl-2 col-md-6 mb-4">
                             <label for="tanggal">Waktu Sidang</label>
-                            <input require id="tanggal" value="<?php echo old('tanggal'); ?>" name="tanggal"
-                                type="datetime-local" placeholder="tanggal sidang" class="form-control" id="tanggal" />
+                            <input require value="<?php echo old('tanggal'); ?>" name="tanggal" type="datetime-local"
+                                placeholder="tanggal sidang" class="form-control" id="tanggal" />
                         </div>
                         <div class="col-xl-2 col-md-6 mb-4">
                             <label for="terdakwa">Nama Terdakwa:</label>

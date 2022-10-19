@@ -401,7 +401,15 @@ class Page extends BaseController{
                         'required' => '{field} Tidak boleh kosong',
                         'min_length' => '{field} Terlalu pendek'
                     ]
+                ],
+                'url' => [
+                    'rules' => 'required|min_length[10]',
+                    'errors' => [
+                        'required' => '{field} Tidak boleh kosong',
+                        'min_length' => '{field} Terlalu pendek'
+                    ]
                 ]
+
             ])){
                 session()->setFlashdata('error', $this->validator->listErrors());
                 return redirect()->back()->withInput();
@@ -440,23 +448,5 @@ class Page extends BaseController{
         if(!in_array($param,session()->permission)) return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Akun tidak diizinkan");
         $data = $this->page_model->getpostid($param);
         return redirect()->to(base_url('cms/update_page?key='.$data[0]->post_name.'&id='.$data[0]->id_post.'&page='.$data[0]->post_title));
-    }
-
-    public function barangbukti(){
-        // $data['datatables'] = true;
-        // $data['select_bootstrap'] = true;
-        // $data['data'] = $this->main_model->getJadwalSidang(date('m'));
-        // $data['jaksa'] = $this->pegawai->getJaksa();
-        // $data['nama_bulan'] = date('F');
-        $data['page_title'] = "Daftar Barang Bukti Kejaksaan Negeri Boalemo";
-        $request = service('request');
-        if(in_array('pengelola-barang-bukti',session()->permission) or in_array($request->getGet('key'),session()->permission)){
-            $data['is_superadmin'] = ($request->getGet('key')==null);
-            $data['data'] = $this->page_model->geteditpage($this->page_model->getpostid('daftar-barang-bukti')[0]->id_post);
-            $data['summernote'] = true;
-            return view('admin/barang-bukti', $data);
-        }else{
-            return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Akun tidak diizinkan");
-        }
     }
 }

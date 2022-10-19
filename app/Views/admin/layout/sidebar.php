@@ -2,7 +2,7 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href=<?php echo base_url("cpanel");?>>
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href=<?php echo base_url("cms");?>>
         <div class="sidebar-brand-icon">
             <i class="fas fa-map-pin"></i>
         </div>
@@ -14,7 +14,7 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
-        <a class="nav-link" href=<?php echo base_url("cpanel");?>>
+        <a class="nav-link" href=<?php echo base_url("cms");?>>
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
