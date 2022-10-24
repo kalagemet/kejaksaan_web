@@ -146,7 +146,7 @@
             <h1 class="h3 mb-0 text-gray-800">Penjelasan Halaman</h1>
         </div>
         <div class="card mb-4">
-            <form id="form_post" action="add-barang" method="POST" enctype="multipart/form-data">
+            <form id="form_post" action="update-page" method="POST" enctype="multipart/form-data">
                 <?= csrf_field() ?>
                 <input require type="hidden" value="<?php echo $data[0]->id_post; ?>" id="id_post" name="id_post" />
                 <input require type="hidden" value="<?php echo $data[0]->post_name; ?>" name="url">
