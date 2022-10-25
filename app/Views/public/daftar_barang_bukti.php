@@ -36,6 +36,7 @@
                                 cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
                                 <thead>
                                     <tr role="row">
+                                        <th class="sorting">No</th>
                                         <th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable"
                                             rowspan="1" colspan="1" aria-sort="ascending"
                                             aria-label="Register: activate to sort column descending">Register</th>
@@ -70,6 +71,7 @@
                                 <tbody>
                                     <?php foreach($data as $i => $d){
                                         echo "<tr class='".(($i%2==1)?'odd':'even')."'>
+                                            <td class='sorting_1'>".($i+1)."</td>
                                             <td class='sorting_1'>$d->register_barang</td>
                                             <td class='sorting_1'>$d->jenis</td>
                                             <td class='sorting_1'>$d->register_perkara</td>
