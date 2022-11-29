@@ -33,7 +33,6 @@ class Home extends BaseController{
             $result = json_decode($result);
         }
         curl_close($ch);
-        print_r($result);
         if(isset($result->data)) return $result->$data;
         else{
             echo '<script>console.error(`Instagram => '.json_encode($result).'`);</script>';
