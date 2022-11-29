@@ -33,7 +33,12 @@ class Home extends BaseController{
             $result = json_decode($result);
         }
         curl_close($ch);
-        return $result;
+        print_r($result);
+        if(isset($result->data)) return $result->$data;
+        else{
+            echo '<script>console.error(`Instagram => '.json_encode($result).'`);</script>';
+            return [];
+        }
     }
 
     public function index(){
@@ -42,7 +47,7 @@ class Home extends BaseController{
         $data['header'] = $this->main_model->getHeaderImage();
         $data['galeri'] = $this->galeri_model->getTerbaru();
         $data['hero'] = 'hero-img.png';
-        $data['post_ig'] = $this->getPostInstagram()->data;
+        $data['post_ig'] = $this->getPostInstagram();
         $data['berita_terbaru'] = $this->page_model->getListBerita()->limit(4)->get()->getResult();
         return view('public/index', $data);
     }
@@ -80,7 +85,7 @@ class Home extends BaseController{
             $data['data'] = $this->pegawai->getListPegawai();
             $data['running_text'] = $this->main_model->getVariable('running_text');
             $data['timeout'] = $this->main_model->getVariable('display_timeout');
-            $data['post_ig'] = $this->getPostInstagram()->data;
+            $data['post_ig'] = $this->getPostInstagram();
             $data['slider_display'] = $this->main_model->getVariable('slider');
             $data['slider_display'] = explode(';',$data['slider_display'][0]->value);
             return view('public/display', $data);

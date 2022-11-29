@@ -101,8 +101,9 @@ $routes->post('/login', 'Admin::login_action', ['filter' => 'isauthfilter']);
 $routes->set404Override(function()
 {
     $data['error_code'] = '404';
-    $data['error_name'] = 'Halaman tidak ditemukan';
+    $data['error_name'] = 'Halaman <u>'.$_SERVER['REQUEST_URI'].'</u> tidak ditemukan';
     echo view('error_production.php',$data);
+    // return redirect()->to(base_url('/page'.$_SERVER['REQUEST_URI']));
 });
 // $routes->add('(:any)', function() {
 //     return 'Not Found ....';

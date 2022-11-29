@@ -14,7 +14,7 @@ class Page extends BaseController{
         else{
             $data['page_title'] = $data['data'][0]->post_title;
         }
-        $data['post_ig'] = $this->getPostInstagram()->data;
+        $data['post_ig'] = $this->getPostInstagram();
         $data['count_month'] = $this->page_model->getCountBerita();
         $data['count_year'] = $this->page_model->getYearCountBerita();
         $data['berita_terbaru'] = $this->page_model->getListBerita()->limit(5)->get()->getResult();
@@ -38,7 +38,11 @@ class Page extends BaseController{
             $result = json_decode($result);
         }
         curl_close($ch);
-        return $result;
+        if(isset($result->data)) return $result->$data;
+        else{
+            echo '<script>console.error(`Instagram => '.json_encode($result).'`);</script>';
+            return [];
+        }
     }
 
     function pageNotFound($arr){
@@ -58,7 +62,7 @@ class Page extends BaseController{
             $data['tags'] = $this->page_model->getTagsBerita($post_name)[0]->tags;
         }
         $data['count_month'] = $this->page_model->getCountBerita();
-        $data['post_ig'] = $this->getPostInstagram()->data;
+        $data['post_ig'] = $this->getPostInstagram();
         $data['count_year'] = $this->page_model->getYearCountBerita();
         $data['berita_terbaru'] = $this->page_model->getListBerita()->limit(5)->get()->getResult();
         return view('public/berita/artikel', $data);
