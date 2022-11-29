@@ -33,7 +33,7 @@ class Home extends BaseController{
             $result = json_decode($result);
         }
         curl_close($ch);
-        if(property_exists($result, 'data')) return $result->$data;
+        if(property_exists($result, 'data')) return $result->data;
         else{
             echo '<script>console.error(`Instagram => '.json_encode($result).'`);</script>';
             return [];
