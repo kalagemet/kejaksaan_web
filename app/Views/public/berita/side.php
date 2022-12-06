@@ -3,30 +3,74 @@
     $random_key = array_rand($tag,3); ?>
     <div class="container-fluid">
         <div class="row no-gutters">
-            <div style="text-align:center" class="col-lg box" data-aos="fade-right">
-                <div id="myCarousel" style="height: 350px;border: 0;background-color: transparent; margin-bottom:40px"
+            <div style="text-align:center; padding: 0px" class="col-lg box" data-aos="fade-right">
+                <div id="myCarousel"
+                    style="min-height: 400px;height:auto;border: 0;background-color: transparent; margin-bottom:40px"
                     data-aos="fade-up" class="carousel slide" data-ride="carousel">
                     <!-- Indicators -->
-                    <ol class="carousel-indicators">
+                    <!-- <ol sty class="carousel-indicators">
                         <?php
                         foreach($post_ig as $i => $d){
                             echo '<li data-target="#myCarousel" data-slide-to="'.$i.'" '.($i==0 ? 'class="active"' :'').'></li>';
                         }
                         ?>
-                    </ol>
+                    </ol> -->
 
                     <!-- Wrapper for slides -->
                     <div class="carousel-inner">
                         <?php
                         foreach($post_ig as $i => $d){
                             echo '<div class="item '.($i==0?'active':'').'">
-                                <img style="border-radius: 19px;height:350px" src="'.$d->media_url.'" onerror="this.src=`'.base_url("assets/img/no-image.svg").'`">
+                                <a href="'.$d->media_url.'" class="gallery-lightbox"
+                                data-gall="gallery-carousel" role="button">
+                                    <img style="height:100%;width:100%; border-radius:5px" src="'.$d->media_url.'" onerror="this.src=`'.base_url("assets/img/no-image.svg").'`">
+                                </a>
                             </div>';
                         }?>
                     </div>
-                    <div style="margin: 10px 0px"><a href="https://www.instagram.com/kejari.boalemo" target="_blank"><i
-                                class="bx bxl-instagram"></i>lihat lainya di instagram</a></div>
+                    <div style="margin: 10px 0px"><a href="https://www.instagram.com/kejari.boalemo" target="_blank">
+                            <!--<i class="bx bxl-instagram"></i>-->lihat lainya
+                        </a></div>
                 </div>
+            </div>
+        </div>
+        <div class="row no-gutters">
+            <div class="col-lg box" data-aos="fade-right">
+                <h4><span>Berita Terbaru</span></h4>
+                <?php foreach($berita_terbaru as $r){
+                    echo '<div class="row content" style="margin: 10px 0px">
+                            <div class="col-md-4 img-wrap" data-aos="fade-right">
+                                <a href="'.base_url('/berita')."/".$r->post_name.'" >
+                                    <img  style="height: 100%; width: 100%; object-fit: cover;" src="'.$r->thumbnail.'" onerror="this.src=`'.base_url("assets/img/no-image.svg").'`" class="img-fluid" alt="" />
+                                </a>
+                            </div>
+                            <div class="col-md-8" data-aos="fade-right">
+                                <a style="
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    display: -webkit-box;
+                                    -webkit-line-clamp: 3;
+                                    -webkit-box-orient: vertical;
+                                " href="'.base_url('berita/'.$r->post_name).'">'.$r->post_title.'<br/></a>
+                            </div>
+                        </div>';
+                }?>
+                <a href=<?php echo base_url('berita/'); ?> class="get-started-btn">Berita lainnya...</a>
+                <br />
+                <br />
+                <?php $tag_color = array("btn-primary","btn-secondary","btn-success","btn-danger","btn-warning","btn-info","btn-dark");
+                    if(!isset($not_found) or !$not_found){
+                        echo "<h4>#<span>TAG</span></h4><h6>";
+                        if(isset($tags) && $tags !==''){
+                            foreach(explode(';',$tags) as $r){
+                                echo '<button type="button" class="btn '.$tag_color[array_rand($tag_color,1)].' btn-sm">'.$r.'</button>';
+                                echo '<a href="'.base_url('berita?tag='.$r).'" type="button" class="btn '.$tag_color[array_rand($tag_color,1)].' btn-sm">'.$r.'</a>';
+                            }
+                        }else{
+                            echo '<p style="text-align: center;color:lightgray;"><i>Tidak ada tag pada artikel ini</i></p>';
+                        }
+                    }?>
+                </h6>
             </div>
         </div>
         <div class="row no-gutters">
@@ -47,36 +91,6 @@
                         </li>';}?>
                     </ul>
                 </div>
-            </div>
-        </div>
-        <div class="row no-gutters">
-            <div class="col-lg box" data-aos="fade-right">
-                <h4><span>Berita Terbaru</span></h4>
-                <?php foreach($berita_terbaru as $r){
-                    echo '<a style="
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                        display: -webkit-box;
-                        -webkit-line-clamp: 1;
-                        -webkit-box-orient: vertical;
-                    " href="'.base_url('berita/'.$r->post_name).'"><i class="bx bx-check" ></i>'.$r->post_title.'<br/></a>';
-                }?>
-                <a href=<?php echo base_url('berita/'); ?> class="get-started-btn">Berita lainnya...</a>
-                <br />
-                <br />
-                <?php $tag_color = array("btn-primary","btn-secondary","btn-success","btn-danger","btn-warning","btn-info","btn-dark");
-                    if(!isset($not_found) or !$not_found){
-                        echo "<h4>#<span>TAG</span></h4><h6>";
-                        if(isset($tags) && $tags !==''){
-                            foreach(explode(';',$tags) as $r){
-                                echo '<button type="button" class="btn '.$tag_color[array_rand($tag_color,1)].' btn-sm">'.$r.'</button>';
-                                echo '<a href="'.base_url('berita?tag='.$r).'" type="button" class="btn '.$tag_color[array_rand($tag_color,1)].' btn-sm">'.$r.'</a>';
-                            }
-                        }else{
-                            echo '<p style="text-align: center;color:lightgray;"><i>Tidak ada tag pada artikel ini</i></p>';
-                        }
-                    }?>
-                </h6>
             </div>
         </div>
     </div>
