@@ -2,10 +2,12 @@
 
 namespace App\Controllers;
 use App\Models\PageModel;
+include('ExsternalApiController.php');
 
 class Page extends BaseController{    
     public function __construct(){
         $this->page_model = new PageModel();
+        $this->ig_handler = new ExsternalApiController();
     }
 
     public function index($post_name){
@@ -14,35 +16,11 @@ class Page extends BaseController{
         else{
             $data['page_title'] = $data['data'][0]->post_title;
         }
-        $data['post_ig'] = $this->getPostInstagram();
+        $data['post_ig'] = $this->ig_handler->getPostInstagram();
         $data['count_month'] = $this->page_model->getCountBerita();
         $data['count_year'] = $this->page_model->getYearCountBerita();
         $data['berita_terbaru'] = $this->page_model->getListBerita()->limit(5)->get()->getResult();
         return view('public/berita/page', $data);
-    }
-
-    function getPostInstagram(){
-        $url = "https://graph.instagram.com/me/media?fields=media_url&access_token=";
-        $url .= getenv('ACCESS_TOKEN');
-        $url .= '&limit=5';
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 20);
-        $result = curl_exec($ch);
-        if($result==null){ 
-            $result = (Object) array(
-                'data' => []
-            );
-        }else{
-            $result = json_decode($result);
-        }
-        curl_close($ch);
-        if(property_exists($result, 'data')) return $result->data;
-        else{
-            echo '<script>console.error(`Instagram => '.json_encode($result).'`);</script>';
-            return [];
-        }
     }
 
     function pageNotFound($arr){
@@ -62,7 +40,7 @@ class Page extends BaseController{
             $data['tags'] = $this->page_model->getTagsBerita($post_name)[0]->tags;
         }
         $data['count_month'] = $this->page_model->getCountBerita();
-        $data['post_ig'] = $this->getPostInstagram();
+        $data['post_ig'] = $this->ig_handler->getPostInstagram();
         $data['count_year'] = $this->page_model->getYearCountBerita();
         $data['berita_terbaru'] = $this->page_model->getListBerita()->limit(5)->get()->getResult();
         return view('public/berita/artikel', $data);

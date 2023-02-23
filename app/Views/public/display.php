@@ -22,7 +22,8 @@
 </head>
 
 <body>
-    <button style="position: fixed; display: block" onClick="requestFullScreen()">fullscreen</button>
+    <!-- requestFullScreen -->
+    <button style="position: fixed; display: block; width: 100%; height:100%; background:transparent; border: none;z-index: 1;" onClick="requestFullScreen()"></button>
     <div class="app">
         <!-- Galeri slider -->
         <div id="tab_1" class="body">
@@ -168,7 +169,6 @@
         // Supports most browsers and their versions.
         var requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element
             .mozRequestFullScreen || element.msRequestFullScreen;
-
         if (requestMethod) { // Native full screen.
             requestMethod.call(element);
         } else if (typeof window.ActiveXObject !== "undefined") { // Older IE.
@@ -176,6 +176,14 @@
             if (wscript !== null) {
                 wscript.SendKeys("{F11}");
             }
+        // } else {
+        //     if (document.exitFullscreen) {
+        //         document.exitFullscreen();
+        //     } else if (document.webkitExitFullscreen) { /* Safari */
+        //         document.webkitExitFullscreen();
+        //     } else if (document.msExitFullscreen) { /* IE11 */
+        //         document.msExitFullscreen();
+        //     }
         }
     }
     </script>

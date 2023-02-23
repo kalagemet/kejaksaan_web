@@ -22,10 +22,25 @@ class MainModel extends Model
         return $data->getResult();
     }
     
-    public function getVariable($param){
+    public function getVariable($param, $full = false){
+        $string = 'value';
+        if($full) $string = '*';
         $data = $this->db;
-        $data = $data->table('tbl_env')->select('value')->where('variable',$param)->limit(1)->get();
+        $data = $data->table('tbl_env')->select($string)->where('variable',$param)->limit(1)->get();
         return $data->getResult();
+    }
+
+    public function setVariable($param, $value){
+        try {
+            $data = $this->db->table('tbl_env');
+            $status = $data->select('id')->where('variable', $param)->limit(1)->get()->getResult();
+            if($status){
+                $data = $data->set('value',$value)->where('variable',$param)->update();
+            }
+            return true;
+        } catch(Exception $e) {
+            return $e;
+        }
     }
 
     public function getJadwalSidang($param){

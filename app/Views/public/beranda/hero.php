@@ -24,6 +24,9 @@
                       <a data-aos="fade-up" href="<?php echo base_url('berita');?>" class="download-btn"><i
                               class="bx bx-news"></i>Lihat
                           Berita</a>
+                          <a data-aos="fade-up" style="background: dodgerblue;" href="https://bukutamu.kejaksaan.go.id/kejaksaan-negeri-boalemo" class="download-btn"><i
+                              class="bx bx-log-in"></i>Buat Kunjungan/Ambil Tilang
+                          </a>
                   </div>
               </div>
           </div>

@@ -5,6 +5,7 @@ use App\Models\MainModel;
 use App\Models\PegawaiModel;
 use App\Models\PageModel;
 use App\Models\FotoModel;
+include('ExsternalApiController.php');
 
 // secret site key recaptha = 6LcIhhsiAAAAADc8LeRwMX7KQlT6r2lHv0eaB3_s
 
@@ -14,30 +15,7 @@ class Home extends BaseController{
         $this->page_model = new PageModel();
         $this->pegawai = new PegawaiModel();
         $this->galeri_model = new FotoModel();
-    }
-
-    function getPostInstagram(){
-        $url = "https://graph.instagram.com/me/media?fields=media_url&access_token=";
-        $url .= getenv('ACCESS_TOKEN');
-        $url .= '&limit=5';
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 20);
-        $result = curl_exec($ch);
-        if($result==null){ 
-            $result = (Object) array(
-                'data' => []
-            );
-        }else{
-            $result = json_decode($result);
-        }
-        curl_close($ch);
-        if(property_exists($result, 'data')) return $result->data;
-        else{
-            echo '<script>console.error(`Instagram => '.json_encode($result).'`);</script>';
-            return [];
-        }
+        $this->ig_handler = new ExsternalApiController();
     }
 
     public function index(){
@@ -46,7 +24,7 @@ class Home extends BaseController{
         $data['header'] = $this->main_model->getHeaderImage();
         $data['galeri'] = $this->galeri_model->getTerbaru();
         $data['hero'] = 'hero-img.png';
-        $data['post_ig'] = $this->getPostInstagram();
+        $data['post_ig'] = $this->ig_handler->getPostInstagram();
         $data['berita_terbaru'] = $this->page_model->getListBerita()->limit(4)->get()->getResult();
         return view('public/index', $data);
     }
@@ -84,7 +62,7 @@ class Home extends BaseController{
             $data['data'] = $this->pegawai->getListPegawai();
             $data['running_text'] = $this->main_model->getVariable('running_text');
             $data['timeout'] = $this->main_model->getVariable('display_timeout');
-            $data['post_ig'] = $this->getPostInstagram();
+            $data['post_ig'] = $this->ig_handler->getPostInstagram();
             $data['slider_display'] = $this->main_model->getVariable('slider');
             $data['slider_display'] = explode(';',$data['slider_display'][0]->value);
             return view('public/display', $data);
