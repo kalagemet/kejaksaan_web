@@ -30,7 +30,7 @@ class PageModel extends Model
     public function getPage($param){
         $data = new PageModel();
         $data = $data->select([
-            "post_author","IF(post_modified > post_date, DATE_FORMAT(post_modified,'%d %M %Y'), DATE_FORMAT(post_date,'%d %M %Y')) as post_modified","DATE_FORMAT(post_date,'%d %M %Y') as post_date","post_content","post_title","post_header"
+            "post_author","thumbnail","IF(post_modified > post_date, DATE_FORMAT(post_modified,'%d %M %Y'), DATE_FORMAT(post_date,'%d %M %Y')) as post_modified","DATE_FORMAT(post_date,'%d %M %Y') as post_date","post_content","post_title","post_header"
         ])->where('post_name',$param)->where('deleted_at is null')->where('post_status',"publish")->where('post_type',"page")->limit(1)->get();
         return $data->getResult();
     }
@@ -84,7 +84,7 @@ class PageModel extends Model
     public function getBerita($param){
         $data = new PageModel();
         $data = $data->select([
-            "post_author","IF(post_modified > post_date, DATE_FORMAT(post_modified,'%d %M %Y'), DATE_FORMAT(post_date,'%d %M %Y')) as post_modified","DATE_FORMAT(post_date,'%d %M %Y') as post_date","post_content","tags","post_title","post_header"
+            "post_author","thumbnail","IF(post_modified > post_date, DATE_FORMAT(post_modified,'%d %M %Y'), DATE_FORMAT(post_date,'%d %M %Y')) as post_modified","DATE_FORMAT(post_date,'%d %M %Y') as post_date","post_content","tags","post_title","post_header"
         ])->where('deleted_at is null')->where('post_name',$param)->where('post_status',"publish")->where('post_type',"post")->limit(1)->get();
         return $data->getResult();
     }

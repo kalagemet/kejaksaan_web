@@ -3,9 +3,10 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <title><?php if(isset($page_title)) echo $page_title; ?></title>
-    <meta content="" name="description">
-    <meta content="" name="keywords">
-
+    <!-- Rich Link -->
+    <meta property="og:title" content=<?php if(isset($page_title)) echo $page_title; ?>/>
+    <meta property="og:description" content="Kejaksaan Negeri Boalemo"/>
+    <meta property="og:image" content=<?php if(isset($thumbnail)) echo $thumbnail; ?>/>
     <!-- Favicons -->
     <link href=<?php echo base_url("favicon.ico"); ?> rel="icon">
     <link href=<?php echo base_url("favicon.ico"); ?> rel="apple-touch-icon">

@@ -37,6 +37,7 @@ class Page extends BaseController{
         if(count($data['data'])<1) $data = $this->pageNotFound($data);
         else{
             $data['page_title'] = $data['data'][0]->post_title;
+            $data['thumbnail'] = $data['data'][0]->thumbnail;
             $data['tags'] = $this->page_model->getTagsBerita($post_name)[0]->tags;
         }
         $data['count_month'] = $this->page_model->getCountBerita();
