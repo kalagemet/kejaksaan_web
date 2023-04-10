@@ -58,6 +58,7 @@
 </section><!-- End App Features Section -->
 <?php echo view('public/beranda/carousel');?>
 <?php echo view('public/beranda/pejabat');?>
+<?php echo view('public/beranda/etilang');?>
 <?php echo view('public/beranda/slider');?>
 <?php echo view('public/beranda/terbaru');?>
 <?php echo view('public/beranda/kontak');?>
