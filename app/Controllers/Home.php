@@ -108,7 +108,8 @@ class Home extends BaseController{
 
     public function jadwalsidang(){
         $data['datatables'] = true;
-        $data['data'] = $this->main_model->getJadwalSidang(date('m'));
+        $data['data'] = $this->main_model->getJadwalSidang(date('m'),true);
+        $data['now'] = $this->main_model->getJadwalSidangHariIni();
         $data['nama_bulan'] = date('F');
         $data['page_title'] = "Jadwal Sidang Kejaksaan Negeri Boalemo";
         return view('public/jadwal_sidang', $data);

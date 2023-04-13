@@ -13,8 +13,9 @@
                     <div class="col-lg-6 d-lg-flex flex-lg-column justify-content-center align-items-stretch pt-5 pt-lg-0 order-2 order-lg-1"
                         data-aos="fade-up">
                         <div>
-                            <h1>JADWAL SIDANG PIDUM</h1>
-                            <h2>Agenda Sidang Tindak Pidana Umum pada Bulan <?php echo $nama_bulan; ?></h2>
+                            <h1>JADWAL SIDANG</h1>
+                            <h2>Agenda Sidang Hari ini</h2>
+                            <?php var_dump($now); ?>
                         </div>
                     </div>
                     <div class="col-lg-6 d-lg-flex flex-lg-column align-items-stretch order-1 order-lg-2 hero-img"
@@ -28,6 +29,7 @@
         </section>
         <!-- End Hero -->
         <div class="container">
+            <h2>Agenda Sidang pada Bulan <?php echo $nama_bulan; ?></h2><br/>
             <div class="table-responsive">
                 <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
                     <div class="row">
@@ -55,8 +57,12 @@
                                         <th style='white-space: nowrap;' class="sorting sorting_asc" tabindex="0"
                                             aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending"
                                             aria-label="Jaksa Penuntut Umum: activate to sort column descending">
-                                            Jaksa Penuntut Umum
+                                            Penuntut Umum
                                         </th>
+                                        <th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable"
+                                            rowspan="1" colspan="1" aria-sort="ascending"
+                                            aria-label="Lokasi: activate to sort column descending">
+                                            Lokasi</th>
                                         <th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable"
                                             rowspan="1" colspan="1" aria-sort="ascending"
                                             aria-label="Keterangan: activate to sort column descending">

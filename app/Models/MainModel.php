@@ -43,7 +43,7 @@ class MainModel extends Model
         }
     }
 
-    public function getJadwalSidang($param){
+    public function getJadwalSidang($param, $all = true, $is_pidum = true){
         $data = $this->db;
         $data = $data->table('tbl_jadwalsidangpidum')->select([
             'id_jadwal',
@@ -52,8 +52,31 @@ class MainModel extends Model
             "DATE_FORMAT(tanggal, '%d %M %Y Jam %H:%i') as tanggal", 
             'agenda',
             'pasal',
+            'lokasi_sidang',
+            'is_pidum',
             'keterangan'
-        ])->where('deleted_at is null')->where("MONTH(tanggal) = '$param'")->orderBy('tanggal','DESC')->get();
+        ])->where('deleted_at is null')->where("MONTH(tanggal) = '$param'");
+        if(!$all){
+            if($is_pidum) $data = $data->where("is_pidum = 1");
+            else $data = $data->where("is_pidum = 0");
+        }
+        $data = $data->orderBy('tanggal','DESC')->get();
+        return $data->getResult();
+    }
+
+    public function getJadwalSidangHariIni(){
+        $data = $this->db;
+        $data = $data->table('tbl_jadwalsidangpidum')->select([
+            'id_jadwal',
+            'terdakwa', 
+            '(SELECT GROUP_CONCAT(nama," <br/>") FROM tbl_pegawai LEFT JOIN tbl_jpu on tbl_pegawai.id_pegawai=tbl_jpu.id_pegawai WHERE tbl_jpu.id_sidang = id_jadwal) as jaksa', 
+            "DATE_FORMAT(tanggal, '%d %M %Y Jam %H:%i') as tanggal", 
+            'agenda',
+            'pasal',
+            'lokasi_sidang',
+            'is_pidum',
+            'keterangan'
+        ])->where('deleted_at is null')->where("tanggal = NOW()")->orderBy('tanggal','DESC')->get();
         return $data->getResult();
     }
 

@@ -71,10 +71,16 @@ class Admin extends BaseController{
     }
 
     public function sidangpidum(){
-        if(!in_array('pidana-umum',session()->permission)) return redirect()->to(base_url('/cms'))->with('error', "Akun anda tidak diizinkan");
+        $bidang = 1;
+        if(!in_array('pidana-umum',session()->permission)){
+            if(!in_array('pidana-khusus',session()->permission)) return redirect()->to(base_url('/cms'))->with('error', "Akun anda tidak diizinkan");
+            $bidang = 0;
+        }
         $data['datatables'] = true;
         $data['select_bootstrap'] = true;
-        $data['data'] = $this->main_model->getJadwalSidang(date('m'));
+        $data['data'] = $this->main_model->getJadwalSidang(date('m'), false, $bidang);
+        if($bidang) $data['bidang'] = 'Pidum';
+        else $data['bidang'] = 'Pidsus';
         $data['jaksa'] = $this->pegawai->getJaksa();
         $data['nama_bulan'] = date('F');
         $data['page_title'] = "Jadwal Sidang Kejaksaan Negeri Boalemo";
@@ -82,7 +88,11 @@ class Admin extends BaseController{
     }
 
     public function addsidangpidum(){
-        if(!in_array('pidana-umum',session()->permission)) return redirect()->to(base_url('/cms'))->with('error', "Akun anda tidak diizinkan");
+        $bidang = 1;
+        if(!in_array('pidana-umum',session()->permission)){
+            if(!in_array('pidana-khusus',session()->permission)) return redirect()->to(base_url('/cms'))->with('error', "Akun anda tidak diizinkan");
+            $bidang = 0;
+        }
         if (!$this->validate([
 			'terdakwa' => [
 				'rules' => 'required|max_length[100]|min_length[2]',
@@ -121,6 +131,13 @@ class Admin extends BaseController{
 					'required' => '{field} Tidak boleh kosong',
 				]
 			],
+            'lokasi' => [
+				'rules' => 'required|max_length[100]',
+				'errors' => [
+					'required' => '{field} Tidak boleh kosong',
+                    'max_length' => '{field} Terlalu Panjang',
+				]
+			],
             'keterangan' => [
 				'rules' => 'required|max_length[200]',
 				'errors' => [
@@ -138,6 +155,8 @@ class Admin extends BaseController{
             'terdakwa' => ucfirst($this->request->getPost('terdakwa')),
             'pasal' => $this->request->getPost('pasal'),
             'agenda' => $this->request->getPost('agenda'),
+            'lokasi_sidang' => $this->request->getPost('lokasi'),
+            'is_pidum' => $bidang,
             'keterangan' => $this->request->getPost('keterangan')
         );
         $data = $this->main_model->setJadwalSidang($data, $this->request->getPost('jaksa'));

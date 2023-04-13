@@ -16,6 +16,8 @@ class JadwalSidangModel extends Model
         'terdakwa',
         'pasal',
         'agenda',
+        'lokasi_sidang',
+        'is_pidum',
         'keterangan'
     ];
  

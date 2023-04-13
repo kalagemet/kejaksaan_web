@@ -49,6 +49,10 @@
                                             </th>
                                             <th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable"
                                                 rowspan="1" colspan="1" aria-sort="ascending"
+                                                aria-label="Lokasi: activate to sort column descending">
+                                                Lokasi</th>
+                                            <th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable"
+                                                rowspan="1" colspan="1" aria-sort="ascending"
                                                 aria-label="Keterangan: activate to sort column descending">
                                                 Keterangan</th>
                                             <th rowspan="1" colspan="1">
@@ -63,6 +67,7 @@
                                             <td class='sorting_1'>$d->agenda</td>
                                             <td class='sorting_1'>$d->pasal</td>
                                             <td class='sorting_1'>$d->jaksa</td>
+                                            <td class='sorting_1'>$d->lokasi_sidang</td>
                                             <td class='sorting_1'>$d->keterangan</td>
                                             <td class='sorting_1'>
                                                 <!-- <input type='button' class='btn btn-warning' value='edit' /> -->
@@ -116,6 +121,12 @@
                                     echo '<option value="'.$d->id_pegawai.'">'.$d->nama.'</option>';
                                 }?>
                             </select>
+                        </div>
+                        <div class="col-xl-2 col-md-6 mb-4">
+                            <label for="lokasi">Lokasi:</label>
+                            <input require type="text" value="<?php echo old('lokasi'); ?>" name="lokasi"
+                                id="lokasi" class="form-control small" placeholder="PN - " aria-label="Search"
+                                aria-describedby="basic-addon2">
                         </div>
                         <div class="col-xl-2 col-md-6 mb-4">
                             <label for="keterangan">Keterangan:</label>
