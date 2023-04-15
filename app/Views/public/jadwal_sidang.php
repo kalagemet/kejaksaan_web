@@ -15,7 +15,19 @@
                         <div>
                             <h1>JADWAL SIDANG</h1>
                             <h2>Agenda Sidang Hari ini</h2>
-                            <?php var_dump($now); ?>
+                            <?php foreach($now as $i => $d){
+                                echo "<h3>$d->agenda</h3>
+                                <h4 style='color:green;'>$d->lokasi_sidang - $d->tanggal</h4>
+                                terdakwa <h5>$d->terdakwa</h5>
+                                <p style='color: yellowgreen'>$d->keterangan - $d->pasal</p>
+                                Jaksa Penuntut Umum:<h5> $d->jaksa</h5>";
+                            } ?>
+                            <!-- <td class='sorting_1'>$d->tanggal</td>
+                                            <td class='sorting_1'>$d->terdakwa</td>
+                                            <td class='sorting_1'>$d->agenda</td>
+                                            <td class='sorting_1'>$d->pasal</td>
+                                            <td class='sorting_1'>$d->jaksa</td>
+                                            <td class='sorting_1'>$d->keterangan</td> -->
                         </div>
                     </div>
                     <div class="col-lg-6 d-lg-flex flex-lg-column align-items-stretch order-1 order-lg-2 hero-img"
@@ -29,7 +41,7 @@
         </section>
         <!-- End Hero -->
         <div class="container">
-            <h2>Agenda Sidang pada Bulan <?php echo $nama_bulan; ?></h2><br/>
+            <h2>Agenda Sidang pada Bulan <?php echo $nama_bulan; ?></h2><br />
             <div class="table-responsive">
                 <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
                     <div class="row">

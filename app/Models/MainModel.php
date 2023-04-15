@@ -76,7 +76,7 @@ class MainModel extends Model
             'lokasi_sidang',
             'is_pidum',
             'keterangan'
-        ])->where('deleted_at is null')->where("tanggal = NOW()")->orderBy('tanggal','DESC')->get();
+        ])->where('deleted_at is null')->where("DATE(tanggal) = CURDATE()")->orderBy('tanggal','DESC')->get();
         return $data->getResult();
     }
 
