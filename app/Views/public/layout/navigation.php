@@ -38,7 +38,7 @@
                       <ul>
                           <li><a href=<?php echo base_url('perpustakaan'); ?>>Perpustakaan</a></li>
                           <li><a href=<?php echo base_url('whistleblowing'); ?>>Whistleblowing</a></li>
-                          <li><a href=<?php echo base_url('jadwal-sidang-pidum'); ?>>Jadwal Sidang Pidum</a></li>
+                          <li><a href=<?php echo base_url('jadwal-sidang-pidum'); ?>>Jadwal Sidang</a></li>
                           <li><a href=<?php echo base_url('barang-bukti'); ?>>Barang Bukti / Rampasan</a></li>
                           <li><a href=<?php echo base_url('#aduan'); ?>>Layanan Pengaduan</a></li>
                           <li><a href=<?php echo base_url('page/survei-kepuasan-masyarakat'); ?>>Survei Kepuasan

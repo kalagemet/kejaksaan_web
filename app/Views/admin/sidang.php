@@ -11,7 +11,7 @@
     <div class="container-fluid">
 
         <!-- Page Heading -->
-        <h1 class="h3 mb-2 text-gray-800">Jadwal Sidang Pidum Bulan <?php echo $nama_bulan; ?></h1>
+        <h1 class="h3 mb-2 text-gray-800">Jadwal Sidang Bulan <?php echo $nama_bulan; ?></h1>
 
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
@@ -124,8 +124,8 @@
                         </div>
                         <div class="col-xl-2 col-md-6 mb-4">
                             <label for="lokasi">Lokasi:</label>
-                            <input require type="text" value="<?php echo old('lokasi'); ?>" name="lokasi"
-                                id="lokasi" class="form-control small" placeholder="PN - " aria-label="Search"
+                            <input require type="text" value="<?php echo old('lokasi'); ?>" name="lokasi" id="lokasi"
+                                class="form-control small" placeholder="PN - " aria-label="Search"
                                 aria-describedby="basic-addon2">
                         </div>
                         <div class="col-xl-2 col-md-6 mb-4">
