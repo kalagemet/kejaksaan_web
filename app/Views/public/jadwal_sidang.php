@@ -22,12 +22,6 @@
                                 <p style='color: yellowgreen'>$d->keterangan - $d->pasal</p>
                                 Jaksa Penuntut Umum:<h5> $d->jaksa</h5>";
                             } ?>
-                            <!-- <td class='sorting_1'>$d->tanggal</td>
-                                            <td class='sorting_1'>$d->terdakwa</td>
-                                            <td class='sorting_1'>$d->agenda</td>
-                                            <td class='sorting_1'>$d->pasal</td>
-                                            <td class='sorting_1'>$d->jaksa</td>
-                                            <td class='sorting_1'>$d->keterangan</td> -->
                         </div>
                     </div>
                     <div class="col-lg-6 d-lg-flex flex-lg-column align-items-stretch order-1 order-lg-2 hero-img"
