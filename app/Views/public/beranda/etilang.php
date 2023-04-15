@@ -1,6 +1,6 @@
     <!-- ======= Gallery Section ======= -->
     <section id="tilang"
-        style="background-image: url('http://localhost:8080/assets/img/etilang_bg.svg'); background-position: bottom; background-size:contain;"
+        style="background-image: url('<?php echo base_url('/assets/img/etilang_bg.svg'); ?>'; background-position: bottom; background-size:contain;"
         class="tilang">
         <div class="container" data-aos="fade-up">
             <div class="section-title">
