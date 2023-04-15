@@ -83,6 +83,7 @@
                                             <td class='sorting_1'>$d->agenda</td>
                                             <td class='sorting_1'>$d->pasal</td>
                                             <td class='sorting_1'>$d->jaksa</td>
+                                            <td class='sorting_1'>$d->lokasi_sidang</td>
                                             <td class='sorting_1'>$d->keterangan</td>
                                         </tr>";
                                     } ?>
