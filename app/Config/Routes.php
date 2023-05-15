@@ -44,6 +44,8 @@ $routes->get('/berita(:any)', 'Page::artikel$1');
 $routes->get('/page(:any)', 'Page::index$1');
 //laporan
 $routes->post('/lapor', 'Home::lapor');
+//Laporan Pengaduan Masyarakat
+$routes->get('/lapdu_v1', 'Home::lapdu');
 
 
 // Admin 

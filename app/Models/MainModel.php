@@ -204,4 +204,14 @@ class MainModel extends Model
             return $e;
         }
     }
+
+    public function getKategoriLapdu(){
+        $data = $this->db;
+        $data = $data->table('tbl_lapdu_kategori')->select([
+            'id',
+            'kategori',
+            'keterangan'
+        ])->get();
+        return $data->getResult();
+    }
 }

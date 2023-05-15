@@ -190,4 +190,10 @@ class Home extends BaseController{
         $data['page_title'] = "Daftar Barang Bukti Perkara - Kejaksaan Negeri Boalemo";
         return view('public/daftar_barang_bukti', $data);
     }
+
+    public function lapdu(){
+        $data['page_title'] = "Laporan Pengaduan Masyarakat Online";
+        $data['kategori_lapdu'] = $this->main_model->getKategoriLapdu();
+        return view('public/lapdu', $data);
+    }
 }
