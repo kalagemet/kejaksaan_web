@@ -24,7 +24,7 @@
                     <div class="col-lg-6 info">
                         <i class="bx bx-envelope"></i>
                         <h4>Email</h4>
-                        <p>kn.boalemo@kejaksaan.go.id</p>
+                        <p>kejari.boalemo@kejaksaan.go.id</p>
                     </div>
                     <div class="col-lg-6 info">
                         <i class="bx bx-time-five"></i>

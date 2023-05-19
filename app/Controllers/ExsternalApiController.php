@@ -61,4 +61,17 @@ class ExsternalApiController extends BaseController{
             return [];
         }
     }
+
+    function validate_captca($captca){
+        $url = 'https://www.google.com/recaptcha/api/siteverify';
+        $myvars = 'secret=6LcIhhsiAAAAADc8LeRwMX7KQlT6r2lHv0eaB3_s&response='.$captca;
+        $ch = curl_init( $url );
+        curl_setopt( $ch, CURLOPT_POST, 1);
+        curl_setopt( $ch, CURLOPT_POSTFIELDS, $myvars);
+        curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt( $ch, CURLOPT_HEADER, 0);
+        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1);
+        $response = json_decode(curl_exec( $ch ));
+        return ($response->success==true);
+    }
 }

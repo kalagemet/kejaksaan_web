@@ -214,4 +214,53 @@ class MainModel extends Model
         ])->get();
         return $data->getResult();
     }
+
+    public function ticketLapduExist($key){
+        $this->db->table('tbl_lapdu_laporan')->where('tiket',$key);
+        $query = $this->db->table('tbl_lapdu_laporan')->where('tiket',$key)->get();
+        if ($query->getNumRows() > 0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public function saveLapdu($param){
+        try {
+            $data = $this->db->table('tbl_lapdu_laporan');
+            $data->set('id_lapdu','UUID()', FALSE);
+            $data->insert($param);
+            return true;
+        } catch(Exception $e) {
+            return $e;
+        }
+    }
+
+    public function getTiket($tiket){
+        $data = $this->db;
+        $data = $data->table('tbl_lapdu_laporan')->select([
+            "id_lapdu", 
+            "uraian", 
+            "tiket", 
+            "is_priority", 
+            "is_pending", 
+            "created_at",
+        ])->where("deleted_at is NULL")
+            ->where("is_active = 1")
+            ->orderBy('created_at','DESC')->get();
+        return $data->getResult();
+    }
+
+    public function getTindakLanjut($id){
+        $data = $this->db;
+        $data = $data->table('tbl_lapdu_tindakan')->select([
+            "tindakan", 
+            "oleh", 
+            "created_at"
+        ])->where("id_laporan",$id)
+            ->where("deleted_at IS NULL")
+            ->orderBy('created_at','DESC')->get();
+        return $data->getResult();
+    }
 }

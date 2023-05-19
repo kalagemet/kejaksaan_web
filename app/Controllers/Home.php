@@ -15,16 +15,17 @@ class Home extends BaseController{
         $this->page_model = new PageModel();
         $this->pegawai = new PegawaiModel();
         $this->galeri_model = new FotoModel();
-        $this->ig_handler = new ExsternalApiController();
+        $this->ext_api = new ExsternalApiController();
     }
 
     public function index(){
         $data['page_title'] = "Kejaksaan Negeri Boalemo";
+        $data['recaptcha'] = true;
         $data['pejabat'] = $this->pegawai->getPejabat();
         $data['header'] = $this->main_model->getHeaderImage();
         $data['galeri'] = $this->galeri_model->getTerbaru();
         $data['hero'] = 'hero-img.png';
-        $data['post_ig'] = $this->ig_handler->getPostInstagram();
+        $data['post_ig'] = $this->ext_api->getPostInstagram();
         $data['berita_terbaru'] = $this->page_model->getListBerita()->limit(4)->get()->getResult();
         return view('public/index', $data);
     }
@@ -62,7 +63,7 @@ class Home extends BaseController{
             $data['data'] = $this->pegawai->getListPegawai();
             $data['running_text'] = $this->main_model->getVariable('running_text');
             $data['timeout'] = $this->main_model->getVariable('display_timeout');
-            $data['post_ig'] = $this->ig_handler->getPostInstagram();
+            $data['post_ig'] = $this->ext_api->getPostInstagram();
             $data['slider_display'] = $this->main_model->getVariable('slider');
             $data['slider_display'] = explode(';',$data['slider_display'][0]->value);
             return view('public/display', $data);
@@ -193,7 +194,249 @@ class Home extends BaseController{
 
     public function lapdu(){
         $data['page_title'] = "Laporan Pengaduan Masyarakat Online";
+        $data['recaptcha'] = true;
         $data['kategori_lapdu'] = $this->main_model->getKategoriLapdu();
         return view('public/lapdu', $data);
+    }
+
+    public function lapdu_v1_create(){
+        if (!$this->validate([
+            'captca' => [
+				'rules' => 'required',
+				'errors' => [
+					'required' => '{field} Tidak Valid',
+				]
+			],
+			'kategori' => [
+				'rules' => 'required|is_not_unique[tbl_lapdu_kategori.id]',
+				'errors' => [
+					'required' => '{field} Tidak boleh kosong',
+                    'is_not_unique' => '{field} Tidak Valid',
+				]
+			],
+            'nama' => [
+				'rules' => 'max_length[100]|permit_empty',
+				'errors' => [
+                    'max_length' => '{field} Terlalu Panjang atau kosongkan',
+				]
+			],
+            'telepon' => [
+				'rules' => 'max_length[15]|min_length[8]|permit_empty',
+				'errors' => [
+                    'max_length' => '{field} Terlalu Panjang atau kosongkan',
+                    'min_length' => '{field} Terlalu Pendek atau kosongkan',
+				]
+			],
+            'email' => [
+				'rules' => 'valid_email|max_length[100]|permit_empty',
+				'errors' => [
+                    'valid_email' => '{field} Tidak Valid atau kosongkan',
+                    'max_length' => '{field} Terlalu Panjang atau kosongkan',
+				]
+			],
+            'isi' => [
+				'rules' => 'required|max_length[256]|min_length[10]',
+				'errors' => [
+					'required' => '{field} Tidak boleh kosong',
+                    'max_length' => '{field} Terlalu Panjang',
+                    'min_length' => '{field} Terlalu Pendek',
+				]
+			],
+            'data_dukung' => [
+				'rules' => 'uploaded[data_dukung]|max_size[data_dukung, 4096]|mime_in[data_dukung,application/pdf]',
+				'errors' => [
+                    'uploaded' => '{field} Tidak boleh kosong',
+                    'max_size' => '{field} Terlalu besar',
+                    'mime_in' => '{field} Harus dalam bentuk PDF',
+				]
+			],
+        ])){
+			session()->setFlashdata('error', $this->validator->listErrors());
+			return redirect()->back()->withInput();
+		}
+        $captca = $this->ext_api->validate_captca($this->request->getPost('captca'));
+        if(!$captca) return redirect()->back()->with('error', "Captca tidak valid refresh halaman ini");
+        //generate ticket number
+        $num = 1001;
+        $tgl = date("Ymdhis");
+        $tiket = $tgl.$num;
+        $cek = $this->main_model->ticketLapduExist($tiket);
+        while($cek){
+            $num++;
+            $tiket = $tgl.$num;
+            $cek = $this->main_model->ticketLapduExist($tiket);
+        }
+        $upload = $this->request->getFile('data_dukung');
+        if (!file_exists('media/lapdu')) {
+            mkdir('media/lapdu', 0777, true);
+        }
+        $filename = $tiket.'.'.$upload->getClientExtension();
+		$upload->move('media/lapdu/', $filename);
+        $data = array(
+            'kategori' => $this->request->getPost('kategori'),
+            'nama_pelapor' =>  $this->request->getPost('nama'), 
+            'email' => $this->request->getPost('email'), 
+            'tlp' => $this->request->getPost('telepon'), 
+            'uraian' => $this->request->getPost('isi'), 
+            'data' => $filename, 
+            'tiket' =>  $tiket,
+            'is_active' => 1,
+            'is_priority' => 0,
+            'is_pending' => 0,
+        );
+        $data = $this->main_model->saveLapdu($data);
+        if($data){
+            return redirect()->back()->with('success', $tiket);
+        }
+        return redirect()->back()->with('error', "Terjadi kesalahan, slahkan ulangi beberapa saat lagi");
+    }
+
+    function printTicketHTML() {
+        $nomor =  $this->request->getGet('tiket');
+        if($this->main_model->ticketLapduExist($nomor)){
+            // Mengatur header Content-Type ke text/html
+            header('Content-Type: text/html');
+            // Menghasilkan tampilan HTML tiket
+            echo '
+            <!DOCTYPE html>
+            <html>
+                <head>
+                <title>Tiket Laporan Pengaduan Masyarakat Online</title>
+                <style>
+                    body{
+                        display: none;
+                    }
+                    @media print {
+                        body{
+                            display: block;
+                        }
+                    }
+                    /* Gaya CSS untuk kop tiket */
+                    .header {
+                    text-align: center;
+                    margin-bottom: 20px;
+                    }
+                    .logo {
+                    width: 100px;
+                    height: 100px;
+                    }
+                    .organization {
+                    font-size: 24px;
+                    font-weight: bold;
+                    margin-bottom: 5px;
+                    }
+                    .address {
+                    font-size: 14px;
+                    margin-bottom: 5px;
+                    }
+                    .phone {
+                    font-size: 14px;
+                    margin-bottom: 5px;
+                    }
+                    .fax {
+                    font-size: 14px;
+                    margin-bottom: 20px;
+                    }
+                    .title {
+                    font-size: 28px;
+                    font-weight: bold;
+                    text-align: center;
+                    margin-bottom: 20px;
+                    }
+                    .content {
+                    font-size: 16px;
+                    margin-bottom: 20px;
+                    line-height: 1.5;
+                    }
+                    .ticket-number {
+                    text-align : center;
+                    font-size: xx-large;
+                    font-weight: bold;
+                    margin-bottom: 10px;
+                    }
+                    .date-time {
+                    font-size: 16px;
+                    font-style: italic;
+                    margin-bottom: 10px;
+                    }
+                    .message {
+                    margin-bottom: 10px;
+                    }
+                    .note {
+                    margin-bottom: 10px;
+                    }
+                    .btn-print {
+                    text-align: center;
+                    margin-top: 20px;
+                    }
+                </style>
+                <script>
+                    // Fungsi untuk memunculkan popup cetak
+                    window.print();
+                    window.addEventListener("afterprint", function() {
+                        window.close();
+                    });
+                </script>
+                </head>
+                <body>
+                <div class="header">
+                    <div class="organization">KEJAKSAAN NEGERI BOALEMO</div>
+                </div>
+                <div class="title">Tiket Laporan Pengaduan Masyarakat Online</div>
+                <div class="content">
+                    <div class="ticket-number">Nomor Tiket: #'.$nomor.'</div>
+                    <div class="date-time">19 Mei 2023, 10:30 WITA</div>
+                    <div class="message">
+                    Terima kasih atas laporan pengaduan Anda. Tiket ini merupakan bukti penerimaan laporan Anda oleh Kejaksaan Negeri Boalemo. Tim kami akan segera melakukan tindak lanjut terhadap laporan yang Anda ajukan.
+                    </div>
+                    <div class="note">
+                    Harap simpan tiket ini sebagai referensi untuk informasi lebih lanjut.
+                    </div>
+                </div>
+                </body>
+            </html>
+            ';
+        }else{
+            echo '<script>
+                    window.close();
+            </script>';
+        }
+    }
+
+    public function lapdu_v1_cek(){
+        if (!$this->validate([
+            'captca' => [
+				'rules' => 'required',
+				'errors' => [
+					'required' => '{field} Tidak Valid',
+				]
+			],
+			'tiket' => [
+				'rules' => 'required|is_not_unique[tbl_lapdu_laporan.tiket]',
+				'errors' => [
+					'required' => 'Nomor Tiket Tidak boleh kosong',
+                    'is_not_unique' => 'Tiket Tidak Ditemukan',
+				]
+			],
+        ])){
+			session()->setFlashdata('error_tiket', $this->validator->listErrors());
+			return redirect()->back()->withInput();
+		}
+        $captca = $this->ext_api->validate_captca($this->request->getPost('captca'));
+        if(!$captca) return redirect()->back()->with('error_tiket', "Captca tidak valid refresh halaman ini");
+        $tiket = $this->main_model->getTiket($this->request->getPost('tiket'));
+        $act = $this->main_model->getTindakLanjut($tiket[0]->id_lapdu);
+        $data = array(
+            'no_tiket' => $this->request->getPost('tiket'),
+            'uraian' => $tiket[0]->uraian,
+            'status' => $tiket[0]->is_pending?"Pending":"Aktif",
+            'prioritas' => $tiket[0]->is_priority?"Prioritas":"Normal",
+            'riwayat' => array_merge($act, [(object)[
+                "tindakan" => "Laporan dibuat",
+                "oleh" => "Pelapor",
+                "created_at" => $tiket[0]->created_at
+            ]])
+        );
+        return redirect()->back()->with('success_tiket', $data);
     }
 }

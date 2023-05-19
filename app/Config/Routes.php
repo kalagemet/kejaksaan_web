@@ -46,6 +46,9 @@ $routes->get('/page(:any)', 'Page::index$1');
 $routes->post('/lapor', 'Home::lapor');
 //Laporan Pengaduan Masyarakat
 $routes->get('/lapdu_v1', 'Home::lapdu');
+$routes->post('/lapdu_v1_cek', 'Home::lapdu_v1_cek');
+$routes->post('/lapdu_v1_create', 'Home::lapdu_v1_create');
+$routes->get('/lapdu_v1/tiket(:any)', 'Home::printTicketHTML');
 
 
 // Admin 

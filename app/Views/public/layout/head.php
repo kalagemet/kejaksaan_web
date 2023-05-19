@@ -4,9 +4,9 @@
 
     <title><?php if(isset($page_title)) echo $page_title; ?></title>
     <!-- Rich Link -->
-    <meta property="og:title" content=<?php if(isset($page_title)) echo $page_title; ?>/>
-    <meta property="og:description" content="Kejaksaan Negeri Boalemo"/>
-    <meta property="og:image" content=<?php if(isset($thumbnail)) echo $thumbnail; ?>/>
+    <meta property="og:title" content=<?php if(isset($page_title)) echo $page_title; ?> />
+    <meta property="og:description" content="Kejaksaan Negeri Boalemo" />
+    <meta property="og:image" content=<?php if(isset($thumbnail)) echo $thumbnail; ?> />
     <!-- Favicons -->
     <link href=<?php echo base_url("favicon.ico"); ?> rel="icon">
     <link href=<?php echo base_url("favicon.ico"); ?> rel="apple-touch-icon">
@@ -18,6 +18,8 @@
 
     <script src=<?php echo base_url("assets/js/jquery-3.4.1.js"); ?>></script>
     <!-- <script src=<?php echo base_url("assets/js/main.js"); ?>></script> -->
+
+    <script src="<?php echo base_url("assets/js/popper.js"); ?>"></script>
 
     <!-- Vendor CSS Files -->
     <link href=<?php echo base_url("assets/vendor/aos/aos.css"); ?> rel="stylesheet">
@@ -33,7 +35,7 @@
     <?php if(isset($datatables) && $datatables)
         echo "<link href='".base_url("assets/vendor/datatables/dataTables.bootstrap4.min.css")."' rel='stylesheet'>";
     ?>
-    <?php if($_SERVER['REQUEST_URI']=='/'){
+    <?php if(isset($recaptcha) && $recaptcha){
         echo '<script src="https://www.google.com/recaptcha/api.js" async defer></script>';
     }?>
 </head>
