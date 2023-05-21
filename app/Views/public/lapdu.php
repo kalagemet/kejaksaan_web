@@ -94,8 +94,7 @@
                                 name="isi" rows="5" required>
                         </div><br />
                         <div class="text-center">
-                            <button data-backdrop="static" data-keyboard="false" class="lapdu_kirim_button"
-                                id="lapdu_kirim_button" data-toggle="modal" data-target="#konfirmasi_kirim_lapdu"
+                            <button class="lapdu_kirim_button" id="lapdu_kirim_button" onClick="konfirmasi()"
                                 type="button">Kirim</button>
                         </div>
                     </form>
@@ -299,6 +298,18 @@ function cekTiket() {
         $('#konfirmasi_cek_lapdu').modal("show");
     } else {
         document.getElementById('id_laporan').focus();
+    }
+}
+
+function konfirmasi() {
+    if (document.getElementById('isi').value != '') {
+        $('#konfirmasi_kirim_lapdu').modal({
+            backdrop: 'static',
+            keyboard: false
+        })
+        $('#konfirmasi_kirim_lapdu').modal("show");
+    } else {
+        document.getElementById('isi').focus();
     }
 }
 
