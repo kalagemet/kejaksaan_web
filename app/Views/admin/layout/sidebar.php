@@ -105,6 +105,23 @@
         </div>
     </li>';?>
 
+    <!-- Nav Item - Tables -->
+    <?php if(in_array('intelijen',session()->permission))
+    echo '<li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLapdu" aria-expanded="true"
+            aria-controls="collapseLapdu">
+            <i class="fas fa-fw fa-circle"></i>
+            <span>Intelijen</span>
+        </a>
+        <div id="collapseLapdu" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href='.base_url("cms/admin-page/intelijen").'>Halaman Intel</a>
+                <h6 class="collapse-header">Pengaduan Masyarakat:</h6>
+                <a class="collapse-item" href='.base_url("cms/lapdu_v1").'>Daftar Lapdu</a>
+            </div>
+        </div>
+    </li>';?>
+
     <?php if(in_array('pidana-umum',session()->permission))
     echo '<li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePidum" aria-expanded="true"

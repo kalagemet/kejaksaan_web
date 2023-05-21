@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
+    <?php if(isset($datatables) && $datatables) { echo '<meta name="csrf-token" content="'.csrf_hash().'">';} ?>
     <title><?php if(isset($page_title)) echo $page_title; ?></title>
 
     <?php if(isset($summernote) && $summernote){

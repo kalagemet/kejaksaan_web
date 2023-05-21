@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 use App\Models\MainModel;
+use App\Models\LapduModel;
 use App\Models\PegawaiModel;
 use App\Models\PageModel;
 use App\Models\UsersModel;
@@ -12,6 +13,7 @@ class Admin extends BaseController{
     
     public function __construct(){
         $this->main_model = new MainModel();
+        $this->lapdu_model = new LapduModel();
         $this->pegawai = new PegawaiModel();
         $this->page_model = new PageModel();
         $this->user = new UsersModel();
@@ -380,5 +382,85 @@ class Admin extends BaseController{
             $msg = $data->getMessage();
         }
         return redirect()->to($_SERVER['HTTP_REFERER'])->with('success', $msg);
+    }
+
+    public function lapdu_v1(){
+        $data['datatables'] = true;
+        $data['page_title'] = "Laporan Pengaduan Masyarakat Kejaksaan Negeri Boalemo";
+        $request = service('request');
+        if(in_array('intelijen',session()->permission) or in_array($request->getGet('key'),session()->permission)){
+            $data['data'] = $this->lapdu_model->getLaporan();
+            // $data['csrfValue'] = csrf_hash();
+            return view('admin/lapdu', $data);
+        }else{
+            return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Akun tidak diizinkan");
+        }
+    }
+
+    public function fetch_lapdu_data(){
+        $request = service('request');
+        // if(!in_array('intelijen',session()->permission) or !in_array($request->getGet('key'),session()->permission)){
+        //     return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Akun tidak diizinkan");
+        // }
+        $lapduModel = $this->lapdu_model;
+        $columns = array(
+            0 => 'tbl_lapdu_laporan.created_at',
+            1 => 'tbl_lapdu_kategori.kategori',
+            2 => 'nama_pelapor',
+            3 => 'is_active',
+            4 => 'is_pending',
+            5 => 'is_priority',
+            6 => 'id_lapdu',
+            7 => 'tiket',
+            8 => 'COALESCE((SELECT CONCAT(DATE(created_at), " - ", tbl_lapdu_tindakan.tindakan)
+             FROM tbl_lapdu_tindakan 
+             WHERE tbl_lapdu_tindakan.id_laporan = tbl_lapdu_laporan.id_lapdu 
+             AND tbl_lapdu_tindakan.deleted_at is null
+             ORDER BY tbl_lapdu_tindakan.created_at DESC
+             limit 1
+             ), "<span style=color:red;>Belum ditindak lanjuti</span>") as tindakan'
+        );
+        $totalData = $lapduModel->getLaporan()->countAllResults();
+        $limit = $request->getPost('length');
+        $start = $request->getPost('start');
+        $order = $columns[$request->getPost('order')[0]['column']];
+        $search = $request->getPost('search')['value'];
+        $dir = $request->getPost('order')[0]['dir'];
+        $lapduData = $lapduModel->getLaporan($columns,$order,$dir,$limit,$start,$search)->get()->getResult();
+    
+        $totalFiltered = $lapduModel->countAllResults();
+        $data = array();
+        if (!empty($lapduData)) {
+            foreach ($lapduData as $row) {
+                $data[] = array(
+                    "id_lapdu" => $row->id_lapdu,
+                    "created_at" => $row->created_at,
+                    "kategori" => $row->kategori,
+                    "nama_pelapor" => $row->nama_pelapor,
+                    "tiket" => $row->tiket,
+                    "tindakan" => $row->tindakan,
+                    "status" => ($row->is_active?"Aktif":"<span style=color:green;>Selesai</span>"),
+                    "jenis" => ($row->is_priority?"<span style=color:red;>Prioritas</span>":"Normal")." - ".($row->is_pending?"<span style=color:orange;>Ditunda</span>":"Proses")
+                );
+            }
+        }
+        $json_data = array(
+            "draw" => intval($request->getPost('draw')),
+            "recordsTotal" => intval($totalData),
+            "recordsFiltered" => intval($totalFiltered),
+            "data" => $data
+        );
+        return $this->response->setJSON($json_data);
+    }
+
+    public function detail_lapdu(){
+        $data['datatables'] = true;
+        $data['page_title'] = "Laporan Pengaduan ";
+        $request = service('request');
+        if(in_array('intelijen',session()->permission) or in_array($request->getGet('key'),session()->permission)){
+            return view('admin/detail-lapdu', $data);
+        }else{
+            return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Akun tidak diizinkan");
+        }
     }
 }

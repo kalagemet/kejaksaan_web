@@ -97,6 +97,14 @@ $routes->get('/lapdu_v1/tiket(:any)', 'Home::printTicketHTML');
     //pegawai
     $routes->get('/cms/list_pegawai', 'Admin::daftar_pegawai',['filter' => 'authfilter']);
     $routes->get('/api/get_list_pegawai','DataPegawai::getListPegawai',['filter' => 'authfilter']);
+    //lapdu v1
+    $routes->get('/cms/lapdu_v1', 'Admin::lapdu_v1', ['filter' => 'authfilter']);
+    $routes->post('/cms/lapdu_v1', 'Admin::fetch_lapdu_data', ['filter' => 'authfilter']);
+    $routes->get('/cms/lapdu_v1(:any)', 'Admin::detail_lapdu', ['filter' => 'authfilter']);
+    $routes->get('/cms/get_csrf_token', function(){
+        return csrf_hash();
+    }, ['filter' => 'authfilter']);
+
 // });
 $routes->get('/login', 'Admin::login', ['filter' => 'isauthfilter']);
 $routes->post('/login', 'Admin::login_action', ['filter' => 'isauthfilter']);

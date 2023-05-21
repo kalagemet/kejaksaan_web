@@ -2,7 +2,7 @@
 <html lang="en" dir="">
 <?php echo view('admin/layout/head');?>
 
-<body class="bg-gradient-primary" id="page-top">
+<body class="bg-gradient-primary" style="background:white" id="page-top">
     <div class="container">
         <!-- Outer Row -->
         <div class="row justify-content-center">
@@ -11,7 +11,7 @@
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row" style="min-height: 500px;">
-                            <div style="background-image: url(/assets/img/kejaksaan_logo.svg)"
+                            <div style="background-image: url(/assets/img/cms.svg);background-size:350px;background-repeat:no-repeat;"
                                 class="col-lg-6 d-none d-lg-block bg-login-image"></div>
                             <div class="col-lg-6">
                                 <div class="p-5">
