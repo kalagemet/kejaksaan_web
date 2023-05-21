@@ -200,7 +200,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                                    onClick="grecaptcha.reset()">Batal</button>
+                                    onClick="grecaptcha.reset()$('#konfirmasi_cek_lapdu').modal('hide');">Batal</button>
                             </div>
                         </div>
                     </div>
