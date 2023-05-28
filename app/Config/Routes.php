@@ -100,7 +100,7 @@ $routes->get('/lapdu_v1/tiket(:any)', 'Home::printTicketHTML');
     $routes->get('/api/get_list_pegawai','DataPegawai::getListPegawai',['filter' => 'authfilter']);
     //lapdu v1
     $routes->get('/cms/lapdu_v1', 'Admin::lapdu_v1', ['filter' => 'authfilter']);
-    $routes->post('/cms/lapdu_v1', 'Admin::fetch_lapdu_data', ['filter' => 'authfilter']);
+    $routes->post('/cms/lapdu_v1', 'Admin::fetch_lapdu_data');
     $routes->get('/media/lapdu_v1(:any)', 'Admin::getPdfLapdu$1', ['filter' => 'authfilter']);
     $routes->get('/cms/lapdu_v1/(:segment)', 'Admin::detail_lapdu/$1', ['filter' => 'authfilter']);
     $routes->get('/cms/lapdu_v1/update/(:any)', 'Admin::setLapdu/$1/$2', ['filter' => 'authfilter']);
