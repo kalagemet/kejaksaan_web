@@ -3,6 +3,7 @@
 namespace App\Controllers;
 use App\Models\MainModel;
 use App\Models\LapduModel;
+use App\Models\TindakanModel;
 use App\Models\PegawaiModel;
 use App\Models\PageModel;
 use App\Models\UsersModel;
@@ -13,11 +14,12 @@ class Admin extends BaseController{
     
     public function __construct(){
         $this->main_model = new MainModel();
+        $this->tindakan_model = new TindakanModel();
         $this->lapdu_model = new LapduModel();
         $this->pegawai = new PegawaiModel();
         $this->page_model = new PageModel();
         $this->user = new UsersModel();
-        $this->jadwalsidangpidum = new JadwalSidangModel();
+        $this->jadwalsidangmodel = new JadwalSidangModel();
         $this->daftarbb = new DaftarBarangBukti();
     }
 
@@ -54,6 +56,7 @@ class Admin extends BaseController{
                     'islogin' => TRUE,
                     'permission' => explode(';',$dataUser['permission'])
                 ]);
+                if($this->request->getVar('url') != null) return redirect()->to(base_url(urldecode($this->request->getVar('url'))));
                 return redirect()->to(base_url('/cms'));
             } else {
                 session()->setFlashdata('error', 'Username & Password Salah');
@@ -80,11 +83,9 @@ class Admin extends BaseController{
         }
         $data['datatables'] = true;
         $data['select_bootstrap'] = true;
-        $data['data'] = $this->main_model->getJadwalSidang(date('m'), false, $bidang);
         if($bidang) $data['bidang'] = 'Pidum';
         else $data['bidang'] = 'Pidsus';
         $data['jaksa'] = $this->pegawai->getJaksa();
-        $data['nama_bulan'] = date('F');
         $data['page_title'] = "Jadwal Sidang Kejaksaan Negeri Boalemo";
         return view('admin/sidang', $data);
     }
@@ -92,7 +93,7 @@ class Admin extends BaseController{
     public function addsidangpidum(){
         $bidang = 1;
         if(!in_array('pidana-umum',session()->permission)){
-            if(!in_array('pidana-khusus',session()->permission)) return redirect()->to(base_url('/cms'))->with('error', "Akun anda tidak diizinkan");
+            if(!in_array('pidana-khusus',session()->permission)) return redirect()->to(base_url('/cms'))->with('error', "Akun anda tidak diizinkan"); 
             $bidang = 0;
         }
         if (!$this->validate([
@@ -161,14 +162,14 @@ class Admin extends BaseController{
             'is_pidum' => $bidang,
             'keterangan' => $this->request->getPost('keterangan')
         );
-        $data = $this->main_model->setJadwalSidang($data, $this->request->getPost('jaksa'));
+        $data = $this->jadwalsidangmodel->setJadwalSidang($data, $this->request->getPost('jaksa'));
         if($data) return redirect()->to(base_url('/cms/jadwal-sidang-pidum'))->with('success', "Berhasil menambahkan post");
         else return redirect()->to(base_url('/cms/jadwal-sidang-pidum'))->with('error', "Gagal menambahkan post");
     }
 
     public function deletesidangpidum($param){
         if(!in_array('pidana-umum',session()->permission)) return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Akun anda tidak diizinkan");
-        $data = $this->main_model->hapusJadwal($param);
+        $data = $this->jadwalsidangmodel->hapusJadwal($param);
         if($data){
             $msg = "Berhasil menghapus data";
         }else{
@@ -388,7 +389,7 @@ class Admin extends BaseController{
         $data['datatables'] = true;
         $data['page_title'] = "Laporan Pengaduan Masyarakat Kejaksaan Negeri Boalemo";
         $request = service('request');
-        if(in_array('intelijen',session()->permission) or in_array($request->getGet('key'),session()->permission)){
+        if(in_array('intelijen',session()->permission)){
             $data['data'] = $this->lapdu_model->getLaporan();
             // $data['csrfValue'] = csrf_hash();
             return view('admin/lapdu', $data);
@@ -399,14 +400,11 @@ class Admin extends BaseController{
 
     public function fetch_lapdu_data(){
         $request = service('request');
-        // if(!in_array('intelijen',session()->permission) or !in_array($request->getGet('key'),session()->permission)){
-        //     return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Akun tidak diizinkan");
-        // }
         $lapduModel = $this->lapdu_model;
         $columns = array(
             0 => 'tbl_lapdu_laporan.created_at',
             1 => 'tbl_lapdu_kategori.kategori',
-            2 => 'nama_pelapor',
+            2 => 'IF(nama_pelapor="", "<i>Tidak Dicantumkan</i>", nama_pelapor) as nama_pelapor',
             3 => 'is_active',
             4 => 'is_pending',
             5 => 'is_priority',
@@ -453,14 +451,126 @@ class Admin extends BaseController{
         return $this->response->setJSON($json_data);
     }
 
-    public function detail_lapdu(){
-        $data['datatables'] = true;
-        $data['page_title'] = "Laporan Pengaduan ";
+    public function detail_lapdu($param){
         $request = service('request');
-        if(in_array('intelijen',session()->permission) or in_array($request->getGet('key'),session()->permission)){
+        if(in_array('intelijen',session()->permission)){
+            $data['datatables'] = true;
+            $data['page_title'] = "Laporan Pengaduan ";
+            $detail = $this->lapdu_model->getLaporan([
+                'id_lapdu',
+                'tiket',
+                'tbl_lapdu_laporan.created_at as tanggal',
+                'tbl_lapdu_kategori.kategori as kategori',
+                'IF(nama_pelapor="", "<i>Tidak Dicantumkan</i>", nama_pelapor) as nama_pelapor',
+                'IF(tlp="", "<i>nomor tidak ada</i>", tlp) as tlp',
+                'IF(email="", "<i>email tidak ada</i>", email) as email',
+                'uraian',
+                'is_active',
+                'is_pending',
+                'is_priority',
+                "IF(is_active=1, '<span class=\"badge badge-primary\">Aktif</span>','<span class=\"badge badge-success\">Selesai</span>') as status",
+                "IF(is_pending,'<span class=\"badge badge-success\">Ditangguhkan</span>','<span class=\"badge badge-warning\">Proses</span>') as pending",
+                "IF(is_priority,'<span class=\"badge badge-danger\">Prioritas</span>','<span class=\"badge badge-secondary\">Normal</span>') as prioritas"
+            ])->where('id_lapdu',$param);
+            $tmp = $detail;
+            $tmp = $tmp->countAllResults(false);
+            $data['data'] = $detail->get()->getRow();
+            if($tmp<1){
+                session()->setFlashdata('error', 'ID Laporan tidak ditemukan');
+                return redirect()->to('cms/lapdu_v1/');
+            } 
+            $data['tindakan'] = array_merge($this->main_model->getTindakLanjut($param), [(object)[
+                "tindakan" => "Laporan dibuat",
+                "oleh" => "Pelapor",
+                "created_at" => $data['data']->tanggal
+            ]]);
             return view('admin/detail-lapdu', $data);
         }else{
             return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Akun tidak diizinkan");
         }
+    }
+
+    public function getPdfLapdu($param = "404"){
+        $lapduData = $this->lapdu_model->getLaporan(['tiket'])->where('id_lapdu',$param)->limit(1);
+        $tiket = "404";
+        if($lapduData->countAllResults()>0) $tiket = $lapduData->get()->getResult()[0]->tiket;
+        $filepath = FCPATH."/media/lapdu/".$tiket.".pdf";
+        if (!file_exists($filepath) || !is_readable($filepath) ) {
+            $data['error_code'] = '403';
+            $data['error_name'] = 'Anda tidak diizinkan mengakses halaman ini';
+            return view('error_production.php',$data);
+        }
+        http_response_code(200);
+        header("Content-Type: application/pdf");
+        readfile($filepath);
+        exit;
+    }
+
+    public function setLapdu($param = null, $value = null){
+        $request = service('request');
+        if(!in_array('intelijen',session()->permission)) return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Akun tidak diizinkan");
+        if(!in_array($param, ['is_active','is_pending','is_priority'])) return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Parameter salah");
+        $id = $this->lapdu_model->getLaporan(['id_lapdu'])->where('id_lapdu',$value)->countAllResults();
+        if($id<1) return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Parameter salah");
+        $data = $this->lapdu_model->setStatus($param, $value);
+        if($data){
+            $msg = "Berhasil mengupdate data";
+        }else{
+            $msg = $data->getMessage();
+        }
+        return redirect()->to($_SERVER['HTTP_REFERER'])->with('success', $msg);
+    }
+
+    public function hapusTindakan($param = null){
+        $request = service('request');
+        if(!in_array('intelijen',session()->permission)) return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Akun tidak diizinkan");
+        $id = $this->lapdu_model->getLaporan(['id_lapdu'])->where('id_lapdu',$param)->countAllResults();
+        if($id<1) return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Parameter salah");
+        $data = $this->tindakan_model->hapusTindakan($param);
+        if($data){
+            $msg = "Berhasil menghapus tindakan";
+        }else{
+            $msg = $data->getMessage();
+        }
+        return redirect()->to($_SERVER['HTTP_REFERER'])->with('success', $msg);
+    }
+
+    public function tambahTindakan(){
+        $request = service('request');
+        if(!in_array('intelijen',session()->permission)) return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Akun tidak diizinkan");
+        if (!$this->validate([
+            'id_lapdu' => [
+				'rules' => 'required|is_not_unique[tbl_lapdu_laporan.id_lapdu]:',
+				'errors' => [
+					'required' => '{field} Tidak boleh kosong',
+                    'is_not_unique' => '{field} tidak ditemukan',
+				]
+            ],
+            'tindakan' => [
+                'rules' => 'required|min_length[10]',
+                'errors' => [
+                    'required' => '{field} Tidak boleh kosong',
+                    'min_length' => '{field} Terlalu Pendek',
+                ]
+            ],
+			'oleh' => [
+				'rules' => 'required|min_length[3]',
+				'errors' => [
+					'required' => '{field} Tidak boleh kosong',
+                    'min_length' => '{field} Terlalu Pendek',
+				]
+			]
+        ])){
+            session()->setFlashdata('error', $this->validator->listErrors());
+            return redirect()->back()->withInput();
+        }
+        $data = array(
+            'id_laporan' => $this->request->getPost('id_lapdu'),
+            'tindakan' => $this->request->getPost('tindakan'),
+            'oleh' => $this->request->getPost('oleh')
+        );
+        $data = $this->tindakan_model->tambahTindakan($data);
+        if($data) return redirect()->to($_SERVER['HTTP_REFERER'])->with('success', "Berhasil menambahkan tindakan");
+        else return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Gagal menambahkan tindakan");
     }
 }

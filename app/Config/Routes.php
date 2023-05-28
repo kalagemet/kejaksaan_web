@@ -37,6 +37,7 @@ $routes->get('/daftar-urut-kepangkatan', 'Home::duk');
 $routes->get('/galeri', 'Home::galeri');
 $routes->get('/tentang/struktur-organisasi', 'DataPegawai::struktur');
 $routes->get('/jadwal-sidang-pidum', 'Home::jadwalsidang');
+$routes->post('/jadwal-sidang-pidum', 'Home::fetch_jadwalsidang_data');
 $routes->get('/barang-bukti', 'Home::barangbukti');
 // Artikel Routes
 $routes->get('/berita', 'Page::list_berita');
@@ -100,10 +101,15 @@ $routes->get('/lapdu_v1/tiket(:any)', 'Home::printTicketHTML');
     //lapdu v1
     $routes->get('/cms/lapdu_v1', 'Admin::lapdu_v1', ['filter' => 'authfilter']);
     $routes->post('/cms/lapdu_v1', 'Admin::fetch_lapdu_data', ['filter' => 'authfilter']);
-    $routes->get('/cms/lapdu_v1(:any)', 'Admin::detail_lapdu', ['filter' => 'authfilter']);
-    $routes->get('/cms/get_csrf_token', function(){
-        return csrf_hash();
-    }, ['filter' => 'authfilter']);
+    $routes->get('/media/lapdu_v1(:any)', 'Admin::getPdfLapdu$1', ['filter' => 'authfilter']);
+    $routes->get('/cms/lapdu_v1/(:segment)', 'Admin::detail_lapdu/$1', ['filter' => 'authfilter']);
+    $routes->get('/cms/lapdu_v1/update/(:any)', 'Admin::setLapdu/$1/$2', ['filter' => 'authfilter']);
+    $routes->get('/cms/lapdu_v1/delete/(:any)', 'Admin::hapusTindakan/$1', ['filter' => 'authfilter']);
+    $routes->post('/cms/lapdu_v1/add', 'Admin::tambahTindakan', ['filter' => 'authfilter']);
+    
+$routes->get('/cms/get_csrf_token', function(){
+    return csrf_hash();
+});
 
 // });
 $routes->get('/login', 'Admin::login', ['filter' => 'isauthfilter']);

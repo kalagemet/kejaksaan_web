@@ -10,7 +10,7 @@ class AuthFilter implements FilterInterface
     {
     	if (!session()->islogin)
 	    {
-	        return redirect()->to(base_url('/login'))->with('error', "Invalid Credential");
+	        return redirect()->to(base_url('/login?url='.urlencode(uri_string()).''))->with('error', "Invalid Credential");
 	    }
         // Do something here
     }

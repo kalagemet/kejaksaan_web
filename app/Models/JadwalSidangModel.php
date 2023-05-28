@@ -18,8 +18,34 @@ class JadwalSidangModel extends Model
         'agenda',
         'lokasi_sidang',
         'is_pidum',
-        'keterangan'
+        'keterangan',
+        'deleted_at'
     ];
+
+    public function getJadwalSidang($param = "*", $bidang=null, $order = null, $dir=null, $limit=null, $start=null, $search=null){
+        $data = new JadwalSidangModel();
+        $data = $data->select($param)
+        ->where('deleted_at is null')
+        ->where('MONTH(tanggal) = MONTH(CURDATE())')
+        ->where('YEAR(tanggal) = YEAR(CURDATE())');
+        if($order != null && $dir!=null){
+            $data = $data->orderBy($order, $dir);
+        }else{
+            $data = $data->orderBy('tanggal','ASC');
+        }
+        if($bidang=='pidum'){
+            $data = $data->where('is_pidum = 1');
+        }else if($bidang=='pidsus'){
+            $data = $data->where('is_pidum = 0');
+        }
+        if($search != null){
+            $data = $data->like('terdakwa', $search)->orLike('tanggal', $search);
+        }
+        if($limit != null && $start!=null){
+            $data = $data->limit($limit, $start);
+        }
+        return $data;
+    }
  
     public function setJadwalSidang($param, $jaksa = []){
         try {
@@ -48,7 +74,11 @@ class JadwalSidangModel extends Model
     public function hapusJadwal($param){
         try {
             $data = new JadwalSidangModel();
-            $data = $data->set('deleted_at',date("Y-m-d h:i:s"))->where('id_jadwal',$id)->update();
+            $data = $data->set('deleted_at',date("Y-m-d h:i:s"))->where('id_jadwal',$param)->update();
+            if($data){
+                $data = $this->db->table('tbl_jpu');
+                $data = $data->set('deleted_at',date("Y-m-d h:i:s"))->where('id_sidang',$param)->update();
+            }
             return true;
         } catch(Exception $e) {
             return $e;

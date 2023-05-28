@@ -62,43 +62,50 @@
             "columns": [{
                 "data": "created_at",
                 "render": function(data, type, row, meta) {
-                    return '<a style="font-size:medium" href="lapdu_v1/' + row.id_lapdu +
+                    return '<a style="font-size:medium" href="/cms/lapdu_v1/' + row
+                        .id_lapdu +
                         '">' + data + '</a>';
                 }
             }, {
                 "data": "kategori",
                 "render": function(data, type, row, meta) {
-                    return '<a style="font-size:medium" href="lapdu_v1/' + row.id_lapdu +
-                        '">' + data + '</a>';
+                    return '<a style="font-size:medium" href="/cms/lapdu_v1/' + row
+                        .id_lapdu +
+                        '"><span class="badge badge-primary">' + data + '</span></a>';
                 }
             }, {
                 "data": "nama_pelapor",
                 "render": function(data, type, row, meta) {
-                    return '<a style="font-size:medium" href="lapdu_v1/' + row.id_lapdu +
+                    return '<a style="font-size:medium" href="/cms/lapdu_v1/' + row
+                        .id_lapdu +
                         '">' + data + '</a>';
                 }
             }, {
                 "data": "tiket",
                 "render": function(data, type, row, meta) {
-                    return '<a style="font-size:medium" href="lapdu_v1/' + row.id_lapdu +
+                    return '<a style="font-size:medium" href="/cms/lapdu_v1/' + row
+                        .id_lapdu +
                         '">#' + data + '</a>';
                 }
             }, {
                 "data": "status",
                 "render": function(data, type, row, meta) {
-                    return '<a style="font-size:medium" href="lapdu_v1/' + row.id_lapdu +
+                    return '<a style="font-size:medium" href="/cms/lapdu_v1/' + row
+                        .id_lapdu +
                         '">' + data + '</a>';
                 }
             }, {
                 "data": "jenis",
                 "render": function(data, type, row, meta) {
-                    return '<a style="font-size:medium" href="lapdu_v1/' + row.id_lapdu +
+                    return '<a style="font-size:medium" href="/cms/lapdu_v1/' + row
+                        .id_lapdu +
                         '">' + data + '</a>';
                 }
             }, {
                 "data": "tindakan",
                 "render": function(data, type, row, meta) {
-                    return '<a style="font-size:medium" href="lapdu_v1/' + row.id_lapdu +
+                    return '<a style="font-size:medium" href="/cms/lapdu_v1/' + row
+                        .id_lapdu +
                         '">' + data + '</a>';
                 }
             }],

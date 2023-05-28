@@ -7,6 +7,7 @@
     <meta property="og:title" content=<?php if(isset($page_title)) echo $page_title; ?> />
     <meta property="og:description" content="Kejaksaan Negeri Boalemo" />
     <meta property="og:image" content=<?php if(isset($thumbnail)) echo $thumbnail; ?> />
+    <?php if(isset($datatables) && $datatables) { echo '<meta name="csrf-token" content="'.csrf_hash().'">';} ?>
     <!-- Favicons -->
     <link href=<?php echo base_url("favicon.ico"); ?> rel="icon">
     <link href=<?php echo base_url("favicon.ico"); ?> rel="apple-touch-icon">

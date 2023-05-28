@@ -8,6 +8,7 @@ class MainModel extends Model
 {
     public function __construct(){
         $this->db = \Config\Database::connect();
+        $this->jadwal_sidang = $this->db->table('tbl_jadwalsidangpidum');
     }
 
     public function getHeaderImage(){
@@ -43,43 +44,6 @@ class MainModel extends Model
         }
     }
 
-    public function getJadwalSidang($param, $all = true, $is_pidum = true){
-        $data = $this->db;
-        $data = $data->table('tbl_jadwalsidangpidum')->select([
-            'id_jadwal',
-            'terdakwa', 
-            '(SELECT GROUP_CONCAT(nama," <br/>") FROM tbl_pegawai LEFT JOIN tbl_jpu on tbl_pegawai.id_pegawai=tbl_jpu.id_pegawai WHERE tbl_jpu.id_sidang = id_jadwal) as jaksa', 
-            "DATE_FORMAT(tanggal, '%d %M %Y Jam %H:%i') as tanggal", 
-            'agenda',
-            'pasal',
-            'lokasi_sidang',
-            'is_pidum',
-            'keterangan'
-        ])->where('deleted_at is null')->where("MONTH(tanggal) = '$param'");
-        if(!$all){
-            if($is_pidum) $data = $data->where("is_pidum = 1");
-            else $data = $data->where("is_pidum = 0");
-        }
-        $data = $data->orderBy('tanggal','DESC')->get();
-        return $data->getResult();
-    }
-
-    public function getJadwalSidangHariIni(){
-        $data = $this->db;
-        $data = $data->table('tbl_jadwalsidangpidum')->select([
-            'id_jadwal',
-            'terdakwa', 
-            '(SELECT GROUP_CONCAT(nama," <br/>") FROM tbl_pegawai LEFT JOIN tbl_jpu on tbl_pegawai.id_pegawai=tbl_jpu.id_pegawai WHERE tbl_jpu.id_sidang = id_jadwal) as jaksa', 
-            "DATE_FORMAT(tanggal, '%d %M %Y Jam %H:%i') as tanggal", 
-            'agenda',
-            'pasal',
-            'lokasi_sidang',
-            'is_pidum',
-            'keterangan'
-        ])->where('deleted_at is null')->where("DATE(tanggal) = CURDATE()")->orderBy('tanggal','DESC')->get();
-        return $data->getResult();
-    }
-
     public function getDaftarBarangBukti($publik = false){
         $data = $this->db;
         $data = $data->table('tbl_barangbukti')->select([
@@ -97,42 +61,6 @@ class MainModel extends Model
         if($publik) $data = $data->where("is_release = 1");
         $data = $data->orderBy('register_barang','ASC')->get();
         return $data->getResult();
-    }
-
-    public function setJadwalSidang($param, $jaksa = []){
-        try {
-            $data = $this->db->table('tbl_jadwalsidangpidum');
-            $id = $data->select("UUID() as id")->get()->getResult();
-            $id = $id[0]->id;
-            $data->set('id_jadwal',$id);
-            $data->insert($param);
-            foreach($jaksa as $row){
-                $tmp = array(
-                    'id_sidang' => $id,
-                    'id_pegawai' => $row
-                );
-                $tmp = $this->db->table('tbl_jpu')
-                ->set('id_jpu','UUID()', FALSE)
-                ->insert($tmp);
-            }
-            return true;
-        } catch(Exception $e) {
-            return false;
-        }
-    }
-
-    public function hapusJadwal($param){
-        try {
-            $data = $this->db->table('tbl_jadwalsidangpidum');
-            $data = $data->set('deleted_at',date("Y-m-d h:i:s"))->where('id_jadwal',$param)->update();
-            if($data){
-                $data = $this->db->table('tbl_jpu');
-                $data = $data->set('deleted_at',date("Y-m-d h:i:s"))->where('id_sidang',$param)->update();
-            }
-            return true;
-        } catch(Exception $e) {
-            return $e;
-        }
     }
 
     public function setStatusCarousel($id){

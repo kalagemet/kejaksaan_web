@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controllers;
+use App\Models\JadwalSidangModel;
 use App\Models\MainModel;
 use App\Models\PegawaiModel;
 use App\Models\PageModel;
@@ -11,6 +12,7 @@ include('ExsternalApiController.php');
 
 class Home extends BaseController{
     public function __construct(){
+        $this->jadwal_sidang_model = new JadwalSidangModel();
         $this->main_model = new MainModel();
         $this->page_model = new PageModel();
         $this->pegawai = new PegawaiModel();
@@ -109,11 +111,72 @@ class Home extends BaseController{
 
     public function jadwalsidang(){
         $data['datatables'] = true;
-        $data['data'] = $this->main_model->getJadwalSidang(date('m'),true);
-        $data['now'] = $this->main_model->getJadwalSidangHariIni();
-        $data['nama_bulan'] = date('F');
+        $columns = array(
+            0 => 'id_jadwal',
+            1 => 'terdakwa', 
+            2 => '(SELECT GROUP_CONCAT(nama," <br/>") FROM tbl_pegawai LEFT JOIN tbl_jpu on tbl_pegawai.id_pegawai=tbl_jpu.id_pegawai WHERE tbl_jpu.id_sidang = id_jadwal) as jaksa', 
+            3 => "DATE_FORMAT(tanggal, '%d %M %Y Jam %H:%i') as tanggal", 
+            4 => 'agenda',
+            5 => 'pasal',
+            6 => 'lokasi_sidang',
+            7 => 'is_pidum',
+            8 => 'keterangan'
+        );
+        $data['now'] = $this->jadwal_sidang_model->getJadwalSidang($columns)->where('tanggal = CURDATE()')->get()->getResult();
         $data['page_title'] = "Jadwal Sidang Kejaksaan Negeri Boalemo";
         return view('public/jadwal_sidang', $data);
+    }
+
+    public function fetch_jadwalsidang_data(){
+        $request = service('request');
+        $jadwal = $this->jadwal_sidang_model;
+        $columns = array(
+            0 => 'id_jadwal',
+            1 => 'terdakwa', 
+            2 => '(SELECT GROUP_CONCAT(nama," <br/>") FROM tbl_pegawai LEFT JOIN tbl_jpu on tbl_pegawai.id_pegawai=tbl_jpu.id_pegawai WHERE tbl_jpu.id_sidang = id_jadwal) as jaksa', 
+            3 => "DATE_FORMAT(tanggal, '%d %M %Y Jam %H:%i') as tanggal", 
+            4 => 'agenda',
+            5 => 'pasal',
+            6 => 'lokasi_sidang',
+            7 => 'is_pidum',
+            8 => 'keterangan'
+        );
+        $totalData = $jadwal->getJadwalSidang()->countAllResults();
+        $limit = $request->getPost('length');
+        $pidum = $request->getPost('is_pidum');
+        $pidsus = $request->getPost('is_pidsus');
+        $start = $request->getPost('start');
+        $order = $columns[$request->getPost('order')[0]['column']];
+        $dir = $request->getPost('order')[0]['dir'];
+        $search = $request->getPost('search')['value'];
+        $bidang = null;
+        if($pidum) $bidang='pidum';
+        else if($pidsus) $bidang='pidsus';
+        $jadwalData = $jadwal->getJadwalSidang($columns,$bidang,$order,$dir,$limit,$start, $search)->get()->getResult();
+    
+        $totalFiltered = $jadwal->getJadwalSidang()->countAllResults();
+        $data = array();
+        if (!empty($jadwalData)) {
+            foreach ($jadwalData as $row) {
+                $data[] = array(
+                    'id_jadwal' => $row->id_jadwal,
+                    'tanggal' => $row->tanggal,
+                    'terdakwa' => $row->terdakwa,
+                    'agenda' => $row->agenda,
+                    'pasal' => $row->pasal,
+                    'jaksa' => $row->jaksa,
+                    'lokasi_sidang' => $row->lokasi_sidang,
+                    'keterangan' => $row->keterangan
+                );
+            }
+        }
+        $json_data = array(
+            "draw" => intval($request->getPost('draw')),
+            "recordsTotal" => intval($totalData),
+            "recordsFiltered" => intval($totalFiltered),
+            "data" => $data
+        );
+        return $this->response->setJSON($json_data);
     }
 
     public function lapor(){
