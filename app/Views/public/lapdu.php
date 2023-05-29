@@ -286,7 +286,7 @@
 </body>
 <script type="text/javascript">
 $(document).ready(function() {
-    var data = "<?php echo $_GET['tiket']; ?>";
+    var data = "<?php echo isset($_GET['tiket'])?$_GET['tiket']:""; ?>";
     if (data != "") {
         history.pushState(null, "", location.href.split("?")[0]);
         $("#id_laporan").val(data.replace(/[^0-9]/g, ''));
