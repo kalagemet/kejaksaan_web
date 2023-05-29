@@ -568,6 +568,6 @@ class Home extends BaseController{
                 "created_at" => $tiket[0]->created_at
             ]])
         );
-        return redirect()->back()->with('success_tiket', $data);
+        return redirect()->to($_SERVER['HTTP_REFERER'])->with('success_tiket', $data);
     }
 }
