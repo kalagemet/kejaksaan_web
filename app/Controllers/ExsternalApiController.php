@@ -2,6 +2,12 @@
 
 namespace App\Controllers;
 use App\Models\MainModel;
+/**
+ * Use the fully-qualified AllowDynamicProperties, otherwise the #[AllowDynamicProperties] attribute on "MyClass" WILL NOT WORK.
+ */
+use \AllowDynamicProperties;
+
+#[AllowDynamicProperties]
 
 // secret site key recaptha = 6LcIhhsiAAAAADc8LeRwMX7KQlT6r2lHv0eaB3_s
 

@@ -3,7 +3,13 @@
 namespace App\Models;
  
 use CodeIgniter\Model;
- 
+/**
+ * Use the fully-qualified AllowDynamicProperties, otherwise the #[AllowDynamicProperties] attribute on "MyClass" WILL NOT WORK.
+ */
+use \AllowDynamicProperties;
+
+#[AllowDynamicProperties]
+
 class JadwalSidangModel extends Model
 {
     protected $table      = 'tbl_jadwalsidangpidum';

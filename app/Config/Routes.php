@@ -39,6 +39,7 @@ $routes->get('/tentang/struktur-organisasi', 'DataPegawai::struktur');
 $routes->get('/jadwal-sidang-pidum', 'Home::jadwalsidang');
 $routes->post('/jadwal-sidang-pidum', 'Home::fetch_jadwalsidang_data');
 $routes->get('/barang-bukti', 'Home::barangbukti');
+$routes->post('/barang-bukti', 'Home::fetch_bb_data');
 // Artikel Routes
 $routes->get('/berita', 'Page::list_berita');
 $routes->get('/berita(:any)', 'Page::artikel$1');

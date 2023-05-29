@@ -3,6 +3,12 @@
 namespace App\Controllers;
 use App\Models\PageModel;
 include('ExsternalApiController.php');
+/**
+ * Use the fully-qualified AllowDynamicProperties, otherwise the #[AllowDynamicProperties] attribute on "MyClass" WILL NOT WORK.
+ */
+use \AllowDynamicProperties;
+
+#[AllowDynamicProperties]
 
 class Page extends BaseController{    
     public function __construct(){

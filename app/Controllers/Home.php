@@ -3,17 +3,24 @@
 namespace App\Controllers;
 use App\Models\JadwalSidangModel;
 use App\Models\MainModel;
+use App\Models\DaftarBarangBukti;
 use App\Models\PegawaiModel;
 use App\Models\PageModel;
 use App\Models\FotoModel;
 include('ExsternalApiController.php');
 
-// secret site key recaptha = 6LcIhhsiAAAAADc8LeRwMX7KQlT6r2lHv0eaB3_s
+/**
+ * Use the fully-qualified AllowDynamicProperties, otherwise the #[AllowDynamicProperties] attribute on "MyClass" WILL NOT WORK.
+ */
+use \AllowDynamicProperties;
+
+#[AllowDynamicProperties]
 
 class Home extends BaseController{
     public function __construct(){
         $this->jadwal_sidang_model = new JadwalSidangModel();
         $this->main_model = new MainModel();
+        $this->bb_model = new DaftarBarangBukti();
         $this->page_model = new PageModel();
         $this->pegawai = new PegawaiModel();
         $this->galeri_model = new FotoModel();
@@ -122,7 +129,7 @@ class Home extends BaseController{
             7 => 'is_pidum',
             8 => 'keterangan'
         );
-        $data['now'] = $this->jadwal_sidang_model->getJadwalSidang($columns)->where('tanggal = CURDATE()')->get()->getResult();
+        $data['now'] = $this->jadwal_sidang_model->getJadwalSidang($columns,null,null,null,null,null,date('Y-m-d'))->get()->getResult();
         $data['page_title'] = "Jadwal Sidang Kejaksaan Negeri Boalemo";
         return view('public/jadwal_sidang', $data);
     }
@@ -130,6 +137,7 @@ class Home extends BaseController{
     public function fetch_jadwalsidang_data(){
         $request = service('request');
         $jadwal = $this->jadwal_sidang_model;
+        $totalData = $jadwal;
         $columns = array(
             0 => 'id_jadwal',
             1 => 'terdakwa', 
@@ -141,20 +149,22 @@ class Home extends BaseController{
             7 => 'is_pidum',
             8 => 'keterangan'
         );
-        $totalData = $jadwal->getJadwalSidang()->countAllResults();
+        $totalData = $totalData->getJadwalSidang()->countAllResults(false);
         $limit = $request->getPost('length');
         $pidum = $request->getPost('is_pidum');
         $pidsus = $request->getPost('is_pidsus');
         $start = $request->getPost('start');
-        $order = $columns[$request->getPost('order')[0]['column']];
+        // $order = $columns[$request->getPost('order')[0]['column']];
+        $order = 'tanggal';
         $dir = $request->getPost('order')[0]['dir'];
         $search = $request->getPost('search')['value'];
         $bidang = null;
         if($pidum) $bidang='pidum';
         else if($pidsus) $bidang='pidsus';
-        $jadwalData = $jadwal->getJadwalSidang($columns,$bidang,$order,$dir,$limit,$start, $search)->get()->getResult();
-    
-        $totalFiltered = $jadwal->getJadwalSidang()->countAllResults();
+        $jadwalData = $jadwal->getJadwalSidang($columns,$bidang,$order,$dir,$limit,$start, $search);        
+        $totalFiltered = $jadwalData;
+        $totalFiltered = $totalFiltered->countAllResults(false);
+        $jadwalData = $jadwalData->get()->getResult();
         $data = array();
         if (!empty($jadwalData)) {
             foreach ($jadwalData as $row) {
@@ -250,9 +260,58 @@ class Home extends BaseController{
     public function barangbukti(){
         $data['datatables'] = true;
         $data['page'] = $this->page_model->getPage('daftar-barang-bukti');
-        $data['data'] = $this->main_model->getDaftarBarangBukti(true);
         $data['page_title'] = "Daftar Barang Bukti Perkara - Kejaksaan Negeri Boalemo";
         return view('public/daftar_barang_bukti', $data);
+    }
+
+    public function fetch_bb_data(){
+        $request = service('request');
+        $BB = $this->bb_model;
+        $totalData = $BB;
+        $columns = array(    
+            0 => 'jenis',
+            1 => 'register_perkara',
+            2 => 'CONCAT(no_putusan," ",tgl_putusan) as putusan',
+            3 => 'terdakwa', 
+            4 => 'register_barang', 
+            5 => 'amar_putusan',
+            6 => 'keterangan',
+            7 => 'id_barang',
+            8 => 'is_release'
+        );
+        $totalData = $totalData->getDaftarBarangBukti()->countAllResults(false);
+        $limit = $request->getPost('length');
+        $start = $request->getPost('start');
+        $order = $columns[$request->getPost('order')[0]['column']];
+        $dir = $request->getPost('order')[0]['dir'];
+        $search = $request->getPost('search')['value'];
+        $dataBB = $BB->getDaftarBarangBukti($columns,false,$order,$dir,$limit,$start, $search);        
+        $totalFiltered = $dataBB;
+        $totalFiltered = $totalFiltered->countAllResults(false);
+        $dataBB = $dataBB->get()->getResult();
+        $data = array();
+        if (!empty($dataBB)) {
+            foreach ($dataBB as $row) {
+                $data[] = array(
+                    'jenis' => $row->jenis,
+                    'register_perkara' => $row->register_perkara,
+                    'putusan' => $row->putusan,
+                    'terdakwa' => $row->terdakwa,
+                    'register_barang' => $row->register_barang,
+                    'amar_putusan' => $row->amar_putusan,
+                    'keterangan' => $row->keterangan,
+                    'id_barang' => $row->id_barang,
+                    'is_release' => $row->is_release
+                );
+            }
+        }
+        $json_data = array(
+            "draw" => intval($request->getPost('draw')),
+            "recordsTotal" => intval($totalData),
+            "recordsFiltered" => intval($totalFiltered),
+            "data" => $data
+        );
+        return $this->response->setJSON($json_data);
     }
 
     public function lapdu(){
@@ -433,13 +492,6 @@ class Home extends BaseController{
                     margin-top: 20px;
                     }
                 </style>
-                <script>
-                    // Fungsi untuk memunculkan popup cetak
-                    window.print();
-                    window.addEventListener("afterprint", function() {
-                        window.close();
-                    });
-                </script>
                 </head>
                 <body>
                 <div class="header">
@@ -455,8 +507,24 @@ class Home extends BaseController{
                     <div class="note">
                     Harap simpan tiket ini sebagai referensi untuk informasi lebih lanjut.
                     </div>
+                    <div id="qrcode" style="width:100px; height:100px; margin-top:15px;"></div>
                 </div>
                 </body>
+                <script src="'.base_url("assets/js/qrcode.js").'"></script>
+                <script text="text/javascript">
+                    var qrcode = new QRCode(document.getElementById("qrcode"), {
+                        width : 100,
+                        height : 100
+                    });
+                    qrcode.makeCode("'.base_url('lapdu_v1?tiket='.$nomor).'");
+                </script>
+                <script>
+                    // Fungsi untuk memunculkan popup cetak
+                    window.print();
+                    window.addEventListener("afterprint", function() {
+                        window.close();
+                    });
+                </script>
             </html>
             ';
         }else{

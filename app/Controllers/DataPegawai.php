@@ -2,6 +2,12 @@
 
 namespace App\Controllers;
 use App\Models\PegawaiModel;
+/**
+ * Use the fully-qualified AllowDynamicProperties, otherwise the #[AllowDynamicProperties] attribute on "MyClass" WILL NOT WORK.
+ */
+use \AllowDynamicProperties;
+
+#[AllowDynamicProperties]
 
 class DataPegawai extends BaseController{
     public function __construct(){

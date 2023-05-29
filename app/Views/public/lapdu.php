@@ -19,7 +19,7 @@
                             <div class="lapdu-search-container">
                                 <input oninput="this.value = this.value.replace(/[^0-9]/g, '')" id="id_laporan"
                                     type="text" class="search-input" placeholder="Nomor Tiket">
-                                <button onClick="cekTiket()" class="search-button">Cari</button>
+                                <button id="button-cekTiket" onClick="cekTiket()" class="search-button">Cari</button>
                             </div>
                             <div data-aos="fade-up" class="my-3">
                                 <?php if (!empty(session()->getFlashdata('error_tiket')))
@@ -285,6 +285,15 @@
     <?php echo view('public/layout/footer');?>
 </body>
 <script type="text/javascript">
+$(document).ready(function() {
+    var data = "<?php echo $_GET['tiket']; ?>";
+    if (data != "") {
+        history.pushState(null, "", location.href.split("?")[0]);
+        $("#id_laporan").val(data.replace(/[^0-9]/g, ''));
+        $("#button-cekTiket").click();
+    }
+});
+
 function cetak_tiket(url) {
     window.open(url, "_blank")
 }

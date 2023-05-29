@@ -32,56 +32,20 @@
                 <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
                     <div class="row">
                         <div class="col-sm-12">
-                            <table class="table table-bordered dataTable tabel_duk" id="dataTable" width="100%"
-                                cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                            <table class="table table-striped table-bordered" id="dataTable" cellspacing="0"
+                                role="grid">
                                 <thead>
-                                    <tr role="row">
-                                        <th class="sorting">No</th>
-                                        <th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable"
-                                            rowspan="1" colspan="1" aria-sort="ascending"
-                                            aria-label="Register: activate to sort column descending">Register</th>
-                                        <th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable"
-                                            rowspan="1" colspan="1" aria-sort="ascending"
-                                            aria-label="Jenis: activate to sort column descending">Jenis
-                                        </th>
-                                        <th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable"
-                                            rowspan="1" colspan="1" aria-sort="ascending"
-                                            aria-label="No Perkara: activate to sort column descending">No Perkara
-                                        </th>
-                                        <th style='white-space: nowrap;' class="sorting sorting_asc" tabindex="0"
-                                            aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending"
-                                            aria-label="Tgl / No Putusan: activate to sort column descending">Tgl / No
-                                            Putusan
-                                        </th>
-                                        <th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable"
-                                            rowspan="1" colspan="1" aria-sort="ascending"
-                                            aria-label="Terdakwa: activate to sort column descending">Terdakwa
-                                        </th>
-                                        <th style='white-space: nowrap;' class="sorting sorting_asc" tabindex="0"
-                                            aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending"
-                                            aria-label="Amar Putusan: activate to sort column descending">
-                                            Amar Putusan
-                                        </th>
-                                        <th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable"
-                                            rowspan="1" colspan="1" aria-sort="ascending"
-                                            aria-label="Keterangan: activate to sort column descending">
-                                            Keterangan</th>
+                                    <tr>
+                                        <th>Register</th>
+                                        <th>Jenis</th>
+                                        <th>Perkara</th>
+                                        <th>Putusan</th>
+                                        <th>Terdakwa</th>
+                                        <th>Amar Putusan</th>
+                                        <th>Keterangan</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <?php foreach($data as $i => $d){
-                                        echo "<tr class='".(($i%2==1)?'odd':'even')."'>
-                                            <td class='sorting_1'>".($i+1)."</td>
-                                            <td class='sorting_1'>$d->register_barang</td>
-                                            <td class='sorting_1'>$d->jenis</td>
-                                            <td class='sorting_1'>$d->register_perkara</td>
-                                            <td class='sorting_1'>$d->tgl_putusan - $d->no_putusan</td>
-                                            <td class='sorting_1'>$d->terdakwa</td>
-                                            <td class='sorting_1'>$d->amar_putusan</td>
-                                            <td class='sorting_1'>$d->keterangan</td>
-                                        </tr>";
-                                    } ?>
-                                </tbody>
+                                <tbody></tbody>
                             </table>
                         </div>
                     </div>
@@ -109,11 +73,76 @@
         </div>
         <!-- End of Content -->
     </main>
-
     <script type="text/javascript">
-    // Call the dataTables jQuery plugin
-    $(function() {
-        $(' #dataTable').DataTable();
+    $(document).ready(function() {
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
+            }
+        });
+        var dataTable = $('#dataTable').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                "url": "<?php echo base_url('barang-bukti'); ?>",
+                "type": "POST",
+            },
+            "columns": [{
+                "data": "register_barang",
+                "sortable": true
+            }, {
+                "data": "jenis",
+                "sortable": false
+            }, {
+                "data": "register_perkara",
+                "sortable": false
+            }, {
+                "data": "putusan",
+                "sortable": false
+            }, {
+                "data": "terdakwa",
+                "sortable": false
+            }, {
+                "data": "amar_putusan",
+                "sortable": false
+            }, {
+                "data": "keterangan",
+                "sortable": false
+            }],
+            "searching": false,
+            "paging": true,
+            "lengthMenu": [10, 25, 50, 100],
+            "pageLength": 10,
+            "language": {
+                "lengthMenu": "Tampilkan _MENU_ data per halaman",
+                "zeroRecords": "Data tidak ditemukan",
+                "info": "Menampilkan halaman _PAGE_ dari _PAGES_",
+                "infoEmpty": "Tidak ada data yang tersedia",
+                "infoFiltered": "(Filter dari _MAX_ total data)",
+                "paginate": {
+                    "first": "Pertama",
+                    "last": "Terakhir",
+                    "next": "Selanjutnya",
+                    "previous": "Sebelumnya"
+                }
+            }
+        });
+    });
+    //regenerate token
+    $('#dataTable').on('xhr.dt', function(e, settings, json) {
+        $.ajax({
+            url: "<?php echo base_url('cms/get_csrf_token'); ?>",
+            type: "GET",
+            success: function(response) {
+                // Mengupdate nilai token CSRF pada setiap permintaan Ajax DataTables
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': response
+                    }
+                });
+            }
+        });
     });
     </script>
     <?php echo view('public/layout/footer');?>

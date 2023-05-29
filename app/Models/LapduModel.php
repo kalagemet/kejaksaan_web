@@ -3,7 +3,13 @@
 namespace App\Models;
  
 use CodeIgniter\Model;
- 
+/**
+ * Use the fully-qualified AllowDynamicProperties, otherwise the #[AllowDynamicProperties] attribute on "MyClass" WILL NOT WORK.
+ */
+use \AllowDynamicProperties;
+
+#[AllowDynamicProperties]
+
 class LapduModel extends Model
 {
     protected $table      = 'tbl_lapdu_laporan';

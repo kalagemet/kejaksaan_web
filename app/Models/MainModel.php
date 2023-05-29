@@ -3,7 +3,13 @@
 namespace App\Models;
  
 use CodeIgniter\Model;
- 
+ /**
+ * Use the fully-qualified AllowDynamicProperties, otherwise the #[AllowDynamicProperties] attribute on "MyClass" WILL NOT WORK.
+ */
+use \AllowDynamicProperties;
+
+#[AllowDynamicProperties]
+
 class MainModel extends Model
 {
     public function __construct(){
@@ -42,25 +48,6 @@ class MainModel extends Model
         } catch(Exception $e) {
             return $e;
         }
-    }
-
-    public function getDaftarBarangBukti($publik = false){
-        $data = $this->db;
-        $data = $data->table('tbl_barangbukti')->select([
-            'id_barang', 
-            'terdakwa', 
-            'register_perkara',
-            'register_barang',
-            'jenis',
-            'no_putusan',
-            'amar_putusan',
-            'tgl_putusan',
-            'keterangan',
-            'is_release'
-        ])->where('deleted_at is null');
-        if($publik) $data = $data->where("is_release = 1");
-        $data = $data->orderBy('register_barang','ASC')->get();
-        return $data->getResult();
     }
 
     public function setStatusCarousel($id){

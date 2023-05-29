@@ -51,7 +51,6 @@
                                         <th>Penuntut Umum</th>
                                         <th>Lokasi</th>
                                         <th> Keterangan</th>
-                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -82,7 +81,7 @@
             },
             "columns": [{
                 "data": "tanggal",
-                "sortable": false
+                "sortable": true
             }, {
                 "data": "terdakwa",
                 "sortable": false

@@ -9,6 +9,12 @@ use App\Models\PageModel;
 use App\Models\UsersModel;
 use App\Models\JadwalSidangModel;
 use App\Models\DaftarBarangBukti;
+/**
+ * Use the fully-qualified AllowDynamicProperties, otherwise the #[AllowDynamicProperties] attribute on "MyClass" WILL NOT WORK.
+ */
+use \AllowDynamicProperties;
+
+#[AllowDynamicProperties]
 
 class Admin extends BaseController{
     
@@ -272,7 +278,6 @@ class Admin extends BaseController{
     public function barangbukti(){
         $data['datatables'] = true;
         $data['select_bootstrap'] = true;
-        $data['daftar'] = $this->main_model->getDaftarBarangBukti();
         $data['page_title'] = "Daftar Barang Bukti Kejaksaan Negeri Boalemo";
         $request = service('request');
         if(in_array('pengelola-barang-bukti',session()->permission) or in_array($request->getGet('key'),session()->permission)){
@@ -494,7 +499,7 @@ class Admin extends BaseController{
         $lapduData = $this->lapdu_model->getLaporan(['tiket'])->where('id_lapdu',$param)->limit(1);
         $tiket = "404";
         if($lapduData->countAllResults()>0) $tiket = $lapduData->get()->getResult()[0]->tiket;
-        $filepath = FCPATH."/media/lapdu/".$tiket.".pdf";
+        $filepath = FCPATH."media/lapdu/".$tiket.".pdf";
         if (!file_exists($filepath) || !is_readable($filepath) ) {
             $data['error_code'] = '403';
             $data['error_name'] = 'Anda tidak diizinkan mengakses halaman ini';
