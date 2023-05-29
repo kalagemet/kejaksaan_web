@@ -326,6 +326,7 @@ function recaptchaCekTiket(response) {
     document.getElementById("captca_tiket").value = response;
     document.getElementById("no_tiket").value = document.getElementById('id_laporan').value;
     if (response) {
+        $('#konfirmasi_cek_lapdu').modal("hide");
         document.getElementById("form_cek_lapor").submit();
     }
 }
@@ -333,6 +334,7 @@ function recaptchaCekTiket(response) {
 function recaptchaCallback(response) {
     document.getElementById("captca").value = response;
     if (response) {
+        $('#konfirmasi_kirim_lapdu').modal("hide");
         document.getElementById("form_lapor").submit();
     }
 }
