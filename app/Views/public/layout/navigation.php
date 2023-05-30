@@ -41,7 +41,7 @@
                           <li><a href=<?php echo base_url('jadwal-sidang-pidum'); ?>>Jadwal Sidang</a></li>
                           <li><a href=<?php echo base_url('barang-bukti'); ?>>Barang Bukti / Rampasan</a></li>
                           <li><a href=<?php echo base_url('lapdu_v1'); ?>>Laporan Pengaduan Masyarakat</a></li>
-                          <li><a href=<?php echo base_url('#aduan'); ?>>Layanan Pengaduan</a></li>
+                          <li><a href=<?php echo base_url('#aduan'); ?>>Layanan Kritik dan Saran</a></li>
                           <li><a href=<?php echo base_url('page/survei-kepuasan-masyarakat'); ?>>Survei Kepuasan
                                   Masyarakat</a></li>
                           <li><a href="https://tilang.kejaksaan.go.id/">e-Tilang</a></li>

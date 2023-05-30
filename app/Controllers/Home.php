@@ -427,6 +427,7 @@ class Home extends BaseController{
                 <style>
                     body{
                         display: none;
+                        margin: 80px;
                     }
                     @media print {
                         body{
@@ -443,21 +444,9 @@ class Home extends BaseController{
                     height: 100px;
                     }
                     .organization {
-                    font-size: 24px;
+                    font-size: 40px;
                     font-weight: bold;
-                    margin-bottom: 5px;
-                    }
-                    .address {
-                    font-size: 14px;
-                    margin-bottom: 5px;
-                    }
-                    .phone {
-                    font-size: 14px;
-                    margin-bottom: 5px;
-                    }
-                    .fax {
-                    font-size: 14px;
-                    margin-bottom: 20px;
+                    border-bottom: solid 2px;
                     }
                     .title {
                     font-size: 28px;
@@ -469,6 +458,7 @@ class Home extends BaseController{
                     font-size: 16px;
                     margin-bottom: 20px;
                     line-height: 1.5;
+                    text-align: center;
                     }
                     .ticket-number {
                     text-align : center;
@@ -487,10 +477,6 @@ class Home extends BaseController{
                     .note {
                     margin-bottom: 10px;
                     }
-                    .btn-print {
-                    text-align: center;
-                    margin-top: 20px;
-                    }
                 </style>
                 </head>
                 <body>
@@ -500,14 +486,16 @@ class Home extends BaseController{
                 <div class="title">Tiket Laporan Pengaduan Masyarakat Online</div>
                 <div class="content">
                     <div class="ticket-number">Nomor Tiket: #'.$nomor.'</div>
+                    <div id="qrcode" style="display:inline-block;margin 50px;width:100px; height:100px; margin-top:15px;"></div>
+                    <br/>
                     <div class="date-time">19 Mei 2023, 10:30 WITA</div>
                     <div class="message">
                     Terima kasih atas laporan pengaduan Anda. Tiket ini merupakan bukti penerimaan laporan Anda oleh Kejaksaan Negeri Boalemo. Tim kami akan segera melakukan tindak lanjut terhadap laporan yang Anda ajukan.
                     </div>
+                    <br/>
                     <div class="note">
                     Harap simpan tiket ini sebagai referensi untuk informasi lebih lanjut.
                     </div>
-                    <div id="qrcode" style="width:100px; height:100px; margin-top:15px;"></div>
                 </div>
                 </body>
                 <script src="'.base_url("assets/js/qrcode.js").'"></script>
