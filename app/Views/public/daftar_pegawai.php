@@ -35,6 +35,7 @@
                                 role="grid">
                                 <thead>
                                     <tr>
+                                        <th>No</th>
                                         <th>Nama Pegawai</th>
                                         <th>Jabatan</th>
                                         <th>Pangakat/Gol</th>
@@ -88,6 +89,9 @@
                 "type": "POST",
             },
             "columns": [{
+                "data": "no",
+                "sortable": false
+            }, {
                 "data": "nama",
                 "sortable": false
             }, {

@@ -74,14 +74,17 @@ class Home extends BaseController{
         // $order = 'tanggal';
         // $dir = $request->getPost('order')[0]['dir'];
         $search = $request->getPost('search')['value'];
-        $pegawaiData = $pegawai->getPegawai($columns,null,null,$limit,$start, $search);        
+        $pegawaiData = $pegawai->getPegawai($columns,null,null,$limit,$start,$search);        
         $totalFiltered = $pegawaiData;
         $totalFiltered = $totalFiltered->countAllResults(false);
         $pegawaiData = $pegawaiData->get()->getResult();
+        $number = $start;
         $data = array();
         if (!empty($pegawaiData)) {
             foreach ($pegawaiData as $row) {
+                $number++;
                 $data[] = array(
+                    'no' => $number,
                     'nama' => $row->nama,
                     'jabatan' => $row->jabatan,
                     'pangkat' => $row->pangkat,

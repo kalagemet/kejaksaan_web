@@ -37,9 +37,9 @@ class DaftarBarangBukti extends Model
             $data = $data->orderBy($order, $dir);
         }
         if($search != null){
-            $data = $data->like('jenis', $search)
+            $data = $data->groupStart()->like('jenis', $search)
             ->orLike('register_perkara', $search)
-            ->orLike('register_barang', $search);
+            ->orLike('register_barang', $search)->groupEnd();
         }
         if($limit != null && $start!=null){
             $data = $data->limit($limit, $start);

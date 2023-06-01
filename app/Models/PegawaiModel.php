@@ -49,7 +49,7 @@ class PegawaiModel extends Model
     public function getPegawai($param = ['*'], $order = null, $dir=null, $limit=null, $start=null, $search="", $all = false, $deleted = false){
         $data = new PegawaiModel();
         $data = $data->select($param)
-        ->join("tbl_status","tbl_pegawai.status=tbl_status.id_status","left"
+        ->groupStart()->join("tbl_status","tbl_pegawai.status=tbl_status.id_status","left"
         )->join("tbl_pangkat","tbl_pegawai.pangkat=tbl_pangkat.id_pangkat","left"
         )->join("tbl_pendidikan","tbl_pegawai.pendidikan=tbl_pendidikan.id_pendidikan","left"
         )->join("tbl_gelar","tbl_pendidikan.id_gelar=tbl_gelar.id_gelar","left"
@@ -57,8 +57,8 @@ class PegawaiModel extends Model
         ->like('tbl_pegawai.nama', $search)
         ->orLike('tbl_pegawai.nrp', $search)
         ->orLike('tbl_jabatan.nama_jabatan', $search)
-        ->orLike('tbl_pegawai.nip', $search);
-        if(!$all) $data = $data->where("tbl_pegawai.is_active",1);
+        ->orLike('tbl_pegawai.nip', $search)->groupEnd();
+        if(!$all) $data = $data->where("tbl_pegawai.is_active", 1);
         if(!$deleted) $data = $data->where("tbl_pegawai.deleted_at is null");
         if($order != null && $dir!=null){
             $data = $data->orderBy($order, $dir);
@@ -69,32 +69,6 @@ class PegawaiModel extends Model
             $data = $data->limit($limit, $start);
         }
         return $data;
-    }
-
-    public function getListPegawaiPublik(){
-        $data = new PegawaiModel();
-        $data = $data->select([
-            "tbl_pegawai.id_pegawai",
-            "tbl_pegawai.nama",
-            // "tbl_pegawai.nip",
-            // "tbl_pegawai.nrp",
-            "tbl_jabatan.nama_jabatan as jabatan",
-            "IF(tbl_status.nama_status='JAKSA',tbl_pangkat.pangkat_jaksa,tbl_pangkat.nama_pangkat) as pangkat",
-            "tbl_pangkat.golongan",
-            "tbl_pegawai.tmt_satker",
-            "tbl_gelar.nama_gelar",
-            "tbl_pendidikan.jurusan",
-            "tbl_status.nama_status as status"
-        ])->join("tbl_status","tbl_pegawai.status=tbl_status.id_status","left"
-        )->join("tbl_pangkat","tbl_pegawai.pangkat=tbl_pangkat.id_pangkat","left"
-        )->join("tbl_pendidikan","tbl_pegawai.pendidikan=tbl_pendidikan.id_pendidikan","left"
-        )->join("tbl_gelar","tbl_pendidikan.id_gelar=tbl_gelar.id_gelar","left"
-        )->join("tbl_jabatan","tbl_jabatan.id_jabatan=tbl_pegawai.jabatan","left"
-        )->where("tbl_pegawai.is_active",1
-        )->where("tbl_pegawai.deleted_at is null"
-        )->orderBy("tbl_status.index ASC, tbl_pangkat.golongan DESC, tbl_pegawai.tmt_pangkat ASC, tbl_pegawai.tmt_pns ASC, tbl_pegawai.nip ASC, tbl_pegawai.nama ASC"
-        )->get();
-        return $data->getResult();
     }
 
     public function getPejabat(){

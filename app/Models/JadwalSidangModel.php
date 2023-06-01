@@ -45,7 +45,7 @@ class JadwalSidangModel extends Model
             $data = $data->where('is_pidum = 0');
         }
         if($search != null){
-            $data = $data->like('terdakwa', $search)->orLike('tanggal', $search);
+            $data = $data->groupStart()->like('terdakwa', $search)->orLike('tanggal', $search)->groupEnd();
         }
         if($limit != null && $start!=null){
             $data = $data->limit($limit, $start);
