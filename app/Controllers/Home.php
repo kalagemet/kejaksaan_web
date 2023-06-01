@@ -22,7 +22,7 @@ class Home extends BaseController{
         $this->main_model = new MainModel();
         $this->bb_model = new DaftarBarangBukti();
         $this->page_model = new PageModel();
-        $this->pegawai = new PegawaiModel();
+        $this->pegawai_model = new PegawaiModel();
         $this->galeri_model = new FotoModel();
         $this->ext_api = new ExsternalApiController();
     }
@@ -30,7 +30,7 @@ class Home extends BaseController{
     public function index(){
         $data['page_title'] = "Kejaksaan Negeri Boalemo";
         $data['recaptcha'] = true;
-        $data['pejabat'] = $this->pegawai->getPejabat();
+        $data['pejabat'] = $this->pegawai_model->getPejabat();
         $data['header'] = $this->main_model->getHeaderImage();
         $data['galeri'] = $this->galeri_model->getTerbaru();
         $data['hero'] = 'hero-img.png';
@@ -42,8 +42,62 @@ class Home extends BaseController{
     public function duk(){
         $data['page_title'] = "Daftar Urut Kepangkatan Kejaksaan Negeri Boalemo";
         $data['datatables'] = true;
-        $data['data'] = $this->pegawai->getListPegawaiPublik();
         return view('public/daftar_pegawai', $data);
+    }
+
+    public function fetch_pegawai(){
+        $request = service('request');
+        $pegawai = $this->pegawai_model;
+        $totalData = $pegawai;
+        $columns = array(
+            0 => "tbl_pegawai.id_pegawai as id_pegawai",
+            1 => "tbl_pegawai.nama as nama",
+            2 => "tbl_pegawai.nip as nip",
+            3 => "tbl_pegawai.nrp as nrp",
+            4 => "tbl_jabatan.nama_jabatan as jabatan",
+            5 => "tbl_pegawai.tmt_pns as tmt_pns",
+            6 => "tbl_pegawai.karpeg as karpeg",
+            7 => "IF(tbl_status.nama_status='JAKSA',tbl_pangkat.pangkat_jaksa,tbl_pangkat.nama_pangkat) as pangkat",
+            8 => "tbl_pangkat.golongan as gol",
+            9 => "tbl_pangkat.eselon as esl",
+            10 => "tbl_pegawai.tmt_pangkat as tmt_pangkat",
+            11 => "tbl_pegawai.tmt_satker as tmt_satker",
+            12 => "tbl_gelar.nama_gelar as gelar",
+            13 => "tbl_pendidikan.jurusan as jurusan",
+            14 => "tbl_pendidikan.asal_sekolah as univ",
+            15 => "tbl_status.nama_status as status"
+        );
+        $totalData = $totalData->getPegawai()->countAllResults(false);
+        $limit = $request->getPost('length');
+        $start = $request->getPost('start');
+        // $order = $columns[$request->getPost('order')[0]['column']];
+        // $order = 'tanggal';
+        // $dir = $request->getPost('order')[0]['dir'];
+        $search = $request->getPost('search')['value'];
+        $pegawaiData = $pegawai->getPegawai($columns,null,null,$limit,$start, $search);        
+        $totalFiltered = $pegawaiData;
+        $totalFiltered = $totalFiltered->countAllResults(false);
+        $pegawaiData = $pegawaiData->get()->getResult();
+        $data = array();
+        if (!empty($pegawaiData)) {
+            foreach ($pegawaiData as $row) {
+                $data[] = array(
+                    'nama' => $row->nama,
+                    'jabatan' => $row->jabatan,
+                    'pangkat' => $row->pangkat,
+                    'tmt' => $row->tmt_pangkat,
+                    'pendidikan' => $row->jurusan,
+                    'status' => $row->status
+                );
+            }
+        }
+        $json_data = array(
+            "draw" => intval($request->getPost('draw')),
+            "recordsTotal" => intval($totalData),
+            "recordsFiltered" => intval($totalFiltered),
+            "data" => $data
+        );
+        return $this->response->setJSON($json_data);
     }
 
     function getIpClient(){
@@ -69,7 +123,7 @@ class Home extends BaseController{
         $ip = '36.85.221.6';
         //
         if($ip === getenv('IP_KANTOR')){
-            $data['data'] = $this->pegawai->getListPegawai();
+            $data['data'] = $this->pegawai_model->getListPegawai();
             $data['running_text'] = $this->main_model->getVariable('running_text');
             $data['timeout'] = $this->main_model->getVariable('display_timeout');
             $data['post_ig'] = $this->ext_api->getPostInstagram();

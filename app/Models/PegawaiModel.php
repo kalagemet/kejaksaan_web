@@ -46,6 +46,31 @@ class PegawaiModel extends Model
         return $data->getResult();
     }
 
+    public function getPegawai($param = ['*'], $order = null, $dir=null, $limit=null, $start=null, $search="", $all = false, $deleted = false){
+        $data = new PegawaiModel();
+        $data = $data->select($param)
+        ->join("tbl_status","tbl_pegawai.status=tbl_status.id_status","left"
+        )->join("tbl_pangkat","tbl_pegawai.pangkat=tbl_pangkat.id_pangkat","left"
+        )->join("tbl_pendidikan","tbl_pegawai.pendidikan=tbl_pendidikan.id_pendidikan","left"
+        )->join("tbl_gelar","tbl_pendidikan.id_gelar=tbl_gelar.id_gelar","left"
+        )->join("tbl_jabatan","tbl_jabatan.id_jabatan=tbl_pegawai.jabatan","left")
+        ->like('tbl_pegawai.nama', $search)
+        ->orLike('tbl_pegawai.nrp', $search)
+        ->orLike('tbl_jabatan.nama_jabatan', $search)
+        ->orLike('tbl_pegawai.nip', $search);
+        if(!$all) $data = $data->where("tbl_pegawai.is_active",1);
+        if(!$deleted) $data = $data->where("tbl_pegawai.deleted_at is null");
+        if($order != null && $dir!=null){
+            $data = $data->orderBy($order, $dir);
+        }else{
+            $data = $data->orderBy("tbl_status.index ASC, tbl_pangkat.golongan DESC, tbl_pegawai.tmt_pangkat ASC, tbl_pegawai.tmt_pns ASC, tbl_pegawai.nip ASC, tbl_pegawai.nama ASC");
+        }
+        if($limit != null && $start!=null){
+            $data = $data->limit($limit, $start);
+        }
+        return $data;
+    }
+
     public function getListPegawaiPublik(){
         $data = new PegawaiModel();
         $data = $data->select([

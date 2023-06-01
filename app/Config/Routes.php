@@ -34,6 +34,7 @@ $routes->setAutoRoute(false);
 $routes->get('/', 'Home::index');
 $routes->get('/display-duk', 'Home::display');
 $routes->get('/daftar-urut-kepangkatan', 'Home::duk');
+$routes->post('/daftar-urut-kepangkatan', 'Home::fetch_pegawai');
 $routes->get('/galeri', 'Home::galeri');
 $routes->get('/tentang/struktur-organisasi', 'DataPegawai::struktur');
 $routes->get('/jadwal-sidang-pidum', 'Home::jadwalsidang');
