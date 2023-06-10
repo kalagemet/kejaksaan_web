@@ -23,7 +23,7 @@
                             echo '<div class="item '.($i==0?'active':'').'">
                                 <a href="'.$d->media_url.'" class="gallery-lightbox"
                                 data-gall="gallery-carousel" role="button">
-                                    <img style="height:100%;width:100%; border-radius:5px" src="'.$d->media_url.'" onerror="this.src=`'.base_url("assets/img/no-image.svg").'`">
+                                    <img style="width:100%; border-radius:5px" src="'.$d->media_url.'" onerror="this.src=`'.base_url("assets/img/no-image.svg").'`">
                                 </a>
                             </div>';
                         }?>

@@ -50,7 +50,7 @@
                                         <th>Pasal</th>
                                         <th>Penuntut Umum</th>
                                         <th>Lokasi</th>
-                                        <th> Keterangan</th>
+                                        <th>Keterangan</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>

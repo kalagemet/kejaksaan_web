@@ -18,6 +18,7 @@ use \AllowDynamicProperties;
 
 class Home extends BaseController{
     public function __construct(){
+        date_default_timezone_set('Asia/Singapore');
         $this->jadwal_sidang_model = new JadwalSidangModel();
         $this->main_model = new MainModel();
         $this->bb_model = new DaftarBarangBukti();
@@ -76,7 +77,8 @@ class Home extends BaseController{
         $search = $request->getPost('search')['value'];
         $filter_status = $request->getPost('filter_status');
         $filter_jabatan = $request->getPost('filter_jabatan');
-        $pegawaiData = $pegawai->getPegawai($columns,null,null,$limit,$start,$search,false,false,$filter_status,$filter_jabatan);        
+        $filter_aktif = $request->getPost('filter_aktif');
+        $pegawaiData = $pegawai->getPegawai($columns,null,null,$limit,$start,$search,false,$filter_aktif,$filter_status,$filter_jabatan);        
         $totalFiltered = $pegawaiData;
         $totalFiltered = $totalFiltered->countAllResults(false);
         $pegawaiData = $pegawaiData->get()->getResult();
@@ -121,22 +123,66 @@ class Home extends BaseController{
         return $ip;
     }
 
-    public function display(){
+    public function papanKontrolBin(){
         //whether ip is from the share internet  
         $ip = $this->getIpClient();
         //for developmen delete if production
         $ip = '36.85.221.6';
         //
-        if($ip === getenv('IP_KANTOR')){
-            $data['data'] = $this->pegawai_model->getListPegawai();
+        $bidang =  $this->request->getGet('bidang');
+        if($ip !== getenv('IP_KANTOR') || !in_array($bidang, ['bin','ptsp'])){
+            $data['error_code'] = '403';
+            $data['error_name'] = 'Anda tidak diizinkan';
+            return view('error_production.php',$data);
+        }
+        if($bidang == 'bin'){
+            $data['display'] = true;
+            $data['data'] = $this->pegawai_model->getPegawai([
+                "tbl_pegawai.id_pegawai",
+                "tbl_pegawai.nama",
+                "tbl_pegawai.nip",
+                "tbl_pegawai.nrp",
+                "tbl_jabatan.nama_jabatan as jabatan",
+                "tbl_pegawai.tmt_pns",
+                "tbl_pegawai.karpeg",
+                "IF(tbl_status.nama_status='JAKSA',tbl_pangkat.pangkat_jaksa,tbl_pangkat.nama_pangkat) as pangkat",
+                "tbl_pangkat.golongan",
+                "tbl_pangkat.eselon",
+                "tbl_pegawai.tmt_pangkat",
+                "tbl_pegawai.tmt_satker",
+                "tbl_gelar.nama_gelar",
+                "tbl_pendidikan.jurusan",
+                "tbl_pendidikan.asal_sekolah",
+                "tbl_status.nama_status as status"
+            ])->get()->getResult();        
             $data['running_text'] = $this->main_model->getVariable('running_text');
             $data['timeout'] = $this->main_model->getVariable('display_timeout');
             $data['post_ig'] = $this->ext_api->getPostInstagram();
             $data['slider_display'] = $this->main_model->getVariable('slider');
             $data['slider_display'] = explode(';',$data['slider_display'][0]->value);
-            return view('public/display', $data);
-        }else{
-            echo "Hanya untuk Kantor";
+            return view('public/papan_kontrol/bin', $data);
+        }
+        if($bidang == 'ptsp'){
+            $data['display'] = true;
+            $columns = array(
+                0 => 'id_jadwal',
+                1 => 'terdakwa', 
+                2 => '(SELECT GROUP_CONCAT(nama," <br/>") FROM tbl_pegawai LEFT JOIN tbl_jpu on tbl_pegawai.id_pegawai=tbl_jpu.id_pegawai WHERE tbl_jpu.id_sidang = id_jadwal) as jaksa', 
+                3 => "DATE_FORMAT(tanggal, '%d %M %Y Jam %H:%i') as tanggal", 
+                4 => 'agenda',
+                5 => 'pasal',
+                6 => 'lokasi_sidang',
+                7 => 'is_pidum',
+                8 => 'keterangan'
+            );
+            $hariini = date('Y-m-d');
+            $data['data'] = $this->jadwal_sidang_model->getJadwalSidang($columns)->get()->getResult();        
+            $data['running_text'] = $this->main_model->getVariable('running_text');
+            $data['timeout'] = $this->main_model->getVariable('display_timeout');
+            $data['now'] = $this->jadwal_sidang_model->getJadwalSidang($columns,null,null,null,null,null,date('Y-m-d'))->get()->getResult();
+            $data['post_ig'] = $this->ext_api->getPostInstagram();
+            $data['slider_display'] = $this->main_model->getHeaderImage();
+            return view('public/papan_kontrol/ptsp', $data);
         }
     }
 

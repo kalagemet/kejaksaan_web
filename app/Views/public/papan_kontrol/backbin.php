@@ -23,7 +23,7 @@
 
 <body>
     <!-- requestFullScreen -->
-    <button style="position: fixed; display: block; width: 100%; height:100%; background:transparent; border: none;z-index: 1;" onClick="requestFullScreen()"></button>
+    <!-- <button style="position: fixed; display: block; width: 100%; height:100%; background:transparent; border: none;z-index: 1;" onClick="requestFullScreen()"></button> -->
     <div class="app">
         <!-- Galeri slider -->
         <div id="tab_1" class="body">
@@ -176,14 +176,14 @@
             if (wscript !== null) {
                 wscript.SendKeys("{F11}");
             }
-        // } else {
-        //     if (document.exitFullscreen) {
-        //         document.exitFullscreen();
-        //     } else if (document.webkitExitFullscreen) { /* Safari */
-        //         document.webkitExitFullscreen();
-        //     } else if (document.msExitFullscreen) { /* IE11 */
-        //         document.msExitFullscreen();
-        //     }
+            // } else {
+            //     if (document.exitFullscreen) {
+            //         document.exitFullscreen();
+            //     } else if (document.webkitExitFullscreen) { /* Safari */
+            //         document.webkitExitFullscreen();
+            //     } else if (document.msExitFullscreen) { /* IE11 */
+            //         document.msExitFullscreen();
+            //     }
         }
     }
     </script>

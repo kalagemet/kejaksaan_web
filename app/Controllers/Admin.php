@@ -77,7 +77,6 @@ class Admin extends BaseController{
         $data['page_title'] = "Daftar Pegawai KN Boalemo";
         $data['page_header'] = "Kejari Boalemo";
         $data['datatables'] = true;
-        $data['data'] = $this->pegawai->getListPegawai();
         return view('admin/pegawai/list', $data);
     }
 

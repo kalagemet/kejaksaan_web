@@ -20,7 +20,7 @@
                     <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
                         <div class="row">
                             <div class="col-sm-1">Filter</div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <div class="form-check">
                                     <input value="semua" class="form-check-input" type="radio" name="filter_status"
                                         id="flexRadioDefault1" checked>
@@ -43,7 +43,7 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <div class="form-check">
                                     <input value="semua" class="form-check-input" type="radio" name="filter_jabatan"
                                         id="flexRadioDefault5" checked>
@@ -73,8 +73,24 @@
                                     </label>
                                 </div>
                             </div>
+                            <div class="col-sm-3">
+                                <div class="form-check">
+                                    <input value="0" class="form-check-input" type="radio" name="filter_aktif"
+                                        id="flexRadioDefault9" checked>
+                                    <label class="form-check-label" for="flexRadioDefault9">
+                                        Dinas Aktif
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input value="1" class="form-check-input" type="radio" name="filter_aktif"
+                                        id="flexRadioDefault10">
+                                    <label class="form-check-label" for="flexRadioDefault10">
+                                        Pindah
+                                    </label>
+                                </div>
+                            </div>
                             <div style="display: flex; flex-direction: column-reverse; direction: rtl;padding:5px"
-                                class="col-sm-3">
+                                class="col-sm-2">
                                 <button style="width: 100px" type="button" id="refreshButton"
                                     class="btn btn-sm btn-primary">Filter</button>
                             </div>
@@ -123,6 +139,7 @@
                 "data": function(d) {
                     d.filter_status = $('input[name="filter_status"]:checked').val();
                     d.filter_jabatan = $('input[name="filter_jabatan"]:checked').val();
+                    d.filter_aktif = $('input[name="filter_aktif"]:checked').val();
                 }
             },
             "columns": [{

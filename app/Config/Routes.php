@@ -32,7 +32,7 @@ $routes->setAutoRoute(false);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
-$routes->get('/display-duk', 'Home::display');
+$routes->get('/papan-kontrol(:any)', 'Home::papanKontrolBin');
 $routes->get('/daftar-urut-kepangkatan', 'Home::duk');
 $routes->post('/daftar-urut-kepangkatan', 'Home::fetch_pegawai');
 $routes->get('/galeri', 'Home::galeri');
@@ -99,7 +99,6 @@ $routes->get('/lapdu_v1/tiket(:any)', 'Home::printTicketHTML');
 
     //pegawai
     $routes->get('/cms/list_pegawai', 'Admin::daftar_pegawai',['filter' => 'authfilter']);
-    $routes->get('/api/get_list_pegawai','DataPegawai::getListPegawai',['filter' => 'authfilter']);
     //lapdu v1
     $routes->get('/cms/lapdu_v1', 'Admin::lapdu_v1', ['filter' => 'authfilter']);
     $routes->post('/cms/lapdu_v1', 'Admin::fetch_lapdu_data');

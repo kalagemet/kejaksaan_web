@@ -22,7 +22,6 @@
 
     <script src="<?php echo base_url("assets/js/popper.js"); ?>"></script>
 
-    <!-- Vendor CSS Files -->
     <link href=<?php echo base_url("assets/vendor/aos/aos.css"); ?> rel="stylesheet">
     <link href=<?php echo base_url("assets/vendor/bootstrap/css/bootstrap.min.css"); ?> rel="stylesheet">
     <link href=<?php echo base_url("assets/vendor/bootstrap-icons/bootstrap-icons.css"); ?> rel="stylesheet">
@@ -39,4 +38,10 @@
     <?php if(isset($recaptcha) && $recaptcha){
         echo '<script src="https://www.google.com/recaptcha/api.js" async defer></script>';
     }?>
+
+    <?php if(isset($display) && $display){
+        echo '<script src='.base_url("assets/js/bootstrap-3.3.7.min.js").'></script>';
+        echo '<link href='.base_url("assets/css/display.css").' rel="stylesheet">'; 
+    }?>
+
 </head>

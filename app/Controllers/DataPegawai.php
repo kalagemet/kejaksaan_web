@@ -17,10 +17,6 @@ class DataPegawai extends BaseController{
     public function index(){
         return "Forbiden";
     }
-    public function getListPegawai(){
-        $data['data'] = $this->pegawai->getListPegawai();
-        echo json_encode($data);
-    }
 
     public function struktur(){
         $data['page_title'] = "Struktur Organisasi Kejaksaan Negeri Boalemo";
