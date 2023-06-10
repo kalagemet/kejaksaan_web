@@ -127,7 +127,7 @@ class Home extends BaseController{
         //whether ip is from the share internet  
         $ip = $this->getIpClient();
         //for developmen delete if production
-        $ip = '36.85.221.6';
+        // $ip = '36.85.221.6';
         //
         $bidang =  $this->request->getGet('bidang');
         if($ip !== getenv('IP_KANTOR') || !in_array($bidang, ['bin','ptsp'])){
