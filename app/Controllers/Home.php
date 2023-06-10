@@ -74,7 +74,9 @@ class Home extends BaseController{
         // $order = 'tanggal';
         // $dir = $request->getPost('order')[0]['dir'];
         $search = $request->getPost('search')['value'];
-        $pegawaiData = $pegawai->getPegawai($columns,null,null,$limit,$start,$search);        
+        $filter_status = $request->getPost('filter_status');
+        $filter_jabatan = $request->getPost('filter_jabatan');
+        $pegawaiData = $pegawai->getPegawai($columns,null,null,$limit,$start,$search,false,false,$filter_status,$filter_jabatan);        
         $totalFiltered = $pegawaiData;
         $totalFiltered = $totalFiltered->countAllResults(false);
         $pegawaiData = $pegawaiData->get()->getResult();

@@ -16,6 +16,13 @@
                     <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
                         <div class="row">
                             <div class="col-sm-12">
+                                <div style="display: grid; justify-content: end; margin:10px">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#tambahModal">
+                                        Tambah
+                                    </button>
+                                </div>
+                                <br />
                                 <table class="table table-striped table-bordered" id="dataTable" cellspacing="0"
                                     role="grid">
                                     <thead>
@@ -39,65 +46,73 @@
             </div>
         </div>
 
-        <div class="card shadow mb-4">
-            <div class="card-body">
-                <h3>Tambah Jadwal Baru</h3>
-                <br />
-                <form method="post" action="add-barang-bukti">
-                    <?= csrf_field() ?>
-                    <div class="row">
-                        <div class="col-xl-2 col-md-6 mb-4">
-                            <label for="tanggal">Tanggal Putusan:</label>
-                            <input require value="<?php echo old('tgl_putusan'); ?>" name="tgl_putusan" type="date"
-                                placeholder="tanggal putusan" class="form-control" id="tgl_putusan" />
-                        </div>
-                        <div class="col-xl-2 col-md-6 mb-4">
-                            <label for="tanggal">No Putusan:</label>
-                            <input require value="<?php echo old('no_putusan'); ?>" name="no_putusan" type="text"
-                                placeholder="Nomor putusan" class="form-control" id="no_putusan" />
-                        </div>
-                        <div class="col-xl-2 col-md-6 mb-4">
-                            <label for="register_barang">Register Barang:</label>
-                            <input require type="text" value="<?php echo old('register_barang'); ?>"
-                                name="register_barang" id="register_barang" class="form-control small"
-                                placeholder="Nomor..." aria-label="Search" aria-describedby="basic-addon2">
-                        </div>
-                        <div class="col-xl-2 col-md-6 mb-4">
-                            <label for="jenis">Jenis:</label>
-                            <input require type="text" value="<?php echo old('jenis'); ?>" name="jenis" id="jenis"
-                                class="form-control small" placeholder="Sepeda Motor..." aria-label="Search"
-                                aria-describedby="basic-addon2">
-                        </div>
-                        <div class="col-xl-2 col-md-6 mb-4">
-                            <label for="pasal">Reg Perkara:</label>
-                            <input require type="text" value="<?php echo old('register_perkara'); ?>"
-                                name="register_perkara" id="register_perkara" class="form-control small"
-                                placeholder="Nomor..." aria-label="Search" aria-describedby="basic-addon2">
-                        </div>
-                        <div class="col-xl-2 col-md-6 mb-4">
-                            <label for="pasal">Terdakwa:</label>
-                            <input require type="text" value="<?php echo old('terdakwa'); ?>" name="terdakwa"
-                                id="terdakwa" class="form-control small" placeholder="Nama..." aria-label="Search"
-                                aria-describedby="basic-addon2">
-                        </div>
-                        <div class="col-xl-2 col-md-6 mb-4">
-                            <label for="pasal">Amar Pu:</label>
-                            <input require type="text" value="<?php echo old('amar_putusan'); ?>" name="amar_putusan"
-                                id="amar_putusan" class="form-control small" placeholder="Amar..." aria-label="Search"
-                                aria-describedby="basic-addon2">
-                        </div>
-                        <div class="col-xl-2 col-md-6 mb-4">
-                            <label for="keterangan">Keterangan:</label>
-                            <input require type="text" value="<?php echo old('keterangan'); ?>" name="keterangan"
-                                id="keterangan" class="form-control small" placeholder="-" aria-label="Search"
-                                aria-describedby="basic-addon2">
-                        </div>
-                        <div class="col-xl-12 col-md-6 mb-4 d-sm-flex"
-                            style="text-align: right;display: inline-block !important;">
-                            <input type='submit' class='btn btn-success' value='Tambah' />
-                        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="tambahModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Tambah Barang Bukti</h5>
                     </div>
-                </form>
+                    <div class="modal-body">
+                        <form method="post" id="formTambah" action="add-barang-bukti">
+                            <input type="hidden" id="csrf_tambah" name="csrf_token_name">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <label for="tanggal">Tanggal Putusan:</label>
+                                    <input require value="<?php echo old('tgl_putusan'); ?>" name="tgl_putusan"
+                                        type="date" placeholder="tanggal putusan" class="form-control"
+                                        id="tgl_putusan" />
+                                </div></br>
+                                <div class="col-sm-12">
+                                    <label for="tanggal">No Putusan:</label>
+                                    <input require value="<?php echo old('no_putusan'); ?>" name="no_putusan"
+                                        type="text" placeholder="Nomor putusan" class="form-control" id="no_putusan" />
+                                </div></br>
+                                <div class="col-sm-12">
+                                    <label for="register_barang">Register Barang:</label>
+                                    <input require type="text" value="<?php echo old('register_barang'); ?>"
+                                        name="register_barang" id="register_barang" class="form-control small"
+                                        placeholder="Nomor..." aria-label="Search" aria-describedby="basic-addon2">
+                                </div></br>
+                                <div class="col-sm-12">
+                                    <label for="jenis">Jenis:</label>
+                                    <input require type="text" value="<?php echo old('jenis'); ?>" name="jenis"
+                                        id="jenis" class="form-control small" placeholder="Sepeda Motor..."
+                                        aria-label="Search" aria-describedby="basic-addon2">
+                                </div></br>
+                                <div class="col-sm-12">
+                                    <label for="pasal">Reg Perkara:</label>
+                                    <input require type="text" value="<?php echo old('register_perkara'); ?>"
+                                        name="register_perkara" id="register_perkara" class="form-control small"
+                                        placeholder="Nomor..." aria-label="Search" aria-describedby="basic-addon2">
+                                </div></br>
+                                <div class="col-sm-12">
+                                    <label for="pasal">Terdakwa:</label>
+                                    <input require type="text" value="<?php echo old('terdakwa'); ?>" name="terdakwa"
+                                        id="terdakwa" class="form-control small" placeholder="Nama..."
+                                        aria-label="Search" aria-describedby="basic-addon2">
+                                </div></br>
+                                <div class="col-sm-12">
+                                    <label for="pasal">Amar Pu:</label>
+                                    <input require type="text" value="<?php echo old('amar_putusan'); ?>"
+                                        name="amar_putusan" id="amar_putusan" class="form-control small"
+                                        placeholder="Amar..." aria-label="Search" aria-describedby="basic-addon2">
+                                </div></br>
+                                <div class="col-sm-12">
+                                    <label for="keterangan">Keterangan:</label>
+                                    <input require type="text" value="<?php echo old('keterangan'); ?>"
+                                        name="keterangan" id="keterangan" class="form-control small" placeholder="-"
+                                        aria-label="Search" aria-describedby="basic-addon2">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="button" onClick="tambah()" class="btn btn-primary">Tambah</button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -141,6 +156,16 @@
     </div>
     <?php echo view('admin/layout/footer');?>
     <script type="text/javascript">
+    function tambah() {
+        $.ajax({
+            url: "<?php echo base_url('cms/get_csrf_token'); ?>",
+            type: "GET",
+            success: function(response) {
+                $('#csrf_tambah').val(response);
+                $("#formTambah").submit();
+            }
+        });
+    }
     $(document).ready(function() {
         var csrfToken = $('meta[name="csrf-token"]').attr('content');
         $.ajaxSetup({

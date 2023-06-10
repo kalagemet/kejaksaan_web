@@ -42,7 +42,7 @@
                             }
                             echo '<ol>';
                                 foreach($data as $r){
-                                if($r->struktur>1 && $r->struktur<10){ echo '
+                                if($r->struktur>1 && $r->struktur<8){ echo '
                                 <li>
                                     <div data-aos="fade-right">
                                         <img style="height:140px;width: 100px;object-fit:cover;border-radius: 10px;margin: 0px 0px 28px 0px;" onerror="this.src=`'.base_url("assets/img/no-image.svg").'`" src="'.base_url("assets/img/pegawai/".$r->nip.'.jpeg').'" class="testimonial-img" alt="" />
@@ -64,9 +64,31 @@
                                 </li>';
                                 }}
                             echo '</ol>';?>
+                            <br />
                         </li>
                     </ol>
-
+                    <ol class="organizational-chart">
+                        <li>
+                            <div data-aos="fade-right">
+                                <h4>Kelompok Jabatan Fungsional</h4>
+                            </div>
+                            <ol>
+                                <?php foreach($data as $r){
+                                if($r->struktur==8){ echo ' 
+                                <li style="display:flex;justify-content:center;">
+                                    <div style="width:fit-content" data-aos="fade-right">
+                                        <img style="height:140px;width: 100px;object-fit:cover;border-radius: 10px;margin: 0px 0px 28px 0px;"
+                                            onerror="this.src=`'.base_url(" assets/img/no-image.svg").'`"
+                                            src="'.base_url(" assets/img/pegawai/".$r->nip.'.jpeg').'"
+                                        class="testimonial-img" alt="" />
+                                        <p class="center"><b>'.$r->nama_jabatan.'</b><br /></p>
+                                        <p>'.$r->nama.'<br />'.$r->nama_pangkat.'<br />NRP : '.$r->nrp.'</p>
+                                    </div>
+                                </li>';
+                                }} ?>
+                            </ol>
+                        </li>
+                    </ol>
                 </div>
             </div>
         </section>

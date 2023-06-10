@@ -46,7 +46,7 @@ class PegawaiModel extends Model
         return $data->getResult();
     }
 
-    public function getPegawai($param = ['*'], $order = null, $dir=null, $limit=null, $start=null, $search="", $all = false, $deleted = false){
+    public function getPegawai($param = ['*'], $order = null, $dir=null, $limit=null, $start=null, $search="", $all = false, $deleted = false, $status = null, $jabatan = null){
         $data = new PegawaiModel();
         $data = $data->select($param)
         ->groupStart()->join("tbl_status","tbl_pegawai.status=tbl_status.id_status","left"
@@ -60,6 +60,15 @@ class PegawaiModel extends Model
         ->orLike('tbl_pegawai.nip', $search)->groupEnd();
         if(!$all) $data = $data->where("tbl_pegawai.is_active", 1);
         if(!$deleted) $data = $data->where("tbl_pegawai.deleted_at is null");
+        if($status != null){
+            if($status == "JAKSA" || $status == 'jaksa') $data = $data->where('tbl_status.nama_status',"JAKSA");
+            else if($status == "TU" || $status == 'tu') $data = $data->where('tbl_status.nama_status !=',"JAKSA");
+        }
+        if($jabatan != null){
+            if($jabatan == "STRUKTURAL" || $jabatan == 'struktural') $data = $data->where('tbl_jabatan.struktur NOT IN (0,8)');
+            else if($jabatan == "FUNGSIONAL" || $jabatan == 'fungsional') $data = $data->where('tbl_jabatan.struktur',8);
+            else if($jabatan == "PELAKSANA" || $jabatan == 'pelaksana') $data = $data->where('tbl_jabatan.struktur',0);
+        }
         if($order != null && $dir!=null){
             $data = $data->orderBy($order, $dir);
         }else{

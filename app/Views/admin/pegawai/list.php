@@ -19,11 +19,74 @@
                 <div class="table-responsive">
                     <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
                         <div class="row">
+                            <div class="col-sm-1">Filter</div>
+                            <div class="col-sm-4">
+                                <div class="form-check">
+                                    <input value="semua" class="form-check-input" type="radio" name="filter_status"
+                                        id="flexRadioDefault1" checked>
+                                    <label class="form-check-label" for="flexRadioDefault1">
+                                        Semua
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input value="JAKSA" class="form-check-input" type="radio" name="filter_status"
+                                        id="flexRadioDefault2">
+                                    <label class="form-check-label" for="flexRadioDefault2">
+                                        Jaksa
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input value="TU" class="form-check-input" type="radio" name="filter_status"
+                                        id="flexRadioDefault3">
+                                    <label class="form-check-label" for="flexRadioDefault3">
+                                        Non Jaksa
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-check">
+                                    <input value="semua" class="form-check-input" type="radio" name="filter_jabatan"
+                                        id="flexRadioDefault5" checked>
+                                    <label class="form-check-label" for="flexRadioDefault5">
+                                        Semua
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input value="STRUKTURAL" class="form-check-input" type="radio"
+                                        name="filter_jabatan" id="flexRadioDefault6">
+                                    <label class="form-check-label" for="flexRadioDefault6">
+                                        Struktural
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input value="FUNGSIONAL" class="form-check-input" type="radio"
+                                        name="filter_jabatan" id="flexRadioDefault7">
+                                    <label class="form-check-label" for="flexRadioDefault7">
+                                        Fungsional
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input value="PELAKSANA" class="form-check-input" type="radio" name="filter_jabatan"
+                                        id="flexRadioDefault8">
+                                    <label class="form-check-label" for="flexRadioDefault8">
+                                        Pelaksana
+                                    </label>
+                                </div>
+                            </div>
+                            <div style="display: flex; flex-direction: column-reverse; direction: rtl;padding:5px"
+                                class="col-sm-3">
+                                <button style="width: 100px" type="button" id="refreshButton"
+                                    class="btn btn-sm btn-primary">Filter</button>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
                             <div class="col-sm-12">
                                 <table class="table table-striped table-bordered tabel_duk" id="dataTable"
                                     cellspacing="0" role="grid">
                                     <thead>
                                         <tr>
+                                            <th>No</th>
                                             <th>Nama Pegawai</th>
                                             <th>Jabatan</th>
                                             <th>Pangakat/Gol</th>
@@ -42,7 +105,7 @@
         </div>
 
     </div>
-    <script src=<?php echo base_url("assets/js/jquery-1.9.1.min.js"); ?>></script>
+    <?php echo view('admin/layout/footer');?>
     <script type="text/javascript">
     $(document).ready(function() {
         var csrfToken = $('meta[name="csrf-token"]').attr('content');
@@ -57,25 +120,33 @@
             "ajax": {
                 "url": "<?php echo base_url('daftar-urut-kepangkatan'); ?>",
                 "type": "POST",
+                "data": function(d) {
+                    d.filter_status = $('input[name="filter_status"]:checked').val();
+                    d.filter_jabatan = $('input[name="filter_jabatan"]:checked').val();
+                }
             },
             "columns": [{
+                "data": null,
+                "sortable": false,
+                "render": function(data, type, row, meta) {
+                    // Menghasilkan nomor urut berdasarkan nomor halaman dan panjang halaman
+                    var pageNumber = dataTable.page.info().page;
+                    var pageLength = dataTable.page.info().length;
+                    var index = meta.row + (pageNumber * pageLength) + 1;
+                    return index;
+                }
+            }, {
                 "data": "nama",
-                "sortable": false
             }, {
                 "data": "jabatan",
-                "sortable": false
             }, {
                 "data": "pangkat",
-                "sortable": false
             }, {
                 "data": "tmt",
-                "sortable": false
             }, {
                 "data": "pendidikan",
-                "sortable": false
             }, {
                 "data": "status",
-                "sortable": false
             }],
             "searching": true,
             "paging": true,
@@ -96,6 +167,10 @@
             }
         });
     });
+    //refresh
+    $('#refreshButton').on('click', function() {
+        $('#dataTable').DataTable().ajax.reload();
+    });
     //regenerate token
     $('#dataTable').on('xhr.dt', function(e, settings, json) {
         $.ajax({
@@ -112,7 +187,6 @@
         });
     });
     </script>
-    <?php echo view('admin/layout/footer');?>
 </body>
 
 </html>

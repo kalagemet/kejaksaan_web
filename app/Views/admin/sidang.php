@@ -11,7 +11,7 @@
     <div class="container-fluid">
 
         <!-- Page Heading -->
-        <h1 class="h3 mb-2 text-gray-800">Jadwal Sidang Bulan</h1>
+        <h1 class="h3 mb-2 text-gray-800">Jadwal Sidang</h1>
 
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
@@ -20,6 +20,13 @@
                     <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
                         <div class="row">
                             <div class="col-sm-12">
+                                <div style="display: grid; justify-content: end; margin:10px">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#tambahModal">
+                                        Tambah Sidang
+                                    </button>
+                                </div>
+                                <br />
                                 <table class="table table-striped table-bordered dataTable" id="dataTable"
                                     cellspacing="0" role="grid">
                                     <thead>
@@ -30,8 +37,8 @@
                                             <th>Pasal</th>
                                             <th>Penuntut Umum</th>
                                             <th>Lokasi</th>
-                                            <th> Keterangan</th>
-                                            <th> Aksi</th>
+                                            <th>Keterangan</th>
+                                            <th>Aksi</th>
                                             </th>
                                         </tr>
                                     </thead>
@@ -44,64 +51,86 @@
             </div>
         </div>
 
-        <div class="card shadow mb-4">
-            <div class="card-body">
-                <h3>Tambah Jadwal Baru</h3>
-                <br />
-                <form method="post" id="formTambahJadwal" action="add-sidang-pidum">
-                    <div class="row">
-                        <input type="hidden" id="csrf_tambahjadwal" name="csrf_token_name">
-                        <div class="col-xl-2 col-md-6 mb-4">
-                            <label for="tanggal">Waktu Sidang</label>
-                            <input require value="<?php echo old('tanggal'); ?>" name="tanggal" type="datetime-local"
-                                placeholder="tanggal sidang" class="form-control" id="tanggal" />
-                        </div>
-                        <div class="col-xl-2 col-md-6 mb-4">
-                            <label for="terdakwa">Nama Terdakwa:</label>
-                            <input require type="text" value="<?php echo old('terdakwa'); ?>" name="terdakwa"
-                                id="terdakwa" class="form-control small" placeholder="Isron dkk..." aria-label="Search"
-                                aria-describedby="basic-addon2">
-                        </div>
-                        <div class="col-xl-2 col-md-6 mb-4">
-                            <label for="agenda">Agenda Sidang:</label>
-                            <input require type="text" value="<?php echo old('agenda'); ?>" name="agenda" id="agenda"
-                                class="form-control small" placeholder="Pemeriksaan Saksi..." aria-label="Search"
-                                aria-describedby="basic-addon2">
-                        </div>
-                        <div class="col-xl-1 col-md-6 mb-4">
-                            <label for="pasal">Pasal:</label>
-                            <input require type="text" value="<?php echo old('pasal'); ?>" name="pasal" id="pasal"
-                                class="form-control small" placeholder="Pasal 170 KUHP..." aria-label="Search"
-                                aria-describedby="basic-addon2">
-                        </div>
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <label for="jaksa">Jaksa Penuntut Umum:</label>
-                            <select id="jaksa" name="jaksa[]" class="select" multiple data-mdb-filter="true">
-                                <?php foreach($jaksa as $i => $d){
+        <!-- Modal -->
+        <div class="modal fade" id="tambahModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Tambah Jadwal Sidang</h5>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" id="formTambahJadwal" action="add-sidang-pidum">
+                            <input type="hidden" id="csrf_tambahjadwal" name="csrf_token_name">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <label for="tanggal">Waktu Sidang</label>
+                                    <input require value="<?php echo old('tanggal'); ?>" name="tanggal"
+                                        type="datetime-local" placeholder="tanggal sidang" class="form-control"
+                                        id="tanggal" />
+                                </div>
+                            </div><br />
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <label for="terdakwa">Nama Terdakwa:</label>
+                                    <input require type="text" value="<?php echo old('terdakwa'); ?>" name="terdakwa"
+                                        id="terdakwa" class="form-control small" placeholder="Isron dkk..."
+                                        aria-label="Search" aria-describedby="basic-addon2">
+                                </div>
+                            </div><br />
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <label for="agenda">Agenda Sidang:</label>
+                                    <input require type="text" value="<?php echo old('agenda'); ?>" name="agenda"
+                                        id="agenda" class="form-control small" placeholder="Pemeriksaan Saksi..."
+                                        aria-label="Search" aria-describedby="basic-addon2">
+                                </div>
+                            </div><br />
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <label for="pasal">Pasal:</label>
+                                    <input require type="text" value="<?php echo old('pasal'); ?>" name="pasal"
+                                        id="pasal" class="form-control small" placeholder="Pasal 170 KUHP..."
+                                        aria-label="Search" aria-describedby="basic-addon2">
+                                </div>
+                            </div><br />
+                            <div class="row">
+                                <div class="col-sm-12" style="display:grid">
+                                    <label for="jaksa">Jaksa Penuntut Umum:</label>
+                                    <select id="jaksa" name="jaksa[]" class="select fluid" multiple
+                                        data-mdb-filter="true">
+                                        <?php foreach($jaksa as $i => $d){
                                     echo '<option value="'.$d->id_pegawai.'">'.$d->nama.'</option>';
                                 }?>
-                            </select>
-                        </div>
-                        <div class="col-xl-2 col-md-6 mb-4">
-                            <label for="lokasi">Lokasi:</label>
-                            <input require type="text" value="<?php echo old('lokasi'); ?>" name="lokasi" id="lokasi"
-                                class="form-control small" placeholder="PN - " aria-label="Search"
-                                aria-describedby="basic-addon2">
-                        </div>
-                        <div class="col-xl-2 col-md-6 mb-4">
-                            <label for="keterangan">Keterangan:</label>
-                            <input require type="text" value="<?php echo old('keterangan'); ?>" name="keterangan"
-                                id="keterangan" class="form-control small" placeholder="-" aria-label="Search"
-                                aria-describedby="basic-addon2">
-                        </div>
+                                    </select>
+                                </div>
+                            </div><br />
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <label for="lokasi">Lokasi:</label>
+                                    <input require type="text" value="<?php echo old('lokasi'); ?>" name="lokasi"
+                                        id="lokasi" class="form-control small" placeholder="PN - " aria-label="Search"
+                                        aria-describedby="basic-addon2">
+                                </div>
+                            </div><br />
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <label for="keterangan">Keterangan:</label>
+                                    <input require type="text" value="<?php echo old('keterangan'); ?>"
+                                        name="keterangan" id="keterangan" class="form-control small" placeholder="-"
+                                        aria-label="Search" aria-describedby="basic-addon2">
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                </form>
-                <div class="col-xl-12 col-md-12 mb-4 d-sm-flex"
-                    style="text-align: right;display: inline-block !important;">
-                    <button onClick="tambahJadwal()" class='btn btn-success'>Tambah</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="button" onClick="tambahJadwal()" class="btn btn-primary">Tambah</button>
+                    </div>
                 </div>
             </div>
         </div>
+
     </div>
     <?php echo view('admin/layout/footer');?>
     <script type="text/javascript">

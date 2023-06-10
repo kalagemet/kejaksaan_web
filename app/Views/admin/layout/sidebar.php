@@ -62,31 +62,6 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider">
-    <?php if(in_array('pegawai',session()->permission))
-    echo '
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Database
-    </div>
-
-    <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true"
-            aria-controls="collapsePages">
-            <i class="fas fa-fw fa-folder"></i>
-            <span>Pegawai</span>
-        </a>
-        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Database Pegawai</h6>
-                <a class="collapse-item" href='.base_url("cms/list_pegawai").'>Daftar Pegawai</a>
-                <a class="collapse-item" href='.base_url("cms/add_pegawai").'>Tambah Pegawai</a>
-                <div class="collapse-divider"></div>
-                <h6 class="collapse-header">Pejabat</h6>
-                <a class="collapse-item" href='.base_url("cms/list_hero").'>Daftar Pejabat</a>
-            </div>
-        </div>
-    </li>';?>
 
     <!-- Nav Item - Tables -->
     <?php if(in_array('galeri',session()->permission))
@@ -101,6 +76,28 @@
                 <h6 class="collapse-header">Post Artikel:</h6>
                 <a class="collapse-item" href='.base_url("cms/gallery").'>Daftar</a>
                 <a class="collapse-item" href='.base_url("cms/add-gallery").'>Tambah Foto</a>
+            </div>
+        </div>
+    </li>';?>
+
+    <?php if(in_array('pembinaan',session()->permission))
+    echo '
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true"
+            aria-controls="collapsePages">
+            <i class="fas fa-fw fa-circle"></i>
+            <span>Pembinaan</span>
+        </a>
+        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href='.base_url("cms/admin-page/pembinaan").'>Halaman Pembinaan</a>
+                <h6 class="collapse-header">Database Pegawai</h6>
+                <a class="collapse-item" href='.base_url("cms/list_pegawai").'>Daftar Pegawai</a>
+                <a class="collapse-item" href='.base_url("cms/add_pegawai").'>Tambah Pegawai</a>
+                <div class="collapse-divider"></div>
+                <h6 class="collapse-header">Pejabat</h6>
+                <a class="collapse-item" href='.base_url("cms/list_hero").'>Daftar Pejabat</a>
             </div>
         </div>
     </li>';?>
