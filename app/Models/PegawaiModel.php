@@ -15,6 +15,23 @@ class PegawaiModel extends Model
     protected $table      = 'tbl_pegawai';
     protected $primaryKey = 'id_pegawai';
 
+    protected $allowedFields = [
+        'id_pegawai', 
+        'nama', 
+        'nip', 
+        'nrp', 
+        'tmt_pns',
+        'karpeg',
+        'jabatan',
+        'pangkat',
+        'tmt_pangkat',
+        'pendidikan',
+        'tmt_satker',
+        'status',
+        'is_active',
+        'deleted_at'
+    ];
+
     public function getPegawai($param = ['*'], $order = null, $dir=null, $limit=null, $start=null, $search="", $all = false, $deleted = false, $status = null, $jabatan = null){
         $data = new PegawaiModel();
         $data = $data->select($param)
@@ -101,5 +118,21 @@ class PegawaiModel extends Model
         )->orderBy("tbl_pegawai.nama ASC"
         )->get();
         return $data->getResult();
+    }
+
+    public function getDetailPegawai($param = '', $select = ['*']){
+        $data = new PegawaiModel();
+        $data = $data->select($select)->where('id_pegawai',$param)->get();
+        return $data->getResult();
+    }
+
+    public function hapusPegawai($param){
+        try {
+            $data = new PegawaiModel();
+            $data = $data->set('deleted_at',date("Y-m-d h:i:s"))->where('id_pegawai',$param)->update();
+            return true;
+        } catch(Exception $e) {
+            return $e;
+        }
     }
 }

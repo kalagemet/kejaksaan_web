@@ -41,7 +41,6 @@ class ExsternalApiController extends BaseController{
     }
 
     function getPostInstagram(){
-        date_default_timezone_set('Asia/Jakarta');
         $token = $this->main_model->getVariable('IG_TOKEN_EXP',true);
         if(date("Y-m-d H:i:s") > date($token[0]->value)) $token = $this->getLongLiveToken();
         $token = $this->main_model->getVariable('IG_TOKEN')[0]->value;

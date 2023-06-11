@@ -178,4 +178,38 @@ class MainModel extends Model
             ->orderBy('created_at','DESC')->get();
         return $data->getResult();
     }
+
+    public function getJabatanPegawai(){
+        $data = $this->db;
+        $data = $data->table('tbl_jabatan')->select([
+            "id_jabatan", 
+            "nama_jabatan", 
+        ])->orderBy('struktur','ASC')->get();
+        return $data->getResult();
+    }
+    public function getPangkatPegawai(){
+        $data = $this->db;
+        $data = $data->table('tbl_pangkat')->select([
+            "id_pangkat", 
+            "nama_pangkat", 
+            "pangkat_jaksa" 
+        ])->orderBy('golongan','DESC')->get();
+        return $data->getResult();
+    }
+    public function getPendidikanPegawai(){
+        $data = $this->db;
+        $data = $data->table('tbl_jabatan')->select([
+            "id_jabatan", 
+            "nama_jabatan", 
+        ])->orderBy('struktur','ASC')->get();
+        return $data->getResult();
+    }
+    public function getStatusPegawai(){
+        $data = $this->db;
+        $data = $data->table('tbl_status')->select([
+            "id_status", 
+            "nama_status", 
+        ])->orderBy('index','ASC')->get();
+        return $data->getResult();
+    }
 }

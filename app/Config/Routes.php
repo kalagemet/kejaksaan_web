@@ -98,7 +98,9 @@ $routes->get('/lapdu_v1/tiket(:any)', 'Home::printTicketHTML');
     $routes->get('/cms/aduan', 'Admin::aduan', ['filter' => 'authfilter']);
 
     //pegawai
-    $routes->get('/cms/list_pegawai', 'Admin::daftar_pegawai',['filter' => 'authfilter']);
+    $routes->get('/cms/list_pegawai', 'DataPegawai::daftar_pegawai',['filter' => 'authfilter']);
+    $routes->get('/cms/detail_pegawai/(:segment)', 'DataPegawai::detail_pegawai/$1',['filter' => 'authfilter']);
+    $routes->get('/cms/hapus_pegawai/(:segment)', 'DataPegawai::hapus_pegawai/$1',['filter' => 'authfilter']);
     //lapdu v1
     $routes->get('/cms/lapdu_v1', 'Admin::lapdu_v1', ['filter' => 'authfilter']);
     $routes->post('/cms/lapdu_v1', 'Admin::fetch_lapdu_data');

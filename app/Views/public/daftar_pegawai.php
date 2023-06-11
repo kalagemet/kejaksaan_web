@@ -89,8 +89,15 @@
                 "type": "POST",
             },
             "columns": [{
-                "data": "no",
-                "sortable": false
+                "data": null,
+                "sortable": false,
+                "render": function(data, type, row, meta) {
+                    // Menghasilkan nomor urut berdasarkan nomor halaman dan panjang halaman
+                    var pageNumber = dataTable.page.info().page;
+                    var pageLength = dataTable.page.info().length;
+                    var index = meta.row + (pageNumber * pageLength) + 1;
+                    return index;
+                }
             }, {
                 "data": "nama",
                 "sortable": false

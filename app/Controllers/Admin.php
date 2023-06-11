@@ -73,13 +73,6 @@ class Admin extends BaseController{
         return redirect()->back();
     }
 
-    public function daftar_pegawai(){
-        $data['page_title'] = "Daftar Pegawai KN Boalemo";
-        $data['page_header'] = "Kejari Boalemo";
-        $data['datatables'] = true;
-        return view('admin/pegawai/list', $data);
-    }
-
     public function sidangpidum(){
         $bidang = 1;
         if(!in_array('pidana-umum',session()->permission)){

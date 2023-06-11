@@ -1,5 +1,15 @@
-  <section id="hero" class="d-flex align-items-center">
+  <section id="hero" style="padding-top:50px;" class="d-flex align-items-center">
       <div class="container">
+          <div data-aos='fade-up' class="alert alert-warning" role="alert">
+              <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
+                  <ol style="margin:0" class="breadcrumb">
+                      <li class="breadcrumb-item"><a href="/">Beranda</a></li>
+                      <li style="width:80%;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;"
+                          class="breadcrumb-item active" aria-current="page">
+                          <?php echo $data[0]->post_title;?></li>
+                  </ol>
+              </nav>
+          </div>
           <div class="row">
               <div class="col-lg-6 d-lg-flex flex-lg-column justify-content-center align-items-stretch pt-5 pt-lg-0 order-2 order-lg-1"
                   data-aos="fade-up">

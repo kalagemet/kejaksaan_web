@@ -181,7 +181,8 @@ class CodeIgniter
         locale_set_default($this->config->defaultLocale ?? 'en');
 
         // Set default timezone on the server
-        date_default_timezone_set($this->config->appTimezone ?? 'UTC');
+        date_default_timezone_set('Asia/Singapore');
+        // date_default_timezone_set($this->config->appTimezone ?? 'UTC');
 
         $this->initializeKint();
 

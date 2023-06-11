@@ -154,16 +154,46 @@
                 }
             }, {
                 "data": "nama",
+                "render": function(data, type, row, meta) {
+                    return '<a href="/cms/detail_pegawai/' + row
+                        .id_pegawai +
+                        '">' + data + '</a>';
+                }
             }, {
                 "data": "jabatan",
+                "render": function(data, type, row, meta) {
+                    return '<a href="/cms/detail_pegawai/' + row
+                        .id_pegawai +
+                        '">' + data + '</a>';
+                }
             }, {
                 "data": "pangkat",
+                "render": function(data, type, row, meta) {
+                    return '<a href="/cms/detail_pegawai/' + row
+                        .id_pegawai +
+                        '">' + data + '</a>';
+                }
             }, {
                 "data": "tmt",
+                "render": function(data, type, row, meta) {
+                    return '<a href="/cms/detail_pegawai/' + row
+                        .id_pegawai +
+                        '">' + data + '</a>';
+                }
             }, {
                 "data": "pendidikan",
+                "render": function(data, type, row, meta) {
+                    return '<a href="/cms/detail_pegawai/' + row
+                        .id_pegawai +
+                        '">' + data + '</a>';
+                }
             }, {
                 "data": "status",
+                "render": function(data, type, row, meta) {
+                    return '<a href="/cms/detail_pegawai/' + row
+                        .id_pegawai +
+                        '">' + data + '</a>';
+                }
             }],
             "searching": true,
             "paging": true,

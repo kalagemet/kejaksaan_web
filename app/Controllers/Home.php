@@ -18,7 +18,6 @@ use \AllowDynamicProperties;
 
 class Home extends BaseController{
     public function __construct(){
-        date_default_timezone_set('Asia/Singapore');
         $this->jadwal_sidang_model = new JadwalSidangModel();
         $this->main_model = new MainModel();
         $this->bb_model = new DaftarBarangBukti();
@@ -82,13 +81,11 @@ class Home extends BaseController{
         $totalFiltered = $pegawaiData;
         $totalFiltered = $totalFiltered->countAllResults(false);
         $pegawaiData = $pegawaiData->get()->getResult();
-        $number = $start;
         $data = array();
         if (!empty($pegawaiData)) {
             foreach ($pegawaiData as $row) {
-                $number++;
                 $data[] = array(
-                    'no' => $number,
+                    'id_pegawai' => $row->id_pegawai,
                     'nama' => $row->nama,
                     'jabatan' => $row->jabatan,
                     'pangkat' => $row->pangkat,
