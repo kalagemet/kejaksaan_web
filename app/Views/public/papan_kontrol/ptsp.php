@@ -167,8 +167,8 @@
                 setTimeout(() => location.reload(), timeout + 5000);
             }
         }
-        if (index == 1) anim_table(timeout);
-        else if (index == 2) anim(timeout);
+        if (index == 1) anim(timeout);
+        else if (index == 2) anim_table(timeout);
     }
 
     var $e = $(".tableDuk");
