@@ -20,7 +20,8 @@
                                 <h4 style='color:green;'>$d->lokasi_sidang - $d->tanggal</h4>
                                 terdakwa <h5>$d->terdakwa</h5>
                                 <p style='color: yellowgreen'>$d->keterangan - $d->pasal</p>
-                                Jaksa Penuntut Umum:<h5> $d->jaksa</h5>";
+                                Jaksa Penuntut Umum:<h5> $d->jaksa</h5>
+                                <div class=\"divider\" ></div>";
                             } ?>
                         </div>
                     </div>

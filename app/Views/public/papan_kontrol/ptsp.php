@@ -98,7 +98,8 @@
                                 <h4 style='color:green;'>$d->lokasi_sidang - $d->tanggal</h4>
                                 terdakwa <h5>$d->terdakwa</h5>
                                 <p style='color: yellowgreen'>$d->keterangan - $d->pasal</p>
-                                Jaksa Penuntut Umum:<h5> $d->jaksa</h5>";
+                                Jaksa Penuntut Umum:<h5> $d->jaksa</h5>
+                                <div class=\"divider\" ></div>";
                             } ?>
                         </div>
                     </div>
@@ -151,7 +152,7 @@
     });
 
     function activeTab(index, loop) {
-        var tabs = ['tab_1', 'tab_2', 'tab_3'];
+        var tabs = ['tab_1', 'tab_3', 'tab_2'];
         var timeout = <?php echo $timeout[0]->value; ?>;
         var i, tabcontent, tablinks;
         tabcontent = document.getElementsByClassName("body");
