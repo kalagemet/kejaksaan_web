@@ -146,7 +146,7 @@
     setInterval(displayDateTime, 1000);
 
     $(document).ready(function() {
-        activeTab(1, false);
+        activeTab(0, true);
     });
 
     function activeTab(index, loop) {
