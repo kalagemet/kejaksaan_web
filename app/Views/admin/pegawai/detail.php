@@ -19,7 +19,7 @@
                 <div class="row">
                     <div class="col-xl-4 col-md-4 mb-12 text-center">
                         <img style="width:200px;height:300px" id="profile-img"
-                            src=<?php echo base_url("assets/img/pegawai/".$data[0]->nip.".jpeg") ?>
+                            src=<?php echo base_url("media/pegawai/".$data[0]->nip.".jpeg") ?>
                             class="rounded mx-auto d-block">
                         <br />
                         <div class="input-group mb-3">

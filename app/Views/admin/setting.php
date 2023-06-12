@@ -56,7 +56,7 @@
                 <?php foreach($header as $i => $r){
                 echo '<div class="row">
                         <div class="col-xl-6 col-md-4 mb-1">
-                        <img src="'.base_url("assets/img/header/thumbnail/".$r->path).'"
+                        <img src="'.base_url("media/header/thumbnail/".$r->path).'"
                                 style="max-height:100px;border-radius: 20px;margin: 20px;width: 80%;object-fit: cover;"
                                 onerror="this.src=`'.base_url("assets/img/no-image.svg").'`"
                                 class="img-fluid" alt="" />

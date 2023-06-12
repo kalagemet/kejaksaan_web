@@ -6,7 +6,7 @@
                 <?php foreach($pejabat as $d){
                     echo '<div class="swiper-slide">
                         <div class="testimonial-item">
-                            <img style="height:110px; object-fit:cover;" onerror="this.src=`'.base_url("assets/img/no-image.svg").'`" src="'.base_url("assets/img/pegawai/".$d->nip.'.jpeg').'" class="testimonial-img" alt="" />
+                            <img style="height:110px; object-fit:cover;" onerror="this.src=`'.base_url("assets/img/no-image.svg").'`" src="'.base_url("media/pegawai/".$d->nip.'.jpeg').'" class="testimonial-img" alt="" />
                             <h3>'.$d->nama.'</h3>
                             <h4>'.$d->nama_pangkat.'</h4>
                             <p>

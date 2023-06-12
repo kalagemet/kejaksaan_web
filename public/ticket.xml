@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ticket>
+  <header>
+    <organization>KEJAKSAAN NEGERI BOALEMO</organization>
+    <address>Jl. Ahmad Yani No. 123, Boalemo</address>
+    <phone>(0123) 456789</phone>
+    <fax>(0123) 456790</fax>
+  </header>
+  <title>Tiket Laporan Pengaduan Masyarakat Online</title>
+  <content>
+    <ticket_number>#20230001</ticket_number>
+    <date>19 Mei 2023</date>
+    <time>10:30 WITA</time>
+    <message>Terima kasih atas laporan pengaduan Anda. Tiket ini merupakan bukti penerimaan laporan Anda oleh Kejaksaan Negeri Boalemo. Tim kami akan segera melakukan tindak lanjut terhadap laporan yang Anda ajukan.</message>
+    <note>Harap simpan tiket ini sebagai referensi untuk informasi lebih lanjut. Jika Anda memiliki pertanyaan atau perlu bantuan tambahan, silakan hubungi nomor telepon yang tertera di atas.</note>
+  </content>
+</ticket>

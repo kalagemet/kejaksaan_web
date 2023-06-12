@@ -106,7 +106,7 @@
                 echo '<div class="card">
                 <div class="row">
                     <div class="col-sm-2 foto">
-                        <img class="foto_pegawai" src="'.base_url('assets/img/pegawai/'.$d->nip).'.jpeg" alt="foto_pegawai" />
+                        <img class="foto_pegawai" src="'.base_url('media/pegawai/'.$d->nip).'.jpeg" alt="foto_pegawai" />
                     </div>
                     <div class="col-sm-6 identitas">
                         <h3>'.$d->nama.'</h3>

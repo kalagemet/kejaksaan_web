@@ -5,7 +5,7 @@
           <div class="row">
               <div class="col-lg-6 d-lg-flex flex-lg-column align-items-stretch order-1 order-lg-1 hero-img"
                   data-aos="fade-up">
-                  <img src="<?php echo base_url('assets/img/upload/'.$hero);?>" class="img-fluid" alt="">
+                  <img src="<?php echo base_url('media/upload/'.$hero);?>" class="img-fluid" alt="">
               </div>
               <div
                   class="col-lg-6 d-lg-flex flex-lg-column justify-content-center align-items-stretch pt-5 pt-lg-0 order-2 order-lg-2">

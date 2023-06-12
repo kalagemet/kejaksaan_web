@@ -11,8 +11,8 @@
             <div class="gallery-slider swiper">
                 <div class="swiper-wrapper">
                     <?php foreach($galeri as $d){
-                    echo '<div class="swiper-slide"><a href="'.base_url('assets/img/gallery/'.$d->path).'" class="gallery-lightbox"
-                            data-gall="gallery-carousel"><img onerror="this.src=`'.base_url("assets/img/no-image.svg").'`" src="'.base_url('assets/img/gallery/thumbnail/'.$d->path).'" class="img-fluid"
+                    echo '<div class="swiper-slide"><a href="'.base_url('media/gallery/'.$d->path).'" class="gallery-lightbox"
+                            data-gall="gallery-carousel"><img onerror="this.src=`'.base_url("assets/img/no-image.svg").'`" src="'.base_url('media/gallery/thumbnail/'.$d->path).'" class="img-fluid"
                                 alt=""></a></div>';
                     }?>
                 </div>

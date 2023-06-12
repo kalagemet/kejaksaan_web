@@ -15,7 +15,7 @@
                     <?php $awal = count($slider_display);
                     foreach($slider_display as $i => $row){
                         echo '<div class="item'.($i == 0 ? ' active"':'"').'>';
-                        echo '<div class="item-img" style="background: url(\''.base_url('assets/img/header/'.$row->path).'\'), url(\''.base_url("assets/img/no-image.svg").'\');"></div></div>';
+                        echo '<div class="item-img" style="background: url(\''.base_url('media/header/'.$row->path).'\'), url(\''.base_url("assets/img/no-image.svg").'\');"></div></div>';
                     } foreach($post_ig as $i => $row){
                         echo '<div class="item">';
                         echo '<div class="item-img" style="background: url(\''.$row->media_url.'\'), url(\''.base_url("assets/img/no-image.svg").'\');"></div></div>';

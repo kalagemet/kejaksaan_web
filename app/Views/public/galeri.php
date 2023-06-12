@@ -67,12 +67,12 @@
                         echo '<div class="card-card">
                             <div class="card-head-card">
                                 <img onerror="this.src=`'.base_url("assets/img/no-image.svg").'`"
-                                    src="'.base_url("assets/img/gallery/thumbnail/".$row['path']).'" alt="">
+                                    src="'.base_url("media/gallery/thumbnail/".$row['path']).'" alt="">
                             </div>
                             <div class="card-body-card">
                                 <h4>'.$row['judul'].'</h4>
                                 <p><i>'.$row['tgl'].' - '.$row['keterangan'].'</i></p>
-                                <p><a href="'.base_url("assets/img/gallery/".$row['path']).'" class="btn btn-primary gallery-lightbox"
+                                <p><a href="'.base_url("media/gallery/".$row['path']).'" class="btn btn-primary gallery-lightbox"
                                         data-gall="gallery-carousel" role="button">Perbesar</a></p>
                             </div>
                         </div>';

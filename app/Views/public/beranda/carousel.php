@@ -15,7 +15,7 @@
         <?php $awal = count($header);
         foreach($header as $i => $d){
             echo '<div class="item '.($i==0?'active':'').'">
-                <img src="'.base_url('assets/img/header/'.$d->path).'" onerror="this.src=`'.base_url("assets/img/no-image.svg").'`">
+                <img src="'.base_url('media/header/'.$d->path).'" onerror="this.src=`'.base_url("assets/img/no-image.svg").'`">
             </div>';
         }foreach($post_ig as $i => $d){
             echo '<div class="item '.($awal==0 && $i==0?'active':'').'">

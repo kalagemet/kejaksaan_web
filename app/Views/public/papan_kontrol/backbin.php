@@ -127,7 +127,7 @@
                 <?php foreach($data as $i => $d){
                 echo '<div class="card">
                     <div class="foto">
-                        <img class="foto_pegawai" src="'.base_url('assets/img/pegawai/'.$d->nip).'.jpeg" alt="foto_pegawai" />
+                        <img class="foto_pegawai" src="'.base_url('media/pegawai/'.$d->nip).'.jpeg" alt="foto_pegawai" />
                     </div>
                     <div class="identitas">
                         <h2>'.$d->nama.'</h2>

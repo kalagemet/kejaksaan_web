@@ -33,7 +33,7 @@
                                 type="file" placeholder="Header" class="form-control" />
                         </div>
                         <div class="col-xl-6 col-md-6 mb-4">
-                            <img src="<?php echo base_url("assets/img/gallery/thumbnail/".$data[0]->path); ?>"
+                            <img src="<?php echo base_url("media/gallery/thumbnail/".$data[0]->path); ?>"
                                 style="max-height:200px;border-radius: 20px;margin: 20px;width: 80%;object-fit: cover;"
                                 onerror="<?php echo 'this.src=`'.base_url("assets/img/no-image.svg").'`'; ?>"
                                 class="img-fluid" alt="" />

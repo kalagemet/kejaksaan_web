@@ -34,7 +34,7 @@
                         <li>
                             <?php foreach($data as $r){
                                 if($r->struktur==1) echo '<div data-aos="fade-right">
-                                    <img style="height:150px;width: 100px;object-fit:cover;border-radius: 10px;margin: -90px 0px 28px 0px;" onerror="this.src=`'.base_url("assets/img/no-image.svg").'`" src="'.base_url("assets/img/pegawai/".$r->nip.'.jpeg').'" class="testimonial-img" alt="" />
+                                    <img style="height:150px;width: 100px;object-fit:cover;border-radius: 10px;margin: -90px 0px 28px 0px;" onerror="this.src=`'.base_url("assets/img/no-image.svg").'`" src="'.base_url("media/pegawai/".$r->nip.'.jpeg').'" class="testimonial-img" alt="" />
                                     <h4>'.$r->nama_jabatan.'</h4>
                                     <p class="center">'.$r->nama.'<br/>'.$r->nama_pangkat.'<br/>NRP : '.$r->nrp.
                                     '<br/>TMT SATKER :'.$r->tmt.'</p>
@@ -45,7 +45,7 @@
                                 if($r->struktur>1 && $r->struktur<8){ echo '
                                 <li>
                                     <div data-aos="fade-right">
-                                        <img style="height:140px;width: 100px;object-fit:cover;border-radius: 10px;margin: 0px 0px 28px 0px;" onerror="this.src=`'.base_url("assets/img/no-image.svg").'`" src="'.base_url("assets/img/pegawai/".$r->nip.'.jpeg').'" class="testimonial-img" alt="" />
+                                        <img style="height:140px;width: 100px;object-fit:cover;border-radius: 10px;margin: 0px 0px 28px 0px;" onerror="this.src=`'.base_url("assets/img/no-image.svg").'`" src="'.base_url("media/pegawai/".$r->nip.'.jpeg').'" class="testimonial-img" alt="" />
                                         <p class="center"><b>'.$r->nama_jabatan.'</b><br/></p><p>'.$r->nama.'<br/>'.$r->nama_pangkat.'<br/>NRP : '.$r->nrp.'</p>
                                     </div>';
                                         $tmp = true;
@@ -55,7 +55,7 @@
                                         echo '
                                         <li>
                                             <div data-aos="fade-right">
-                                                <img style="height:140px;width: 100px;object-fit:cover;border-radius: 10px;margin: 0px 0px 28px 0px;" onerror="this.src=`'.base_url("assets/img/no-image.svg").'`" src="'.base_url("assets/img/pegawai/".$d->nip.'.jpeg').'" class="testimonial-img" alt="" />
+                                                <img style="height:140px;width: 100px;object-fit:cover;border-radius: 10px;margin: 0px 0px 28px 0px;" onerror="this.src=`'.base_url("assets/img/no-image.svg").'`" src="'.base_url("media/pegawai/".$d->nip.'.jpeg').'" class="testimonial-img" alt="" />
                                                 <p class="center"><b>'.$d->nama_jabatan.'</b><br/></p><p>'.$d->nama.'<br/>'.$d->nama_pangkat.'<br/>NRP : '.$d->nrp.
                                                 '<br/>TMT SATKER :'.$d->tmt.'</p>
                                             </div>
@@ -79,7 +79,7 @@
                                     <div style="width:fit-content" data-aos="fade-right">
                                         <img style="height:140px;width: 100px;object-fit:cover;border-radius: 10px;margin: 0px 0px 28px 0px;"
                                             onerror="this.src=`'.base_url(" assets/img/no-image.svg").'`"
-                                            src="'.base_url(" assets/img/pegawai/".$r->nip.'.jpeg').'"
+                                            src="'.base_url(" media/pegawai/".$r->nip.'.jpeg').'"
                                         class="testimonial-img" alt="" />
                                         <p class="center"><b>'.$r->nama_jabatan.'</b><br /></p>
                                         <p>'.$r->nama.'<br />'.$r->nama_pangkat.'<br />NRP : '.$r->nrp.'</p>

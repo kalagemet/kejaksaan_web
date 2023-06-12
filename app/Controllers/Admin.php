@@ -226,11 +226,11 @@ class Admin extends BaseController{
 		}
         $upload = $this->request->getFile('image');
 		$fileName = date("Y-m-d.h.i.s").'_carousel.'.$upload->getClientExtension();
-		$upload->move('assets/img/header/', $fileName);
+		$upload->move('media/header/', $fileName);
         $tmbl = \Config\Services::image()
-              ->withFile('assets/img/header/'.$fileName)
+              ->withFile('media/header/'.$fileName)
               ->resize(150, 150, true, 'height')
-              ->save('assets/img/header/thumbnail/'. $fileName);
+              ->save('media/header/thumbnail/'. $fileName);
         $data = array(
             'path' =>  $fileName,
             'is_show' =>  $status,

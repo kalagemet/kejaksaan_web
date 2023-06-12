@@ -130,11 +130,11 @@ class Galeri extends BaseController{
 		}
         $upload = $this->request->getFile('image');
 		$fileName = date("Y-m-d.h.i.s").'_galeri.'.$upload->getClientExtension();
-		$upload->move('assets/img/gallery/', $fileName);
+		$upload->move('media/gallery/', $fileName);
         $tmbl = \Config\Services::image()
-              ->withFile('assets/img/gallery/'.$fileName)
+              ->withFile('media/gallery/'.$fileName)
               ->resize(150, 150, true, 'height')
-              ->save('assets/img/gallery/thumbnail/'. $fileName);
+              ->save('media/gallery/thumbnail/'. $fileName);
         $data = array(
             'id_author' => session()->id_user,
             'tanggal' =>  $this->request->getPost('tanggal'), 
@@ -191,15 +191,15 @@ class Galeri extends BaseController{
         if($upload->isValid()){
             $old = explode('/',$this->request->getPost('old_photo'));
             $old = $old[count($old)-1];
-            if(is_file('assets/img/gallery/'.$old)) unlink('assets/img/upload/'.$old);
-            if(is_file('assets/img/gallery/thumbnail/'.$old)) unlink('assets/img/upload/thumbnail/'.$old);
+            if(is_file('media/gallery/'.$old)) unlink('media/upload/'.$old);
+            if(is_file('media/gallery/thumbnail/'.$old)) unlink('media/upload/thumbnail/'.$old);
             $fileName = date("Y-m-d.h.i.s").'_galeri.'.$upload->getClientExtension();
-            $upload->move('assets/img/gallery/', $fileName);
+            $upload->move('media/gallery/', $fileName);
             $tmbl = \Config\Services::image()
-              ->withFile('assets/img/gallery/'.$fileName)
+              ->withFile('media/gallery/'.$fileName)
               ->resize(150, 150, true, 'height')
-              ->save('assets/img/gallery/thumbnail/'. $fileName);
-            $data['path'] =  base_url("assets/img/upload/$fileName"); 
+              ->save('media/gallery/thumbnail/'. $fileName);
+            $data['path'] =  base_url("media/upload/$fileName"); 
         }
         $data = $this->galeri_model->updatefoto($data, $this->request->getPost('id_gambar'));
         return redirect()->to(base_url('/cms/gallery?filter_string='.$this->request->getPost('judul')))->with('success', "Berhasil menyimpan perubahan");
