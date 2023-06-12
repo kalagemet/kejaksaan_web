@@ -90,7 +90,7 @@
             <div class="container">
                 <div class="row">
                     <div
-                        class="col-lg-6 d-lg-flex flex-lg-column justify-content-center align-items-stretch pt-5 pt-lg-0 order-2 order-lg-1">
+                        class="col-lg-8 d-lg-flex flex-lg-column justify-content-center align-items-stretch pt-5 pt-lg-0 order-2 order-lg-1">
                         <div>
                             <br />
                             <?php foreach($now as $i => $d){
@@ -103,13 +103,11 @@
                             } ?>
                         </div>
                     </div>
-                    <div class="col-lg-6 d-lg-flex flex-lg-column align-items-stretch order-1 order-lg-2 hero-img">
-                        <div style="position:fixed">
-                            <h1>JADWAL SIDANG</h1>
-                            <h2>Agenda Sidang Hari ini</h2>
-                            <img src="<?php echo base_url("assets/img/jadwal_sidang_header.svg");?>" class="img-fluid"
-                                alt="">
-                        </div>
+                    <div class="col-lg-4 d-lg-flex flex-lg-column align-items-stretch order-1 order-lg-2 hero-img">
+                        <h1>JADWAL SIDANG</h1>
+                        <h2>Agenda Sidang Hari ini</h2>
+                        <img src="<?php echo base_url("assets/img/jadwal_sidang_header.svg");?>" class="img-fluid"
+                            alt="">
                     </div>
                 </div>
             </div>
@@ -148,7 +146,7 @@
     setInterval(displayDateTime, 1000);
 
     $(document).ready(function() {
-        activeTab(0, true);
+        activeTab(1, false);
     });
 
     function activeTab(index, loop) {

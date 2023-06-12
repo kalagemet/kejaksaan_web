@@ -39,8 +39,9 @@
         echo '<script src="https://www.google.com/recaptcha/api.js" async defer></script>';
     }?>
 
+    <script src=<?php echo base_url("assets/js/jquery-3.1.0.min.js"); ?>></script>
     <?php if(isset($display) && $display){
         echo '<link href='.base_url("assets/css/display.css").' rel="stylesheet">'; 
+        echo '<script src='.base_url("assets/js/bootstrap-3.3.7.min.js").'></script>';
     }?>
-    <script src=<?php echo base_url("assets/js/jquery-3.1.0.min.js"); ?>></script>
 </head>
