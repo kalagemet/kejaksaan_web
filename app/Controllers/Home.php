@@ -120,18 +120,18 @@ class Home extends BaseController{
         return $ip;
     }
 
-    public function papanKontrolBin(){
+    public function papanKontrol(){
         //whether ip is from the share internet  
-        $ip = $this->getIpClient();
+        // $ip = $this->getIpClient();
         //for developmen delete if production
         // $ip = '36.85.221.6';
         //
         $bidang =  $this->request->getGet('bidang');
-        if($ip !== getenv('IP_KANTOR') || !in_array($bidang, ['bin','ptsp'])){
-            $data['error_code'] = '403';
-            $data['error_name'] = 'Anda tidak diizinkan';
-            return view('error_production.php',$data);
-        }
+        // if($ip !== getenv('IP_KANTOR') || !in_array($bidang, ['bin','ptsp'])){
+        //     $data['error_code'] = '403';
+        //     $data['error_name'] = 'Anda tidak diizinkan';
+        //     return view('error_production.php',$data);
+        // }
         if($bidang == 'bin'){
             $data['display'] = true;
             $data['data'] = $this->pegawai_model->getPegawai([
