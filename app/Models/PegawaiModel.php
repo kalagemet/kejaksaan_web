@@ -82,7 +82,7 @@ class PegawaiModel extends Model
         ])->join('tbl_jabatan','tbl_pegawai.jabatan=tbl_jabatan.id_jabatan AND tbl_pegawai.deleted_at is null','right')
         ->join('tbl_pangkat','tbl_pegawai.pangkat=tbl_pangkat.id_pangkat','left')
         ->join("tbl_status","tbl_pegawai.status=tbl_status.id_status","left")
-        ->where('tbl_jabatan.grade IN (1,2)')->orderBy('tbl_jabatan.struktur ASC')->get();
+        ->where('tbl_jabatan.struktur BETWEEN 1 AND 7')->orderBy('tbl_jabatan.struktur ASC')->get();
         return $data->getResult();
     }
 
