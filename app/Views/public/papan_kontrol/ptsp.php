@@ -5,67 +5,77 @@
 <body>
     <div class="container-fluid">
         <button
-            style="position: fixed; display: block; width: 100%; height:100%; background:transparent; border: none;z-index: 1;"
+            style="position: fixed; display: block; width: 100%; height:100%; background:transparent; border: none;z-index: 1111;"
             onClick="requestFullScreen()"></button>
 
         <!-- Galeri slider -->
         <div id="tab_1" class="body">
-            <div id="dynamic_slide_show" class="carousel slide" data-ride="carousel">
+            <!-- Carousel wrapper -->
+            <?php $awal = count($slider_display);?>
+            <div id="dynamic_slide_show" class="carousel slide carousel-fade"
+                data-interval="<?php echo $timeout[0]->value/$awal/2;?>" data-ride="carousel">
+                <!-- Inner -->
                 <div class="carousel-inner">
-                    <?php $awal = count($slider_display);
-                    foreach($slider_display as $i => $row){
-                        echo '<div class="item'.($i == 0 ? ' active"':'"').'>';
+                    <?php foreach($slider_display as $i => $row){
+                        echo '<div class="carousel-item item'.($i == 0 ? ' active"':'"').'>';
                         echo '<div class="item-img" style="background: url(\''.base_url('media/header/'.$row->path).'\'), url(\''.base_url("assets/img/no-image.svg").'\');"></div></div>';
                     } foreach($post_ig as $i => $row){
-                        echo '<div class="item">';
-                        echo '<div class="item-img" style="background: url(\''.$row->media_url.'\'), url(\''.base_url("assets/img/no-image.svg").'\');"></div></div>';
+                        echo '<div class="carousel-item item">';
+                        if($row->media_type == "VIDEO")
+                        echo '<video id="video_show" loop class="img-fluid item-img" autoplay muted>
+                            <source src="'.$row->media_url.'" type="video/mp4" />
+                        </video>';
+                        else echo '<div class="item-img" style="background: url(\''.$row->media_url.'\'), url(\''.base_url("assets/img/no-image.svg").'\');"></div></div>';
                     }?>
                 </div>
+                <!-- Inner -->
             </div>
+            <!-- Carousel wrapper -->
         </div>
-        <!-- end of galleri slider -->
-        <!-- Content here -->
-        <div class="top-header">
-            <p id="date"> </p>
-            <p style="text-align:end;" id="time"> </p>
-        </div>
-        <div class="running">
-            <img class="logo_footer left" alt="" src=<?php echo base_url('/assets/img/Logo_BerAKHLAK.png');?> />
-            <img class="logo_footer right" alt="" src=<?php echo base_url('/assets/img/Logo_EVP.png');?> />
-            <div class="main-runtext">
-                <marquee direction="">
-                    <div class="holder">
-                        <div class="text-container">
-                            <p>
-                                <?php if(isset($running_text)) echo $running_text[0]->value; ?>
-                            </p>
-                        </div>
+    </div>
+    <!-- end of galleri slider -->
+    <!-- Content here -->
+    <div class=" top-header">
+        <p id="date"> </p>
+        <p style="text-align:end;" id="time"> </p>
+    </div>
+    <div class="running">
+        <img class="logo_footer left" alt="" src=<?php echo base_url('/assets/img/Logo_BerAKHLAK.png');?> />
+        <img class="logo_footer right" alt="" src=<?php echo base_url('/assets/img/Logo_EVP.png');?> />
+        <div class="main-runtext">
+            <marquee direction="">
+                <div class="holder">
+                    <div class="text-container">
+                        <p>
+                            <?php if(isset($running_text)) echo $running_text[0]->value; ?>
+                        </p>
                     </div>
-                </marquee>
-            </div>
+                </div>
+            </marquee>
         </div>
+    </div>
 
-        <!-- sidang Table -->
-        <div id="tab_2" class="body">
-            <div style="height: 10px;"></div>
-            <h1 class="h1">KEJAKSAAN NEGERI BOALEMO</h1>
-            <h2>JADWAL SIDANG BULAN INI</h2>
-            <div class="tableDuk">
-                <table id="tabel_duk">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Tanggal Sidang</th>
-                            <th>Nama Terdakwa</th>
-                            <th>Agenda Sidang</th>
-                            <th>Pasal</th>
-                            <th>Penuntut Umum</th>
-                            <th>Lokasi</th>
-                            <th>Keterangan</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach($data as $i => $d){
+    <!-- sidang Table -->
+    <div id="tab_2" class="body">
+        <div style="height: 10px;"></div>
+        <h1 class="h1">KEJAKSAAN NEGERI BOALEMO</h1>
+        <h2>JADWAL SIDANG BULAN INI</h2>
+        <div class="tableDuk">
+            <table id="tabel_duk">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Tanggal Sidang</th>
+                        <th>Nama Terdakwa</th>
+                        <th>Agenda Sidang</th>
+                        <th>Pasal</th>
+                        <th>Penuntut Umum</th>
+                        <th>Lokasi</th>
+                        <th>Keterangan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach($data as $i => $d){
                             echo '<tr key='.$i.'>
                                 <td class="">'.($i+1).'</td>
                                 <td class="left elipsis">'.$d->tanggal.'</td>
@@ -78,22 +88,22 @@
                             </tr>';
                         }
                         ?>
-                    </tbody>
-                </table>
-            </div>
+                </tbody>
+            </table>
         </div>
-        <!-- end of -->
+    </div>
+    <!-- end of -->
 
-        <!-- sidang hari ini -->
-        <div id="tab_3" class="body sidangHariini" style="background-color:white;height:100%">
-            <div style="height: 100px;"></div>
-            <div class="container">
-                <div class="row">
-                    <div
-                        class="col-lg-8 d-lg-flex flex-lg-column justify-content-center align-items-stretch pt-5 pt-lg-0 order-2 order-lg-1">
-                        <div>
-                            <br />
-                            <?php foreach($now as $i => $d){
+    <!-- sidang hari ini -->
+    <div id="tab_3" class="body sidangHariini" style="background-color:white;height:100%">
+        <div style="height: 100px;"></div>
+        <div class="container">
+            <div class="row">
+                <div
+                    class="col-lg-8 d-lg-flex flex-lg-column justify-content-center align-items-stretch pt-5 pt-lg-0 order-2 order-lg-1">
+                    <div>
+                        <br />
+                        <?php foreach($now as $i => $d){
                                 echo "<h3>$d->agenda</h3>
                                 <h4 style='color:green;'>$d->lokasi_sidang - $d->tanggal</h4>
                                 terdakwa <h5>$d->terdakwa</h5>
@@ -101,19 +111,18 @@
                                 Jaksa Penuntut Umum:<h5> $d->jaksa</h5>
                                 <div class=\"divider\" ></div>";
                             } ?>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 d-lg-flex flex-lg-column align-items-stretch order-1 order-lg-2 hero-img">
-                        <h1>JADWAL SIDANG</h1>
-                        <h2>Agenda Sidang Hari ini</h2>
-                        <img src="<?php echo base_url("assets/img/jadwal_sidang_header.svg");?>" class="img-fluid"
-                            alt="">
                     </div>
                 </div>
+                <div class="col-lg-4 d-lg-flex flex-lg-column align-items-stretch order-1 order-lg-2 hero-img">
+                    <h1>JADWAL SIDANG</h1>
+                    <h2>Agenda Sidang Hari ini</h2>
+                    <img src="<?php echo base_url("assets/img/jadwal_sidang_header.svg");?>" class="img-fluid" alt="">
+                </div>
             </div>
-            <div style="height: 100px;"></div>
         </div>
-        <!-- end of -->
+        <div style="height: 100px;"></div>
+    </div>
+    <!-- end of -->
 
     </div>
 
@@ -146,7 +155,7 @@
     setInterval(displayDateTime, 1000);
 
     $(document).ready(function() {
-        activeTab(0, true);
+        activeTab(0, false);
     });
 
     function activeTab(index, loop) {

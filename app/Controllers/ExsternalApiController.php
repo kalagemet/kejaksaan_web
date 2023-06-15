@@ -17,7 +17,7 @@ class ExsternalApiController extends BaseController{
     }
 
     function getLongLiveToken(){
-        echo '<script>console.error(`Instagram => mengambil long live token ig`);</script>';
+        echo '<script type="text/javascript">console.error(`Instagram => mengambil long live token ig`);</script>';
         $url = "https://graph.facebook.com/v4.0/oauth/access_token?grant_type=fb_exchange_token&client_id=";
         $url .= getenv('ID_INSTAGRAM');
         $url .= '&client_secret=';
@@ -44,7 +44,7 @@ class ExsternalApiController extends BaseController{
         $token = $this->main_model->getVariable('IG_TOKEN_EXP',true);
         if(date("Y-m-d H:i:s") > date($token[0]->value)) $token = $this->getLongLiveToken();
         $token = $this->main_model->getVariable('IG_TOKEN')[0]->value;
-        $url = "https://graph.instagram.com/me/media?fields=media_url&access_token=";
+        $url = "https://graph.instagram.com/me/media?fields=media_url,media_type&access_token=";
         $url .= $token;
         $url .= '&limit=5';
         $ch = curl_init();
