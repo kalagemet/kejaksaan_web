@@ -8,7 +8,7 @@
     <div data-aos='fade-up' class="alert" role="alert">
         <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
             <ol style="margin:0" class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/">Laporan Masuk</a></li>
+                <li class="breadcrumb-item"><a href="/cms/lapdu_v1">Laporan Masuk</a></li>
                 <li style="width:80%;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;"
                     class="breadcrumb-item active" aria-current="page">
                     <?php echo $data->tiket;?></li>
