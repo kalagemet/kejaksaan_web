@@ -5,6 +5,16 @@
 <body id="page-top">
     <!-- Content -->
     <?php echo view('admin/layout/topbar');?>
+    <div data-aos='fade-up' class="alert" role="alert">
+        <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
+            <ol style="margin:0" class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Laporan Masuk</a></li>
+                <li style="width:80%;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;"
+                    class="breadcrumb-item active" aria-current="page">
+                    <?php echo $data->tiket;?></li>
+            </ol>
+        </nav>
+    </div>
     <div class="container-fluid">
         <div class="card shadow mb-4">
             <div style="text-align:center;" class="card-header">
@@ -15,8 +25,8 @@
                 <div class="row">
                     <div class="col-xl-8 col-md-12 mb-4">
                         <div style="width: 100%; height: 712px;">
-                            <object data=<?php echo base_url("media/lapdu_v1/".$data->id_lapdu); ?>
-                                type="application/pdf" style="width: 100%; height: 100%;"></object>
+                            <iframe src=<?php echo base_url("media/lapdu_v1/".$data->id_lapdu); ?>
+                                type="application/pdf" style="width: 100%; height: 100%;" frameborder=0></iframe>
                         </div>
                     </div>
                     <div class="col-xl-4 col-md-12 mb-4">
