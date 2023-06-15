@@ -55,11 +55,15 @@
                             <span>Riwayat Laporan :</span><br /><br />
                             <?php foreach ($tindakan as $i => $row) {
                                     echo '<div class="track_tiket_progress-steps">
-                                        <div class="step '.(($i==count(array($tindakan))-1)?"active":"").'">
-                                            <div class="step-number"></div>
-                                            <div class="step-content">
-                                                <div class="step-title">'.$row->tindakan.'</div>
-                                                <div class="step-date">'.$row->created_at.' oleh '.$row->oleh.'</div>
+                                        <div class="step '.(($i==count(array($tindakan))-1)?"active":"").' row">
+                                            <div class="col-xl-1 col-md-1 col-sm-1 col-1" style="position: relative;top:5px;">
+                                                <div class="step-number"></div>
+                                            </div>
+                                            <div class="col-xl-11 col-md-11 col-sm-8 col-8">
+                                                <div class="step-content">
+                                                    <div class="step-title">'.$row->tindakan.'</div>
+                                                    <div class="step-date">'.$row->created_at.' oleh '.$row->oleh.'</div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>';

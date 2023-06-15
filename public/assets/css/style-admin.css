@@ -131,6 +131,7 @@
 }
 
 .track_tiket_progress-steps {
+  position: relative;
   display: flex;
   flex-direction: column;
 }
@@ -138,7 +139,7 @@
 .track_tiket_progress-steps .step {
   position: relative;
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   margin-bottom: 20px;
 }
 
@@ -163,14 +164,15 @@
   background-color: #6ba259;
 }
 
-.track_tiket_progress-steps .step-number::before {
+.track_tiket_progress-steps::before {
   content: "";
   width: 3px;
-  top: 35px;
+  top: 20px;
   position: absolute;
-  height: 35px;
+  height: 100%;
   background-color: #ccc;
   border-radius: 2px;
+  left: 8.5px;
 }
 
 .track_tiket_progress-steps .step-title {
