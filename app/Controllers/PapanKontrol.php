@@ -16,6 +16,7 @@ class PapanKontrol extends BaseController{
 
     public function index(){
         $data['page_title'] = "Papan Kontrol Kejaksaan Negeri Boalemo";
-        return view('papan-kontrol', $data);
+        $data['datatable'] = true;
+        return view('admin/papan-kontrol', $data);
     }
 }

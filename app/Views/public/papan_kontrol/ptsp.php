@@ -203,11 +203,11 @@
     }
 
     function afterVideo() {
+        resumeTimeout();
         $('.carousel').carousel('next');
         $('.carousel').carousel('cycle');
         var video = document.getElementById("video_show");
         video.currentTime = 0;
-        resumeTimeout();
     }
 
     var $e = $(".tableDuk");

@@ -19,13 +19,12 @@
                                 <table id="lapduTable" class="table table-striped table-bordered">
                                     <thead>
                                         <tr>
-                                            <th>Tanggal</th>
-                                            <th>Kategori</th>
-                                            <th>Nama Pelapor</th>
-                                            <th>Tiket</th>
+                                            <th>No</th>
+                                            <th>Slider</th>
+                                            <th>Type</th>
+                                            <th>Url</th>
                                             <th>Status</th>
-                                            <th>Prioritas</th>
-                                            <th>Tindakan Terakhir</th>
+                                            <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
