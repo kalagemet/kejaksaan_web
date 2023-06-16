@@ -4,25 +4,26 @@
 
 <body>
     <div class="container-fluid">
-        <button
+        <!-- <button
             style="position: fixed; display: block; width: 100%; height:100%; background:transparent; border: none;z-index: 1111;"
-            onClick="requestFullScreen()"></button>
+            onClick="requestFullScreen()"></button> -->
 
         <!-- Galeri slider -->
         <div id="tab_1" class="body">
             <!-- Carousel wrapper -->
             <?php $awal = count($slider_display);?>
             <div id="dynamic_slide_show" class="carousel slide carousel-fade"
-                data-interval="<?php echo $timeout[0]->value/$awal/2;?>" data-ride="carousel">
+                data-interval="<?php echo $timeout[0]->value/$awal;?>">
                 <!-- Inner -->
                 <div class="carousel-inner">
                     <?php foreach($slider_display as $i => $row){
                         echo '<div class="carousel-item item'.($i == 0 ? ' active"':'"').'>';
                         echo '<div class="item-img" style="background: url(\''.base_url('media/header/'.$row->path).'\'), url(\''.base_url("assets/img/no-image.svg").'\');"></div></div>';
-                    } foreach($post_ig as $i => $row){
+                    } 
+                    foreach($post_ig as $i => $row){
                         echo '<div class="carousel-item item">';
                         if($row->media_type == "VIDEO")
-                        echo '<video id="video_show" loop class="img-fluid item-img" autoplay muted>
+                        echo '<video id="video_show" class="img-fluid item-img" onplay="beforeVideo()" onended="afterVideo()" autoplay muted>
                             <source src="'.$row->media_url.'" type="video/mp4" />
                         </video>';
                         else echo '<div class="item-img" style="background: url(\''.$row->media_url.'\'), url(\''.base_url("assets/img/no-image.svg").'\');"></div></div>';
@@ -154,28 +155,59 @@
     // Memperbarui tanggal dan waktu setiap detik
     setInterval(displayDateTime, 1000);
 
-    $(document).ready(function() {
-        activeTab(0, false);
-    });
+    var timeoutId;
+    var remainingTime = 0; // Variabel untuk menyimpan waktu sisa timeout
+    var index = 0;
+    var timeout = <?php echo $timeout[0]->value; ?>;
 
-    function activeTab(index, loop) {
+    function activeTab(loop) {
         var tabs = ['tab_1', 'tab_3', 'tab_2'];
-        var timeout = <?php echo $timeout[0]->value; ?>;
         var i, tabcontent, tablinks;
         tabcontent = document.getElementsByClassName("body");
         for (i = 0; i < tabcontent.length; i++) {
             tabcontent[i].style.display = "none";
         }
         document.getElementById(tabs[index]).style.display = "block";
+
         if (loop) {
             if (index < 2) {
-                setTimeout(() => activeTab(index + 1, true), timeout + 5000);
+                index = index + 1;
             } else {
-                setTimeout(() => location.reload(), timeout + 5000);
+                timeoutId = setTimeout(() => location.reload(), timeout + 5000 - remainingTime);
             }
+            resumeTimeout();
         }
+
         if (index == 1) anim(timeout);
         else if (index == 2) anim_table(timeout);
+    }
+
+    function pauseTimeout() {
+        clearTimeout(timeoutId);
+        remainingTime = Date.now() - (new Date().getTime() - timeoutId);
+    }
+
+    function resumeTimeout() {
+        timeoutId = setTimeout(() => activeTab(true), timeout + 5000 - remainingTime);
+    }
+
+    $(document).ready(function() {
+        activeTab(true);
+        $('.carousel').carousel('cycle');
+    });
+    var timeoutId;
+
+    function beforeVideo() {
+        $('.carousel').carousel('pause');
+        pauseTimeout();
+    }
+
+    function afterVideo() {
+        $('.carousel').carousel('next');
+        $('.carousel').carousel('cycle');
+        var video = document.getElementById("video_show");
+        video.currentTime = 0;
+        resumeTimeout();
     }
 
     var $e = $(".tableDuk");

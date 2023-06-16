@@ -66,6 +66,8 @@ $routes->get('/lapdu_v1/tiket(:any)', 'Home::printTicketHTML');
     $routes->get('/cms/delete-post(:any)', 'Page::deletepost$1', ['filter' => 'authfilter']);
     $routes->post('/cms/save-post(:any)', 'Page::createpost$1', ['filter' => 'authfilter']);
     $routes->post('/cms/update-post(:any)', 'Page::updatepost$1', ['filter' => 'authfilter']);
+    //papan kontrol route
+    $routes->get('/cms/papan-kontrol/(:any)', 'PapanKontrol::index$1', ['filter' => 'authfilter']);
     //page route
     $routes->get('/cms/list_page', 'Page::list_page', ['filter' => 'authfilter']);
     $routes->get('/cms/update_page', 'Page::update_page', ['filter' => 'authfilter']);
@@ -123,7 +125,7 @@ $routes->post('/login', 'Admin::login_action', ['filter' => 'isauthfilter']);
 $routes->set404Override(function()
 {
     $data['error_code'] = '404';
-    $data['error_name'] = 'Halaman <u>'.$_SERVER['REQUEST_URI'].'</u> tidak ditemukan';
+    $data['error_name'] = 'Halaman <u>'.base_url($_SERVER['REQUEST_URI']).'</u> tidak ditemukan';
     echo view('error_production.php',$data);
     // return redirect()->to(base_url('/page'.$_SERVER['REQUEST_URI']));
 });

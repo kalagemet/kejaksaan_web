@@ -98,6 +98,9 @@
                 <div class="collapse-divider"></div>
                 <h6 class="collapse-header">Pejabat</h6>
                 <a class="collapse-item" href='.base_url("cms/list_hero").'>Daftar Pejabat</a>
+                <h6 class="collapse-header">Papan Kontrol</h6>
+                <a class="collapse-item" href='.base_url("cms/papan-kontrol/bin").'>Pembinaan</a>
+                <a class="collapse-item" href='.base_url("cms/papan-kontrol/ptsp").'>PTSP</a>
             </div>
         </div>
     </li>';?>
