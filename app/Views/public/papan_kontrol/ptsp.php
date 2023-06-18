@@ -198,7 +198,6 @@
     $(document).ready(function() {
         activeTab(true);
         $('.carousel').carousel('cycle');
-        $('.carousel').carousel('next');
     });
     var timeoutId;
 
