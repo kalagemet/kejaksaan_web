@@ -7,6 +7,7 @@ use App\Models\DaftarBarangBukti;
 use App\Models\PegawaiModel;
 use App\Models\PageModel;
 use App\Models\FotoModel;
+use App\Models\PapankontrolModel;
 include('ExsternalApiController.php');
 
 /**
@@ -23,6 +24,7 @@ class Home extends BaseController{
         $this->bb_model = new DaftarBarangBukti();
         $this->page_model = new PageModel();
         $this->pegawai_model = new PegawaiModel();
+        $this->papan_model = new PapankontrolModel();
         $this->galeri_model = new FotoModel();
         $this->ext_api = new ExsternalApiController();
     }
@@ -174,11 +176,12 @@ class Home extends BaseController{
             );
             $hariini = date('Y-m-d');
             $data['data'] = $this->jadwal_sidang_model->getJadwalSidang($columns)->get()->getResult();        
-            $data['running_text'] = $this->main_model->getVariable('running_text');
-            $data['timeout'] = $this->main_model->getVariable('display_timeout');
+            $data['running_text'] = $this->papan_model->getValue($bidang, ['id','value'], 'runningtext', false)->get()->getResult();
+            $data['timeout'] = $this->papan_model->getValue($bidang, ['id','value'], 'interval', false)->get()->getResult();
+            if(count($data['timeout']) < 1) $data['timeout'] = array(0 => (Object)['value'=>5000]);
             $data['now'] = $this->jadwal_sidang_model->getJadwalSidang($columns,null,null,null,null,null,date('Y-m-d'))->get()->getResult();
             $data['post_ig'] = $this->ext_api->getPostInstagram();
-            $data['slider_display'] = $this->main_model->getHeaderImage();
+            $data['slider_display'] = $this->papan_model->getValue($bidang, ['id','value','type','created_at', 'is_active'], 'slider', false)->get()->getResult();
             return view('public/papan_kontrol/ptsp', $data);
         }
     }

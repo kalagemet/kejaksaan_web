@@ -68,6 +68,10 @@ $routes->get('/lapdu_v1/tiket(:any)', 'Home::printTicketHTML');
     $routes->post('/cms/update-post(:any)', 'Page::updatepost$1', ['filter' => 'authfilter']);
     //papan kontrol route
     $routes->get('/cms/papan-kontrol/(:segment)', 'PapanKontrol::index/$1', ['filter' => 'authfilter']);
+    $routes->get('/cms/papan-kontrol/set/(:segment)', 'PapanKontrol::setStatus/$1', ['filter' => 'authfilter']);
+    $routes->get('/cms/papan-kontrol/hapus/(:segment)', 'PapanKontrol::hapus/$1', ['filter' => 'authfilter']);
+    $routes->post('/cms/papan-kontrol/simpan/(:segment)', 'PapanKontrol::simpan/$1', ['filter' => 'authfilter']);
+    $routes->post('/cms/papan-kontrol/tambah/(:segment)', 'PapanKontrol::tambah/$1', ['filter' => 'authfilter']);
     //page route
     $routes->get('/cms/list_page', 'Page::list_page', ['filter' => 'authfilter']);
     $routes->get('/cms/update_page', 'Page::update_page', ['filter' => 'authfilter']);

@@ -18,7 +18,11 @@
                 <div class="carousel-inner">
                     <?php foreach($slider_display as $i => $row){
                         echo '<div class="carousel-item item'.($i == 0 ? ' active"':'"').'>';
-                        echo '<div class="item-img" style="background: url(\''.base_url('media/header/'.$row->path).'\'), url(\''.base_url("assets/img/no-image.svg").'\');"></div></div>';
+                        if($row->type == "video")
+                        echo '<video id="video_show" class="img-fluid item-img" onplay="beforeVideo()" onended="afterVideo()" autoplay muted>
+                            <source src="'.base_url("media/upload/".$row->value).'" type="video/mp4" />
+                        </video>';
+                        else echo '<div class="item-img" style="background: url(\''.base_url("media/upload/".$row->value).'\'), url(\''.base_url("assets/img/no-image.svg").'\');"></div></div>';
                     } 
                     foreach($post_ig as $i => $row){
                         echo '<div class="carousel-item item">';

@@ -100,17 +100,17 @@
                 '.csrf_field().'
                 <input require value="'.$data->id_lapdu.'" name="id_lapdu" type="hidden" />
                 <div class="row">
-                    <div class="col-xl-7 col-md-8 mb-12">
+                    <div class="col-xl-7 col-md-8 col-12">
                         <label for="tanggal">Tindakan:</label>
                         <input require value="'.old('tindakan').'" id="tindakan" name="tindakan" type="text"
                             placeholder="Tindakan yang sedang dikerjakan" class="form-control" />
                     </div>
-                    <div class="col-xl-3 col-md-4 mb-12">
+                    <div class="col-xl-3 col-md-4 col-12">
                         <label for="tanggal">Oleh:</label>
                         <input require value="'.old('oleh').'" id="oleh" name="oleh" type="text" placeholder="Pelaksana"
                             class="form-control" />
                     </div>
-                    <div class="col-xl-2 col-md-12 mb-12">
+                    <div class="col-xl-2 col-md-12 col-12">
                         <a style="margin-top:31px;" onClick="tambahTindakan()"
                             class="btn btn-success btn-block btn-icon-split btn-md">
                             <span class="text"><i class="fas fa-forward"></i></span>
