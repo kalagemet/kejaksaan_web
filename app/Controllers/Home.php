@@ -181,7 +181,7 @@ class Home extends BaseController{
             if(count($data['timeout']) < 1) $data['timeout'] = array(0 => (Object)['value'=>5000]);
             $data['now'] = $this->jadwal_sidang_model->getJadwalSidang($columns,null,null,null,null,null,date('Y-m-d'))->get()->getResult();
             $data['post_ig'] = $this->ext_api->getPostInstagram();
-            $data['slider_display'] = $this->papan_model->getValue($bidang, ['id','value','type','created_at', 'is_active'], 'slider', false)->get()->getResult();
+            $data['slider_display'] = $this->papan_model->getValue($bidang, ['id','value','type','created_at', 'is_active'], 'slider', true)->get()->getResult();
             return view('public/papan_kontrol/ptsp', $data);
         }
     }

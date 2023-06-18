@@ -35,7 +35,6 @@
                                                 <img id="thumbnail"
                                                     src="<?php echo base_url('/assets/img/no-image.svg');?>"
                                                     class="img-fluid rounded img-thumbnail" />
-
                                                 <div class="mb-3">
                                                     <br />
                                                     <label for="inputFile" class="form-label">Pilih File</label>
@@ -48,7 +47,7 @@
                                         <div class="modal-footer">
                                             <button type="submit" id="simpanTambah"
                                                 class="btn btn-primary">Simpan</button>
-                                            <button type="button" data-dismiss="modal"
+                                            <button type="button" data-dismiss="modal" onclick="resetInput()"
                                                 class="btn btn-secondary">Batal</button>
                                         </div>
                                     </form>
@@ -148,6 +147,18 @@
     $(document).ready(function() {
         $("#simpanTambah").prop("disabled", true);
     });
+
+    function resetInput() {
+        $('#inputFile').val('');
+        $('#thumbnail').replaceWith(
+            $('<img>', {
+                id: "thumbnail",
+                src: "<?php echo base_url('/assets/img/no-image.svg');?>",
+                class: "img-fluid rounded img-thumbnail"
+            })
+        );
+        $("#simpanTambah").prop("disabled", true);
+    }
 
     $("#inputFile").change(
         function(e) {
