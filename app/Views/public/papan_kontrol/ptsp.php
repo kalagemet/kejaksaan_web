@@ -21,7 +21,7 @@
                         if($row->type == "video")
                         echo '<video id="video_show" class="img-fluid item-img" onplay="beforeVideo()" onended="afterVideo()" autoplay="autoplay" muted="true">
                             <source src="'.base_url("media/upload/".$row->value).'" type="video/mp4" />
-                        </video>';
+                        </video></div>';
                         else echo '<div class="item-img" style="background: url(\''.base_url("media/upload/".$row->value).'\'), url(\''.base_url("assets/img/no-image.svg").'\');"></div></div>';
                     } 
                     foreach($post_ig as $i => $row){
@@ -29,7 +29,7 @@
                         if($row->media_type == "VIDEO")
                         echo '<video id="video_show" class="img-fluid item-img" onplay="beforeVideo()" onended="afterVideo()" autoplay muted>
                             <source src="'.$row->media_url.'" type="video/mp4" />
-                        </video>';
+                        </video></div>';
                         else echo '<div class="item-img" style="background: url(\''.$row->media_url.'\'), url(\''.base_url("assets/img/no-image.svg").'\');"></div></div>';
                     }?>
                 </div>
