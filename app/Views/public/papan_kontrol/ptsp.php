@@ -13,7 +13,7 @@
             <!-- Carousel wrapper -->
             <?php $awal = count($slider_display);?>
             <div id="dynamic_slide_show" class="carousel slide carousel-fade"
-                data-interval="<?php echo ($awal>0 ? $timeout[0]->value/$awal: $timeout[0]->value/2);?>">
+                data-interval="<?php echo ($awal>0 ? $timeout[0]->value/($awal+5): $timeout[0]->value/5);?>">
                 <!-- Inner -->
                 <div class="carousel-inner">
                     <?php foreach($slider_display as $i => $row){
@@ -25,7 +25,7 @@
                         else echo '<div class="item-img" style="background: url(\''.base_url("media/upload/".$row->value).'\'), url(\''.base_url("assets/img/no-image.svg").'\');"></div></div>';
                     } 
                     foreach($post_ig as $i => $row){
-                        echo '<div class="carousel-item item">';
+                        echo '<div class="carousel-item item'.(($i == 0 && $awal==0) ? ' active"':'"').'>';
                         if($row->media_type == "VIDEO")
                         echo '<video id="video_show" class="img-fluid item-img" onplay="beforeVideo()" onended="afterVideo()" autoplay muted>
                             <source src="'.$row->media_url.'" type="video/mp4" />
