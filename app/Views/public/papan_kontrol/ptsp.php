@@ -19,7 +19,7 @@
                     <?php foreach($slider_display as $i => $row){
                         echo '<div class="carousel-item item'.($i == 0 ? ' active"':'"').'>';
                         if($row->type == "video")
-                        echo '<video id="video_show" class="img-fluid item-img" onplay="beforeVideo()" onended="afterVideo()" autoplay muted>
+                        echo '<video id="video_show" class="img-fluid item-img" onplay="beforeVideo()" onended="afterVideo()" autoplay="autoplay" muted="true">
                             <source src="'.base_url("media/upload/".$row->value).'" type="video/mp4" />
                         </video>';
                         else echo '<div class="item-img" style="background: url(\''.base_url("media/upload/".$row->value).'\'), url(\''.base_url("assets/img/no-image.svg").'\');"></div></div>';
@@ -198,6 +198,7 @@
     $(document).ready(function() {
         activeTab(true);
         $('.carousel').carousel('cycle');
+        $('.carousel').carousel('next');
     });
     var timeoutId;
 
@@ -207,11 +208,11 @@
     }
 
     function afterVideo() {
-        resumeTimeout();
         $('.carousel').carousel('next');
         $('.carousel').carousel('cycle');
         var video = document.getElementById("video_show");
         video.currentTime = 0;
+        resumeTimeout();
     }
 
     var $e = $(".tableDuk");
