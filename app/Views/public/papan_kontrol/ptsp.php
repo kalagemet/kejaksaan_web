@@ -13,7 +13,7 @@
             <!-- Carousel wrapper -->
             <?php $awal = count($slider_display);?>
             <div id="dynamic_slide_show" class="carousel slide carousel-fade"
-                data-interval="<?php echo $timeout[0]->value/$awal;?>">
+                data-interval="<?php echo ($awal>0 ? $timeout[0]->value/$awal: $timeout[0]->value/2);?>">
                 <!-- Inner -->
                 <div class="carousel-inner">
                     <?php foreach($slider_display as $i => $row){
