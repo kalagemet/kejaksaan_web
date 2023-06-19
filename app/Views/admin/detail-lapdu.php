@@ -46,6 +46,7 @@
                                 <span style="text-align:right">Pelapor :</span><span
                                     style="color:Green;text-align:left">
                                     <?php echo $data->nama_pelapor; ?><br />
+                                    <?php echo $data->nik; ?><br />
                                     <?php echo $data->tlp; ?><br />
                                     <?php echo $data->email; ?><br />
                                 </span>

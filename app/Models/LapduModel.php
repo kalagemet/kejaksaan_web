@@ -19,6 +19,7 @@ class LapduModel extends Model
         "id_lapdu", 
         "kategori", 
         "nama_pelapor", 
+        "nik", 
         "email", 
         "tlp", 
         "uraian", 

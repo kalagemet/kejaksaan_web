@@ -65,9 +65,14 @@
                         </div>
                         <div class="form-group mt-3">
                             <label for="nama">Nama Pelapor</label>
-                            <input placeholder="Boleh dikosongkan apabila tidak bersedia mencantumkan nama"
-                                value="<?php echo old('nama'); ?>" type="text" name="nama" class="form-control"
-                                id="nama">
+                            <input placeholder="Nama Lengkap Pelapor" value="<?php echo old('nama'); ?>" type="text"
+                                name="nama" class="form-control" id="nama">
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="nik">Nomor Induk Kepedudukan</label>
+                            <input placeholder="Nomor KTP Pelapor" value="<?php echo old('nik'); ?>" type="text"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '')" name="nik" class="form-control"
+                                id="nik">
                         </div>
                         <div class="form-group mt-3">
                             <label for="email">Email</label>
@@ -107,9 +112,8 @@
                         </div>
                         <div class="process-step">
                             <div class="process-step-number">2</div>
-                            <div class="process-step-text">Isi nama email dan nomor telepon, kami akan menjaga
-                                kerahasiaan data anda, namum apabila merasa tidak perlu mencantumkan identitas pelapor
-                                anda bisa mengosongkannya saja</div>
+                            <div class="process-step-text">Isi nama NIK email dan nomor telepon, kami akan menjaga
+                                kerahasiaan data anda</div>
                         </div>
                         <div class="process-step">
                             <div class="process-step-number">3</div>

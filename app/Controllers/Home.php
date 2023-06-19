@@ -442,9 +442,17 @@ class Home extends BaseController{
 				]
 			],
             'nama' => [
-				'rules' => 'max_length[100]|permit_empty',
+				'rules' => 'max_length[100]|required',
 				'errors' => [
                     'max_length' => '{field} Terlalu Panjang atau kosongkan',
+					'required' => '{field} Tidak boleh kosong',
+				]
+			],
+            'nik' => [
+				'rules' => 'max_length[16]|required',
+				'errors' => [
+                    'max_length' => '{field} Terlalu Panjang atau kosongkan',
+					'required' => '{field} Tidak boleh kosong'
 				]
 			],
             'telepon' => [
@@ -502,6 +510,7 @@ class Home extends BaseController{
         $data = array(
             'kategori' => $this->request->getPost('kategori'),
             'nama_pelapor' =>  $this->request->getPost('nama'), 
+            'nik' =>  $this->request->getPost('nik'), 
             'email' => $this->request->getPost('email'), 
             'tlp' => $this->request->getPost('telepon'), 
             'uraian' => $this->request->getPost('isi'), 

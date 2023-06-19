@@ -15,13 +15,17 @@ class PapanKontrol extends BaseController{
     }
 
     public function index($param){
-        $request = service('request');
         if(!in_array('pembinaan',session()->permission)) return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Akun tidak diizinkan");
-        if(!in_array($param, ['ptsp'])) return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Parameter salah");
-        $data['page_title'] = "Papan Kontrol Kejaksaan Negeri Boalemo";
-        $data['slider'] = $this->papan_model->getValue($param,['id','value','type','created_at', 'is_active'], 'slider', false)->get()->getResult();
-        $data['running'] = $this->papan_model->getValue($param,['id','value'], 'runningtext', false)->get()->getResult();
-        $data['timeout'] = $this->papan_model->getValue($param,['id','value'], 'interval', false)->get()->getResult();
+        switch ($param) {
+            case 'ptsp':
+                $data['page_title'] = "Papan Kontrol PTSP Kejaksaan Negeri Boalemo";
+                $data['slider'] = $this->papan_model->getValue($param,['id','value','type','created_at', 'is_active'], 'slider', false)->get()->getResult();
+                $data['running'] = $this->papan_model->getValue($param,['id','value'], 'runningtext', false)->get()->getResult();
+                $data['timeout'] = $this->papan_model->getValue($param,['id','value'], 'interval', false)->get()->getResult();
+                break;
+            default:
+                return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Parameter salah");
+        }
         return view('admin/papan-kontrol', $data);
     }
 

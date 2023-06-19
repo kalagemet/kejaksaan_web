@@ -461,6 +461,7 @@ class Admin extends BaseController{
                 'IF(nama_pelapor="", "<i>Tidak Dicantumkan</i>", nama_pelapor) as nama_pelapor',
                 'IF(tlp="", "<i>nomor tidak ada</i>", tlp) as tlp',
                 'IF(email="", "<i>email tidak ada</i>", email) as email',
+                'IF(nik="", "<i>NIK tidak ada</i>", nik) as nik',
                 'uraian',
                 'is_active',
                 'is_pending',
