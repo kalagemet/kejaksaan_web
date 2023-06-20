@@ -123,35 +123,41 @@
                         </div>
                         <div class="process-step">
                             <div class="process-step-number">4</div>
-                            <div class="process-step-text">Lampirkan laporan secara resmi beserta bukti dukung yang
-                                ditujukan kepada Kepala Kejaksaan Negeri Boalemo / Kepala Seksi Intelijen dalm bentuk
-                                PDF dengan ukuran
-                                tidak lebih dari 4 Mb dan terbaca dengan jelas
+                            <div class="process-step-text">Lampirkan laporan secara resmi beserta bukti dukung, Laporan
+                                yang
+                                akan diproses wajib
+                                memiliki data berikut:
+                                <ul>
+                                    <li>Surat yang ditujukan kepada Kepala Kejaksaan Negeri perihal laporan pengaduan
+                                        yang di buat</li>
+                                    <li>Dokumen KTP Pelapor</li>
+                                    <li>Bukti pendukung laporan</li>
+                                    <li>Dalam bentuk PDF dengan ukuran tidak melebihi 4MB</li>
+                                    <li>Apabila terdapat Video yang ingin disampaikan silahkan
+                                        kirimkan link vidio tersebut melalui berkas laporan atau silahkan kirimkan
+                                        melalui email
+                                        kejari.boalemo@kejaksaan.go.id kemudian lampirkan bukti pengirimannya pada
+                                        berkas
+                                        laporan</li>
+                                </ul>
                             </div>
                         </div>
                         <div class="process-step">
                             <div class="process-step-number">5</div>
-                            <div class="process-step-text">Apabila terdapat Video yang ingin disampaikan silahkan
-                                kirimkan link vidio tersebut melalui berkas laporan atau silahkan kirimkan melalui email
-                                kejari.boalemo@kejaksaan.go.id kemudian lampirkan bukti pengirimannya pada berkas
-                                laporan
-                            </div>
-                        </div>
-                        <div class="process-step">
-                            <div class="process-step-number">6</div>
                             <div class="process-step-text">
                                 Silahkan Tekan Kirim dan centang "im not a robot"
                                 Laporan anda akan segera kami tindak lanjuti
                             </div>
                         </div>
                         <div class="process-step">
-                            <div class="process-step-number">7</div>
-                            <div class="process-step-text">Silahkan Catat Nomor Pelaporan yang anda terima, untuk
+                            <div class="process-step-number">6</div>
+                            <div class="process-step-text">Silahkan Catat Nomor Pelaporan yang anda terima atau cetak
+                                bukti laporan untuk
                                 digunakan memantau proses tindak lanjut dari Laporan anda
                             </div>
                         </div>
                         <div class="process-step">
-                            <div class="process-step-number">8</div>
+                            <div class="process-step-number">7</div>
                             <div class="process-step-text">Terimakasih sudah membantu kami dalam melakukan penegakan
                                 hukum di wilayah Kejaksaan Negeri Boalemo
                             </div>
