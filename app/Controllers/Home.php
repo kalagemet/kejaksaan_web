@@ -362,6 +362,12 @@ class Home extends BaseController{
         return redirect()->to($_SERVER['HTTP_REFERER'].'#aduan')->with('success', $data);
     }
 
+    public function jenguktahanan(){
+        $data['page'] = $this->page_model->getPage('jenguk-tahanan');
+        $data['page_title'] = "Layanan Izin Besuk Tahanan Online - Kejaksaan Negeri Boalemo";
+        return view('public/jenguk_tahanan', $data);
+    }
+
     public function barangbukti(){
         $data['datatables'] = true;
         $data['page'] = $this->page_model->getPage('daftar-barang-bukti');

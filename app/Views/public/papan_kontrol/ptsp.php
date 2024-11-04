@@ -19,7 +19,7 @@
                     <?php foreach($slider_display as $i => $row){
                         echo '<div class="carousel-item item'.($i == 0 ? ' active"':'"').'>';
                         if($row->type == "video")
-                        echo '<video id="video_show" class="img-fluid item-img" onplay="beforeVideo()" onended="afterVideo()" autoplay="autoplay" muted="true">
+                        echo '<video id="video_show" class="img-fluid item-img" onplay="beforeVideo()" onended="afterVideo()" autoplay="autoplay" name="media">
                             <source src="'.base_url("media/upload/".$row->value).'" type="video/mp4" />
                         </video></div>';
                         else echo '<div class="item-img" style="background: url(\''.base_url("media/upload/".$row->value).'\'), url(\''.base_url("assets/img/no-image.svg").'\');"></div></div>';

@@ -267,6 +267,19 @@ class Admin extends BaseController{
         return view('admin/aduan', $data);
     }
 
+    public function jenguktahanan(){
+        $data['page_title'] = "Layanan Izin Besuk Tahanan Bukti Kejaksaan Negeri Boalemo";
+        $request = service('request');
+        if(in_array('jenguk-tahanan',session()->permission) or in_array($request->getGet('key'),session()->permission)){
+            $data['is_superadmin'] = ($request->getGet('key')==null);
+            $data['data'] = $this->page_model->geteditpage($this->page_model->getpostid('jenguk-tahanan')[0]->id_post);
+            $data['summernote'] = true;
+            return view('admin/jenguk-tahanan', $data);
+        }else{
+            return redirect()->to($_SERVER['HTTP_REFERER'])->with('error', "Akun tidak diizinkan");
+        }
+    }
+
     public function barangbukti(){
         $data['datatables'] = true;
         $data['select_bootstrap'] = true;

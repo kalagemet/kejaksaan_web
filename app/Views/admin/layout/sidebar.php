@@ -133,6 +133,7 @@
         <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href='.base_url("cms/admin-page/pidana-umum").'>Halaman Pidum</a>
             <a class="collapse-item" href='.base_url("cms/jadwal-sidang-pidum").'>Jadwal Sidang</a>
+            <a class="collapse-item" href='.base_url("cms/jenguk-tahanan").'>Izin Besuk Tahanan</a>
         </div>
     </div>
     </li>';?>

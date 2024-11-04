@@ -27,7 +27,7 @@
                                   <li><a href=<?php echo base_url("page/pidana-khusus"); ?>>Pidana Khusus</a></li>
                                   <li><a href=<?php echo base_url("page/perdata-dan-tata-usaha-negara"); ?>>Perdata dan
                                           TUN</a></li>
-                                  <li><a href=<?php echo base_url("page/pengelola-barang-bukti"); ?>>Pengelola Barang
+                                  <li><a href=<?php echo base_url("page/pengelola-barang-bukti"); ?>>Pelacakan Aset dan Pengelola Barang
                                           Bukti</a></li>
                               </ul>
                           </li>
@@ -39,6 +39,7 @@
                           <li><a href=<?php echo base_url('perpustakaan'); ?>>Perpustakaan</a></li>
                           <li><a href=<?php echo base_url('whistleblowing'); ?>>Whistleblowing</a></li>
                           <li><a href=<?php echo base_url('jadwal-sidang-pidum'); ?>>Jadwal Sidang</a></li>
+                          <li><a href=<?php echo base_url('jenguk-tahanan'); ?>>Izin Besuk Tahanan</a></li>
                           <li><a href=<?php echo base_url('barang-bukti'); ?>>Barang Bukti / Rampasan</a></li>
                           <li><a href=<?php echo base_url('lapdu_v1'); ?>>Laporan Pengaduan Masyarakat</a></li>
                           <li><a href=<?php echo base_url('#aduan'); ?>>Layanan Kritik dan Saran</a></li>

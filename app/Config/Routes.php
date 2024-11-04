@@ -41,6 +41,7 @@ $routes->get('/jadwal-sidang-pidum', 'Home::jadwalsidang');
 $routes->post('/jadwal-sidang-pidum', 'Home::fetch_jadwalsidang_data');
 $routes->get('/barang-bukti', 'Home::barangbukti');
 $routes->post('/barang-bukti', 'Home::fetch_bb_data');
+$routes->get('/jenguk-tahanan', 'Home::jenguktahanan');
 // Artikel Routes
 $routes->get('/berita', 'Page::list_berita');
 $routes->get('/berita(:any)', 'Page::artikel$1');
@@ -89,6 +90,8 @@ $routes->get('/lapdu_v1/tiket(:any)', 'Home::printTicketHTML');
     $routes->get('/cms/jadwal-sidang-pidum', 'Admin::sidangpidum', ['filter' => 'authfilter']);
     $routes->post('/cms/add-sidang-pidum', 'Admin::addsidangpidum', ['filter' => 'authfilter']);
     $routes->get('/cms/delete-sidang-pidum(:any)', 'Admin::deletesidangpidum$1', ['filter' => 'authfilter']);
+    //besuk tahanan
+    $routes->get('/cms/jenguk-tahanan', 'Admin::jenguktahanan', ['filter' => 'authfilter']);
     //daftar barang bukti
     $routes->get('/cms/daftar-barang-bukti', 'Admin::barangbukti', ['filter' => 'authfilter']);
     $routes->post('/cms/add-barang-bukti', 'Admin::addbarangbukti', ['filter' => 'authfilter']);
